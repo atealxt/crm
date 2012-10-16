@@ -1,0 +1,26 @@
+.paginated th,
+.paginated td {
+  padding: 3px 6px;
+  vertical-align: top;
+}
+.paginated tfoot th {
+  text-align: right;
+  margin: 0;
+  padding: 5px 0 0 0;
+}
+.paginated .page-number,
+.paginated .filter {
+  padding: .2em;
+  cursor: pointer;
+}
+.paginated .page-number {
+  border: 1px solid #ccc;
+  margin-right: 2px;
+}
+.paginated .active {
+  background: #ccf;
+  border: 1px solid #006;
+}
+.paginated .pager {
+  margin: .25em;
+}

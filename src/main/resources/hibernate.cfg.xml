@@ -3,7 +3,6 @@
                                          "http://hibernate.sourceforge.net/hibernate-configuration-3.0.dtd">
 <hibernate-configuration>
 	<session-factory>
-		<!-- 对应多数据源的话，dialect就无能为力了 -->
 		<property name="hibernate.dialect">org.hibernate.dialect.MySQLInnoDBDialect</property>
 		<property name="hibernate.hbm2ddl.auto">update</property>
 		<property name="hibernate.show_sql">true</property>
@@ -15,5 +14,8 @@
 		<mapping class="com.zhyfoundry.crm.entity.Father" />
 		<mapping class="com.zhyfoundry.crm.entity.Teacher" />
 		<mapping class="com.zhyfoundry.crm.entity.Student" />
+
+		<mapping class="com.zhyfoundry.crm.entity.Country" />
+		<mapping class="com.zhyfoundry.crm.entity.Enterprise" />
 	</session-factory>
 </hibernate-configuration>

@@ -47,19 +47,6 @@ public class DBMaker {
         }
     }
 
-    // @Test
-    public void oracle() {
-        try {
-            conf = new AnnotationConfiguration().configure(TestConstants.TEST_RESOURCES_PATH_BASE
-                    + "DBMaker_oracle.xml");
-            sf = conf.buildSessionFactory();
-            createTable();
-            sf.close();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
-
     private void createTable() throws Exception {
         SchemaExport export = new SchemaExport(conf);
         // export.setOutputFile("D:/test.sql");
@@ -67,6 +54,7 @@ public class DBMaker {
 
         createOne2Many();
         createMany2Many();
+        DataTools.importEnterpriseDataFromExcel();
     }
 
     private void createOne2Many() {

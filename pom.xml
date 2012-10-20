@@ -189,7 +189,7 @@
 			<artifactId>jstl</artifactId>
 			<version>1.2</version>
 			<type>jar</type>
-			<scope>provided</scope>
+			<!-- <scope>provided</scope> -->
 		</dependency>
 		<dependency>
 			<groupId>javax.servlet</groupId>

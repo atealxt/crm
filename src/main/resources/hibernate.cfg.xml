@@ -17,5 +17,6 @@
 
 		<mapping class="com.zhyfoundry.crm.entity.Country" />
 		<mapping class="com.zhyfoundry.crm.entity.Enterprise" />
+		<mapping class="com.zhyfoundry.crm.entity.Administrator" />
 	</session-factory>
 </hibernate-configuration>

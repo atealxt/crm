@@ -20,17 +20,10 @@
 		<property name="username" value="${jdbc.username}" />
 		<property name="password" value="${jdbc.password}" />
 	</bean>
-	<bean id="DSORACLE" parent="parentDataSource">
-		<property name="driverClassName" value="${jdbc.driverClassName.ds.oracle}" />
-		<property name="url" value="${jdbc.url.ds.oracle}" />
-		<property name="username" value="${jdbc.username}" />
-		<property name="password" value="${jdbc.password}" />
-	</bean>
 	<bean id="dataSource" class="com.zhyfoundry.crm.core.DynamicDataSource">
 		<property name="targetDataSources">
 			<map key-type="java.lang.String">
 				<entry key="MYSQL" value-ref="DSMySQL" />
-				<entry key="ORACLE" value-ref="DSORACLE" />
 			</map>
 		</property>
 		<property name="defaultTargetDataSource" ref="DSMySQL" />

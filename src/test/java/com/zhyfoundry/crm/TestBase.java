@@ -10,10 +10,12 @@ import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.mock.web.MockHttpServletRequest;
+import org.springframework.mock.web.MockHttpServletResponse;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.TestExecutionListeners;
 import org.springframework.test.context.junit4.AbstractTransactionalJUnit4SpringContextTests;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+import org.springframework.ui.ModelMap;
 
 /**
  * 测试基类
@@ -24,6 +26,8 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 public abstract class TestBase extends AbstractTransactionalJUnit4SpringContextTests {
 
     protected MockHttpServletRequest request = new MockHttpServletRequest("POST", "/index.do");
+    protected MockHttpServletResponse response = new MockHttpServletResponse();
+    protected ModelMap model = new ModelMap();
     private final long costTime = System.currentTimeMillis();
 
     @Override

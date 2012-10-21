@@ -20,11 +20,11 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import com.zhyfoundry.crm.core.dao.Pager;
 import com.zhyfoundry.crm.entity.Father;
 import com.zhyfoundry.crm.service.FatherService;
-import com.zhyfoundry.crm.web.BaseController;
+import com.zhyfoundry.crm.web.PagingController;
 import com.zhyfoundry.crm.web.PageInfo;
 
 @Controller
-public class TestPaging extends BaseController {
+public class TestPaging extends PagingController {
 
     @Autowired
     @Qualifier("FatherService")

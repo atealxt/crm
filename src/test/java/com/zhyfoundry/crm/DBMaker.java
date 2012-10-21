@@ -22,6 +22,8 @@ import com.zhyfoundry.crm.entity.Teacher;
  */
 public class DBMaker {
 
+	public static final String PASSWORD_ADMIN = "Admin123456";
+	public static final String USERNAME_ADMIN = "Admin";
 	private Configuration conf;
 	private SessionFactory sf;
 
@@ -62,8 +64,8 @@ public class DBMaker {
 
 	private void createAdmin() {
 		Administrator admin = new Administrator();
-		admin.setUsername("Admin");
-		admin.setPassword("Admin123456");
+		admin.setUsername(USERNAME_ADMIN);
+		admin.setPassword(PASSWORD_ADMIN);
 		sf.getCurrentSession().beginTransaction();
 		sf.getCurrentSession().save(admin);
 		sf.getCurrentSession().getTransaction().commit();

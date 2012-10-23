@@ -72,7 +72,7 @@ public class BaseDaoJpa<T, PK extends Serializable> extends JpaDaoSupport implem
             public T doInJpa(final EntityManager manager) throws PersistenceException {
                 Query query = manager.createQuery(hql);
                 for (int i = 0; i < values.length; i++) {
-                    query.setParameter(i, values[i]);
+                    query.setParameter(i + 1, values[i]);
                 }
                 query.setFirstResult(pager.getFirstResult());
                 query.setMaxResults(pager.getMaxResults());

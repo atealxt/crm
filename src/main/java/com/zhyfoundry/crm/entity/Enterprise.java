@@ -20,6 +20,7 @@ public class Enterprise implements java.io.Serializable {
 	private static final long serialVersionUID = 867088200985240910L;
 	private Integer id;
 	private Date createTime;
+	private Date updateTime;
 	private String keyword;// 关键字
 	private Country country;// 所属国家
 	private String name;// 公司名称
@@ -30,6 +31,26 @@ public class Enterprise implements java.io.Serializable {
 	private String faxNo;// 传真
 	private String source;// 来源网站
 	private String remark;// 备注
+
+	public Enterprise() {
+		super();
+	}
+
+	public Enterprise(Integer id, String keyword, Country country, String name, String contact,
+			String email, String tel, String mobileNo, String faxNo, String source, String remark) {
+		super();
+		this.id = id;
+		this.keyword = keyword;
+		this.country = country;
+		this.name = name;
+		this.contact = contact;
+		this.email = email;
+		this.tel = tel;
+		this.mobileNo = mobileNo;
+		this.faxNo = faxNo;
+		this.source = source;
+		this.remark = remark;
+	}
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
@@ -141,4 +162,17 @@ public class Enterprise implements java.io.Serializable {
 		this.createTime = createTime;
 	}
 
+	@Column(name = "UPDATE_TIME")
+	public Date getUpdateTime() {
+		return updateTime;
+	}
+
+	public void setUpdateTime(Date updateTime) {
+		this.updateTime = updateTime;
+	}
+
+	@Override
+	public String toString() {
+		return "Enterprise [id=" + id + ", name=" + name + "]";
+	}
 }

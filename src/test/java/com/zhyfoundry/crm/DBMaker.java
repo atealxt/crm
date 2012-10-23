@@ -13,6 +13,8 @@ import org.junit.Test;
 
 import com.zhyfoundry.crm.entity.Administrator;
 import com.zhyfoundry.crm.entity.Child;
+import com.zhyfoundry.crm.entity.Country;
+import com.zhyfoundry.crm.entity.Enterprise;
 import com.zhyfoundry.crm.entity.Father;
 import com.zhyfoundry.crm.entity.Student;
 import com.zhyfoundry.crm.entity.Teacher;
@@ -41,8 +43,7 @@ public class DBMaker {
 	public void mysql() {
 		try {
 			conf = new AnnotationConfiguration()
-					.configure(TestConstants.TEST_RESOURCES_PATH_BASE
-							+ "DBMaker_mysql.xml");
+					.configure(TestConstants.TEST_RESOURCES_PATH_BASE + "DBMaker_mysql.xml");
 			sf = conf.buildSessionFactory();
 			createTable();
 			sf.close();
@@ -59,7 +60,24 @@ public class DBMaker {
 		createOne2Many();
 		createMany2Many();
 		createAdmin();
+		createEnterprise();
 		DataTools.importEnterpriseDataFromExcel();
+	}
+
+	private void createEnterprise() {
+		Country country = new Country();
+		country.setName("China");
+		sf.getCurrentSession().beginTransaction();
+		sf.getCurrentSession().save(country);
+
+		for (int i = 1; i < 60; i++) {
+			Enterprise e = new Enterprise(i, "keyword", country, "name" + i, "admin", "admin@admin.com", "123456",
+					"234567", "345678", "http://www.123.com", "remark");
+			sf.getCurrentSession().save(e);
+		}
+
+		sf.getCurrentSession().getTransaction().commit();
+		sf.getCurrentSession().close();
 	}
 
 	private void createAdmin() {

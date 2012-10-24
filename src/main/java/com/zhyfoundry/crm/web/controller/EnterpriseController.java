@@ -24,19 +24,20 @@ public class EnterpriseController extends PagingController {
 	public ModelAndView list(final HttpServletRequest req, final HttpServletResponse resp, final ModelMap model,
 			@ModelAttribute("condition") final Enterprise condition) throws Exception {
 
-		final int page = getPage(req);
-		final int pageSize = getPageSize(req);
-		final int startIndex = calcStartIndex(page, pageSize);
+//		final int page = getPage(req);
+//		final int pageSize = getPageSize(req);
+		// final int startIndex = calcStartIndex(page, pageSize);
 
-		Pager pager = new Pager(startIndex, pageSize);
+		Pager pager = getPager(req);
 		model.addAttribute("list", enterpriseService.getEnterprises(condition, pager));
-		final long count = pager.getTotalRows();
+		// final long count = pager.getTotalRows();
 
-		final int pageCount = calcPageSum(count, pageSize);
-		model.addAttribute("count", count);
+		// final int pageCount = calcPageSum(count, pageSize);
+		// model.addAttribute("count", count);
 
-		model.addAttribute("pageNo", page);
-		model.addAttribute("pageCount", pageCount);
+		// model.addAttribute("pageNo", page);
+		// model.addAttribute("pageCount", pageCount);
+		model.addAttribute("pager", pager);
 
 		ModelMap modelMap = new ModelMap("condition", condition);
 		return new ModelAndView("admin/enterprise/list", modelMap);

@@ -75,5 +75,8 @@
 
   </form:form>
 
+  <script src="<c:url value="/javascripts/jquery.min.js"/>" type="text/javascript"></script>
+  <script src="<c:url value="/javascripts/pagination.js"/>" type="text/javascript"></script>
+
 </body>
 </html>

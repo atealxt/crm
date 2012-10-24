@@ -4,14 +4,22 @@ public class Pager {
 
 	private int startRow;
 	private int recordsPerPage;
-
+	private int pageNo;
 	private long totalRows = -1;
+	private int pageCount = -1;
 
-	public Pager(final int startRow, final int recordsPerPage) {
+	public Pager(final int pageNo, final int recordsPerPage) {
 		super();
-		this.startRow = startRow;
+		this.pageNo = pageNo;
 		this.recordsPerPage = recordsPerPage;
+		this.startRow = calcStartIndex();
 	}
+
+//	public Pager(final int startRow, final int recordsPerPage) {
+//		super();
+//		this.startRow = startRow;
+//		this.recordsPerPage = recordsPerPage;
+//	}
 
 	public Pager(final int recordsPerPage) {
 		super();
@@ -40,5 +48,34 @@ public class Pager {
 
 	public void setTotalRows(long totalRows) {
 		this.totalRows = totalRows;
+	}
+
+	public int getPageCount() {
+		if (pageCount != -1){
+			return pageCount;
+		}
+		return pageCount = calcPageSum();
+	}
+
+	public int getPageNo() {
+		return pageNo;
+	}
+
+	/** 分页：计算从第几行开始 */
+	private int calcStartIndex() {
+		if (pageNo <= 1) {
+			return 0;
+		} else {
+			return (pageNo - 1) * recordsPerPage;
+		}
+	}
+
+	/** 分页：计算总页数 */
+	private int calcPageSum() {
+		if (totalRows % recordsPerPage > 0) {
+			return (int) (totalRows / recordsPerPage + 1);
+		} else {
+			return (int) (totalRows / recordsPerPage);
+		}
 	}
 }

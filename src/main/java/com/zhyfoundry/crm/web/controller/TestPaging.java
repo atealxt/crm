@@ -32,7 +32,7 @@ public class TestPaging extends PagingController {
 
     @RequestMapping("/pagination_back")
     public String test1(final HttpServletRequest req, final ModelMap model) throws IOException {
-        final int page = getPage(req);
+        final int page = getPageNo(req);
         final int pageSize = getPageSize(req);
         final int startIndex = calcStartIndex(page, pageSize);
         final int count = (int) fatherService.count();
@@ -58,7 +58,7 @@ public class TestPaging extends PagingController {
     //TODO 抽象此函数
     @RequestMapping("/pagination_front_ajax")
     public void test4(final HttpServletRequest req, final HttpServletResponse resp) throws IOException {
-        final int page = getPage(req);
+        final int page = getPageNo(req);
         final int pageSize = getPageSize(req);
         final int startIndex = calcStartIndex(page, pageSize);
         final int count = (int) fatherService.count();

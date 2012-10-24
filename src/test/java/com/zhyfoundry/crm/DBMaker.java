@@ -24,8 +24,8 @@ import com.zhyfoundry.crm.entity.Teacher;
  */
 public class DBMaker {
 
-	public static final String PASSWORD_ADMIN = "Admin123456";
 	public static final String USERNAME_ADMIN = "Admin";
+	public static final String PASSWORD_ADMIN = "Admin123456";
 	private Configuration conf;
 	private SessionFactory sf;
 

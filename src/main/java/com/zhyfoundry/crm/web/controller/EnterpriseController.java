@@ -13,7 +13,6 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.zhyfoundry.crm.core.dao.Pager;
-import com.zhyfoundry.crm.entity.Administrator;
 import com.zhyfoundry.crm.entity.Enterprise;
 import com.zhyfoundry.crm.service.EnterpriseService;
 import com.zhyfoundry.crm.web.PagingController;
@@ -28,11 +27,14 @@ public class EnterpriseController extends PagingController {
 		final int page = getPage(req);
 		final int pageSize = getPageSize(req);
 		final int startIndex = calcStartIndex(page, pageSize);
-		final int count = (int) enterpriseService.count();
-		final int pageCount = calcPageSum(count, pageSize); //TODO condition
 
-		model.addAttribute("list", enterpriseService.getEnterprises(condition, new Pager(startIndex, pageSize)));
+		Pager pager = new Pager(startIndex, pageSize);
+		model.addAttribute("list", enterpriseService.getEnterprises(condition, pager));
+		final long count = pager.getTotalRows();
+
+		final int pageCount = calcPageSum(count, pageSize);
 		model.addAttribute("count", count);
+
 		model.addAttribute("pageNo", page);
 		model.addAttribute("pageCount", pageCount);
 

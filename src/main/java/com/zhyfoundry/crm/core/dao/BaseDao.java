@@ -13,47 +13,54 @@ import java.util.List;
  */
 public interface BaseDao<T, PK extends Serializable> {
 
-    T findById(PK id);
+	T findById(PK id);
 
-    List<T> findByQuery(String query);
+	List<T> findByQuery(String query);
 
-    /**
-     * @param pager contain firstResult and maxResults
-     */
-    List<T> findByQuery(final String query, final Pager pager);
+	/**
+	 * @param pager
+	 *            contain firstResult and maxResults
+	 */
+	List<T> findByQuery(final String query, final Pager pager);
 
-    /**
-     * @param values query's values
-     */
-    List<T> findByQuery(String query, Object... values);
+	/**
+	 * @param values
+	 *            query's values
+	 */
+	List<T> findByQuery(String query, Object... values);
 
-    /**
-     * @param pager contain firstResult and maxResults
-     * @param values query's values
-     */
-    List<T> findByQuery(final String query, final Pager pager, final Object... values);
+	/**
+	 * @param pager
+	 *            contain firstResult and maxResults
+	 * @param values
+	 *            query's values
+	 */
+	List<T> findByQuery(final String query, final Pager pager, final Object... values);
 
-    long count();
+	long count();
 
-    T save(T transientInstance);
+	long count(final String query, final Object... values);
 
-    void delete(T persistentInstance);
+	T save(T transientInstance);
 
-    T merge(T detachedInstance);
+	void delete(T persistentInstance);
 
-    void flush();
+	T merge(T detachedInstance);
 
-    /**
-     * <p>
-     * Initiative loading<br>
-     * Example: xxDao.initialize(Parent.getChildren())
-     * </p>
-     * <p>
-     * 主动加载<br>
-     * 例如: xxDao.initialize(Parent.getChildren())
-     * </p>
-     *
-     * @param obj Loading object
-     */
-    void initialize(Object obj);
+	void flush();
+
+	/**
+	 * <p>
+	 * Initiative loading<br>
+	 * Example: xxDao.initialize(Parent.getChildren())
+	 * </p>
+	 * <p>
+	 * 主动加载<br>
+	 * 例如: xxDao.initialize(Parent.getChildren())
+	 * </p>
+	 *
+	 * @param obj
+	 *            Loading object
+	 */
+	void initialize(Object obj);
 }

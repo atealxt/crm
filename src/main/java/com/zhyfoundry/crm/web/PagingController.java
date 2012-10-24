@@ -35,11 +35,11 @@ public abstract class PagingController extends BaseController {
 	}
 
 	/** 分页：计算总页数 */
-	protected int calcPageSum(final int count, final int pageSize) {
+	protected int calcPageSum(final long count, final int pageSize) {
 		if (count % pageSize > 0) {
-			return count / pageSize + 1;
+			return (int) (count / pageSize + 1);
 		} else {
-			return count / pageSize;
+			return (int) (count / pageSize);
 		}
 	}
 }

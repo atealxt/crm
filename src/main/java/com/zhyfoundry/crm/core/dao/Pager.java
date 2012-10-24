@@ -1,67 +1,44 @@
 package com.zhyfoundry.crm.core.dao;
 
-/**
- * <p>
- * DB pager info
- * </p>
- * <p>
- * 数据库分页信息类
- * </p>
- */
 public class Pager {
 
-    /**
-     * <p>
-     * start line number
-     * </p>
-     * <p>
-     * 起始数据行号
-     * </p>
-     */
-    private int firstResult;
+	private int startRow;
+	private int recordsPerPage;
 
-    /**
-     * <p>
-     * max get count
-     * </p>
-     * <p>
-     * 最大取得件数
-     * </p>
-     */
-    private int maxResults;
+	private long totalRows = -1;
 
-    /**
-     * @param firstResult 起始数据行号(numbered from 0)
-     * @param maxResults 最大取得件数
-     */
-    public Pager(final int firstResult, final int maxResults) {
-        super();
-        this.firstResult = firstResult;
-        this.maxResults = maxResults;
-    }
+	public Pager(final int startRow, final int recordsPerPage) {
+		super();
+		this.startRow = startRow;
+		this.recordsPerPage = recordsPerPage;
+	}
 
-    /**
-     * @param maxResults 最大取得件数
-     */
-    public Pager(final int maxResults) {
-        super();
-        this.maxResults = maxResults;
-    }
+	public Pager(final int recordsPerPage) {
+		super();
+		this.recordsPerPage = recordsPerPage;
+	}
 
-    public int getFirstResult() {
-        return firstResult;
-    }
+	public int getStartRow() {
+		return startRow;
+	}
 
-    public void setFirstResult(final int firstResult) {
-        this.firstResult = firstResult;
-    }
+	public void setStartRow(final int startRow) {
+		this.startRow = startRow;
+	}
 
-    public int getMaxResults() {
-        return maxResults;
-    }
+	public int getRecordsPerPage() {
+		return recordsPerPage;
+	}
 
-    public void setMaxResults(final int maxResults) {
-        this.maxResults = maxResults;
-    }
+	public void setRecordsPerPage(final int recordsPerPage) {
+		this.recordsPerPage = recordsPerPage;
+	}
 
+	public long getTotalRows() {
+		return totalRows;
+	}
+
+	public void setTotalRows(long totalRows) {
+		this.totalRows = totalRows;
+	}
 }

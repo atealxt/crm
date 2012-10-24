@@ -15,10 +15,9 @@
 
   <jsp:include page="/WEB-INF/views/common/pagination.jsp"></jsp:include>
 
-  <input type="submit"/>
-
   <table class="paginated">
     <thead>
+      <th></th>
       <th>企业ID</th>
       <th>关键字</th>
       <th>所属国家</th>
@@ -32,9 +31,11 @@
       <th>备注</th>
       <th>创建时间</th>
       <th>修改时间</th>
+      <th>操作</th>
     </thead>
     <tbody>
     <tr>
+      <td> </td>
       <td><form:input path="id"/> </td>
       <td><form:input path="keyword"/> </td>
       <td><form:input path="country.name"/> </td>
@@ -48,10 +49,12 @@
       <td><form:input path="remark"/> </td>
       <td></td>
       <td></td>
+      <td><input type="submit" value="查询" /></td>
     </tr>
 
     <c:forEach items="${list}" var="e">
     <tr>
+      <td><input type="checkbox" name="selectedObj" value="${e.id}" /> </td>
       <td><c:out value="${e.id}"/></td>
       <td><c:out value="${e.keyword}"/></td>
       <td><c:out value="${e.country.name}"/></td>
@@ -65,6 +68,11 @@
       <td><c:out value="${e.remark}"/></td>
       <td><c:out value="${e.createTime}"/></td>
       <td><c:out value="${e.updateTime}"/></td>
+      <td>
+      <input type="button" value="查看" />
+      <input type="button" value="修改" />
+      <input type="button" value="删除" onclick="deleteRecord(this, '<c:url value="/admin/enterprise/${e.id}"/>', '<c:url value="/admin/enterprise"/>')" />
+      </td>
     </tr>
     </c:forEach>
     </tbody>
@@ -77,6 +85,7 @@
 
   <script src="<c:url value="/javascripts/jquery.min.js"/>" type="text/javascript"></script>
   <script src="<c:url value="/javascripts/pagination.js"/>" type="text/javascript"></script>
+  <script src="<c:url value="/javascripts/common.js"/>" type="text/javascript"></script>
 
 </body>
 </html>

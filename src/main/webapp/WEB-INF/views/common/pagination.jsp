@@ -12,3 +12,7 @@
     </tbody>
     <tfoot><th></th></tfoot>
   </table>
+
+<%-- TODO 将所选的数据进行
+  <input type="submit" value="删除" class="btnDel" />
+ --%>

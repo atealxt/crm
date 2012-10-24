@@ -23,22 +23,9 @@ public class EnterpriseController extends PagingController {
 	@RequestMapping(value = "/admin/enterprise")
 	public ModelAndView list(final HttpServletRequest req, final HttpServletResponse resp, final ModelMap model,
 			@ModelAttribute("condition") final Enterprise condition) throws Exception {
-
-//		final int page = getPage(req);
-//		final int pageSize = getPageSize(req);
-		// final int startIndex = calcStartIndex(page, pageSize);
-
 		Pager pager = getPager(req);
 		model.addAttribute("list", enterpriseService.getEnterprises(condition, pager));
-		// final long count = pager.getTotalRows();
-
-		// final int pageCount = calcPageSum(count, pageSize);
-		// model.addAttribute("count", count);
-
-		// model.addAttribute("pageNo", page);
-		// model.addAttribute("pageCount", pageCount);
 		model.addAttribute("pager", pager);
-
 		ModelMap modelMap = new ModelMap("condition", condition);
 		return new ModelAndView("admin/enterprise/list", modelMap);
 	}
@@ -65,10 +52,10 @@ public class EnterpriseController extends PagingController {
 	}
 
 	@RequestMapping(value = "/admin/enterprise/{id}", method = RequestMethod.DELETE)
-	public String delete(@PathVariable final Integer id, final HttpServletRequest req, final HttpServletResponse resp,
+	public void delete(@PathVariable final Integer id, final HttpServletRequest req, final HttpServletResponse resp,
 			final ModelMap modelMap) throws Exception {
-		// TODO
-		return null;
+		Enterprise e = enterpriseService.get(id);
+		enterpriseService.remove(e);
 	}
 
 	@Override

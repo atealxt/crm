@@ -45,6 +45,8 @@ public interface BaseDao<T, PK extends Serializable> {
 
 	void delete(T persistentInstance);
 
+	void deleteById(PK id);
+
 	T merge(T detachedInstance);
 
 	void flush();

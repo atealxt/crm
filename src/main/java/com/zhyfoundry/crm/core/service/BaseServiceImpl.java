@@ -4,6 +4,7 @@ import java.io.Serializable;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.zhyfoundry.crm.core.dao.BaseDao;
 
@@ -24,6 +25,7 @@ public abstract class BaseServiceImpl<T, PK extends Serializable> implements Bas
     }
 
     @Override
+    @Transactional
     public void remove(final T object) {
         getDao().delete(object);
     }

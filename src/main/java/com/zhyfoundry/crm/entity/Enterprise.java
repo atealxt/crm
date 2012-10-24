@@ -36,6 +36,11 @@ public class Enterprise implements java.io.Serializable {
 		super();
 	}
 
+	public Enterprise(Integer id) {
+		super();
+		this.id = id;
+	}
+
 	public Enterprise(Integer id, String keyword, Country country, String name, String contact,
 			String email, String tel, String mobileNo, String faxNo, String source, String remark) {
 		super();

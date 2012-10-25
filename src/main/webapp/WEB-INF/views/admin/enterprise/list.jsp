@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=utf-8"
     pageEncoding="utf-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
 <%@ taglib uri="http://www.springframework.org/tags/form" prefix="form" %>
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
    "http://www.w3.org/TR/html4/looso.dtd">
@@ -68,8 +69,8 @@
       <td><c:out value="${o.faxNo}"/></td>
       <td><c:out value="${o.source}"/></td>
       <td><c:out value="${o.remark}"/></td>
-      <td><c:out value="${o.createTime}"/></td>
-      <td><c:out value="${o.updateTime}"/></td>
+      <td><fmt:formatDate value="${o.createTime}" pattern="yyyy-MM-dd HH:mm"/></td>
+      <td><fmt:formatDate value="${o.updateTime}" pattern="yyyy-MM-dd HH:mm"/></td>
       <td>
       <input type="button" value="查看" onclick="viewRecord('<c:url value="/admin/enterprise/${o.id}"/>')" />
       <input type="button" value="修改" onclick="editRecord('<c:url value="/admin/enterprise/${o.id}?edit=true"/>')" />

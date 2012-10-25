@@ -68,6 +68,10 @@ public class Pager {
 		}
 	}
 
+	public long getEndRow() {
+		return startRow + Math.min(recordsPerPage, totalRows - startRow);
+	}
+
 	@Override
 	public String toString() {
 		return "Pager [recordsPerPage=" + recordsPerPage + ", pageNo=" + pageNo + "]";

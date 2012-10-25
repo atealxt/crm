@@ -10,6 +10,8 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 import javax.persistence.UniqueConstraint;
 
 @Entity
@@ -41,8 +43,8 @@ public class Enterprise implements java.io.Serializable {
 		this.id = id;
 	}
 
-	public Enterprise(Integer id, String keyword, Country country, String name, String contact,
-			String email, String tel, String mobileNo, String faxNo, String source, String remark) {
+	public Enterprise(Integer id, String keyword, Country country, String name, String contact, String email, String tel, String mobileNo, String faxNo, String source,
+			String remark) {
 		super();
 		this.id = id;
 		this.keyword = keyword;
@@ -158,7 +160,7 @@ public class Enterprise implements java.io.Serializable {
 		this.remark = remark;
 	}
 
-	@Column(name = "CREATE_TIME")
+	@Column(name = "CREATE_TIME", insertable = false, updatable = false, columnDefinition = "TIMESTAMP NULL default CURRENT_TIMESTAMP")
 	public Date getCreateTime() {
 		return createTime;
 	}
@@ -167,7 +169,8 @@ public class Enterprise implements java.io.Serializable {
 		this.createTime = createTime;
 	}
 
-	@Column(name = "UPDATE_TIME")
+	@Column(name = "UPDATE_TIME", insertable = false, updatable = false) //TODO create trigger?
+	@Temporal(TemporalType.TIMESTAMP)
 	public Date getUpdateTime() {
 		return updateTime;
 	}

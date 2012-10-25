@@ -65,8 +65,7 @@ public class DBMaker {
 	}
 
 	private void createEnterprise() {
-		Country country = new Country();
-		country.setName("China");
+		Country country = new Country("China");
 		sf.getCurrentSession().beginTransaction();
 		sf.getCurrentSession().save(country);
 

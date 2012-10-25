@@ -5,9 +5,8 @@ var deleteRecord = function(e, url, refreshUrl) {
 			url : url,
 			success : function(data) {
 				if (refreshUrl) {
-					window.location.href= refreshUrl;
-				}
-				else {
+					window.location.href = refreshUrl;
+				} else {
 					window.location.refresh(true);
 				}
 			},
@@ -18,10 +17,19 @@ var deleteRecord = function(e, url, refreshUrl) {
 	}
 };
 
+var viewRecord = function(url) {
+	window.location.href = url;
+};
+
+var editRecord = function(url) {
+	window.location.href = url;
+};
+
 $(document).ready(function() {
 	$('.btnDel').click(function() {
-//		if (confirm("您确定要删除所选信息？")) {
-//			$(this).closest("form").attr("method", "delete").attr("action", url).submit(); // TODO
-//		}
+		// if (confirm("您确定要删除所选信息？")) {
+		// $(this).closest("form").attr("method", "delete").attr("action",
+		// url).submit(); // TODO
+		// }
 	});
 });

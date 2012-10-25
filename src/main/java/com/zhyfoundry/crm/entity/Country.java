@@ -16,6 +16,15 @@ public class Country implements java.io.Serializable {
 	private Integer id;
 	private String name;// 国家名称
 
+	public Country() {
+		super();
+	}
+
+	public Country(String name) {
+		super();
+		this.name = name;
+	}
+
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	public Integer getId() {

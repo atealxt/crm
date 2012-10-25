@@ -25,6 +25,11 @@ public abstract class BaseServiceImpl<T, PK extends Serializable> implements Bas
     }
 
     @Override
+    public T merge(final T object) {
+        return getDao().merge(object);
+    }
+
+    @Override
     @Transactional
     public void remove(final T object) {
         getDao().delete(object);

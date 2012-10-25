@@ -10,6 +10,9 @@ public interface BaseService<T, PK extends Serializable> {
     /** @see com.zhyfoundry.crm.core.dao.BaseDao#save(Object) */
     T save(T object);
 
+    /** @see com.zhyfoundry.crm.core.dao.BaseDao#merge(Object) */
+    T merge(T object);
+
     /** @see com.zhyfoundry.crm.core.dao.BaseDao#delete(Object) */
     void remove(T object);
 

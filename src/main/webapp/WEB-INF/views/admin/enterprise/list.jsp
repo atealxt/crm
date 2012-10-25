@@ -3,7 +3,7 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ taglib uri="http://www.springframework.org/tags/form" prefix="form" %>
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
-   "http://www.w3.org/TR/html4/loose.dtd">
+   "http://www.w3.org/TR/html4/looso.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
     <title>CRM</title>
@@ -52,26 +52,26 @@
       <td><input type="submit" value="查询" /></td>
     </tr>
 
-    <c:forEach items="${list}" var="e">
+    <c:forEach items="${list}" var="o">
     <tr>
-      <td><input type="checkbox" name="selectedObj" value="${e.id}" /> </td>
-      <td><c:out value="${e.id}"/></td>
-      <td><c:out value="${e.keyword}"/></td>
-      <td><c:out value="${e.country.name}"/></td>
-      <td><c:out value="${e.name}"/></td>
-      <td><c:out value="${e.contact}"/></td>
-      <td><c:out value="${e.email}"/></td>
-      <td><c:out value="${e.tel}"/></td>
-      <td><c:out value="${e.mobileNo}"/></td>
-      <td><c:out value="${e.faxNo}"/></td>
-      <td><c:out value="${e.source}"/></td>
-      <td><c:out value="${e.remark}"/></td>
-      <td><c:out value="${e.createTime}"/></td>
-      <td><c:out value="${e.updateTime}"/></td>
+      <td><%--<input type="checkbox" name="selectedObj" value="${o.id}" />  --%></td>
+      <td><c:out value="${o.id}"/></td>
+      <td><c:out value="${o.keyword}"/></td>
+      <td><c:out value="${o.country.name}"/></td>
+      <td><c:out value="${o.name}"/></td>
+      <td><c:out value="${o.contact}"/></td>
+      <td><c:out value="${o.email}"/></td>
+      <td><c:out value="${o.tel}"/></td>
+      <td><c:out value="${o.mobileNo}"/></td>
+      <td><c:out value="${o.faxNo}"/></td>
+      <td><c:out value="${o.source}"/></td>
+      <td><c:out value="${o.remark}"/></td>
+      <td><c:out value="${o.createTime}"/></td>
+      <td><c:out value="${o.updateTime}"/></td>
       <td>
-      <input type="button" value="查看" />
-      <input type="button" value="修改" />
-      <input type="button" value="删除" onclick="deleteRecord(this, '<c:url value="/admin/enterprise/${e.id}"/>', '<c:url value="/admin/enterprise"/>')" />
+      <input type="button" value="查看" onclick="viewRecord('<c:url value="/admin/enterprise/${o.id}"/>')" />
+      <input type="button" value="修改" onclick="editRecord('<c:url value="/admin/enterprise/${o.id}?edit=true"/>')" />
+      <input type="button" value="删除" onclick="deleteRecord(this, '<c:url value="/admin/enterprise/${o.id}"/>', '<c:url value="/admin/enterprise"/>')" />
       </td>
     </tr>
     </c:forEach>

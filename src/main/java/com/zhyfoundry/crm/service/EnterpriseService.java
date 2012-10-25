@@ -6,22 +6,27 @@ import java.util.List;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.zhyfoundry.crm.core.dao.BaseDao;
 import com.zhyfoundry.crm.core.dao.Pager;
 import com.zhyfoundry.crm.core.service.PaginationServiceImpl;
+import com.zhyfoundry.crm.dao.CountryDao;
 import com.zhyfoundry.crm.dao.EnterpriseDao;
+import com.zhyfoundry.crm.entity.Country;
 import com.zhyfoundry.crm.entity.Enterprise;
 
 @Service
 public class EnterpriseService extends PaginationServiceImpl<Enterprise, Integer> {
 
 	@Autowired
-	private EnterpriseDao EnterpriseDao;
+	private EnterpriseDao enterpriseDao;
+	@Autowired
+	private CountryDao countryDao;
 
 	@Override
 	protected BaseDao<Enterprise, Integer> getDao() {
-		return EnterpriseDao;
+		return enterpriseDao;
 	}
 
 	public List<Enterprise> getEnterprises(Enterprise condition, final Pager pager) {
@@ -76,5 +81,16 @@ public class EnterpriseService extends PaginationServiceImpl<Enterprise, Integer
 			initialize(f.getCountry());
 		}
 		return Enterprises;
+	}
+
+	@Transactional
+	public void modify(Enterprise enterprise) {
+		Country country = countryDao.findByName(enterprise.getCountry().getName());
+		if (country == null) {
+			country = new Country(enterprise.getCountry().getName());
+		}
+		enterprise.setCountry(country);
+		merge(enterprise);
+//		enterpriseDao.flush();
 	}
 }

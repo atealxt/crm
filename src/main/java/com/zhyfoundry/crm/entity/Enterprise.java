@@ -14,17 +14,23 @@ import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.persistence.UniqueConstraint;
 
+import org.springmodules.validation.bean.conf.loader.annotation.handler.Length;
+import org.springmodules.validation.bean.conf.loader.annotation.handler.NotBlank;
+
 @Entity
 @Table(name = "ENTERPRISE", uniqueConstraints = { @UniqueConstraint(columnNames = { "NAME" }) })
 /** 企业总表 */
 public class Enterprise implements java.io.Serializable {
 
+	private static final int MAX_LEN = 20;
 	private static final long serialVersionUID = 867088200985240910L;
 	private Integer id;
 	private Date createTime;
 	private Date updateTime;
 	private String keyword;// 关键字
 	private Country country;// 所属国家
+	@NotBlank
+	@Length(max = MAX_LEN)
 	private String name;// 公司名称
 	private String contact;// 联系人
 	private String email;// 邮箱

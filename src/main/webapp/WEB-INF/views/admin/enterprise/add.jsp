@@ -22,13 +22,9 @@
 
   <table>
     <thead>
-      <th colspan="2">修改信息</th>
+      <th colspan="2">添加信息</th>
     </thead>
     <tbody>
-    <tr>
-      <td>企业ID</td>
-      <td><c:out value="${o.id}"/></td>
-    </tr>
     <jsp:include page="/WEB-INF/views/admin/enterprise/common/obj_fragment.jsp"></jsp:include>
     <tr>
       <td colspan="2"><input type="submit" value="提交" /> <input type="reset"/></td>

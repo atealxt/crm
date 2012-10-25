@@ -4,8 +4,11 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.Validator;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -29,6 +32,21 @@ public class EnterpriseController extends PagingController {
 		return "admin/enterprise/list";
 	}
 
+	@RequestMapping(value = "/admin/enterprise/add", method = RequestMethod.GET)
+	public String preAdd(final HttpServletRequest req, final HttpServletResponse resp, final ModelMap modelMap) throws Exception {
+		modelMap.addAttribute("o", new Enterprise());
+		return "admin/enterprise/add";
+	}
+
+	@RequestMapping(value = "/admin/enterprise/add", method = RequestMethod.POST)
+	public String add(@ModelAttribute("o") final Enterprise enterprise,
+			final BindingResult result,
+			final HttpServletRequest req,
+			final HttpServletResponse resp,
+			final ModelMap modelMap) throws Exception {
+		return addOrEdit(enterprise, result, req, null, resp, modelMap);
+	}
+
 	@RequestMapping(value = "/admin/enterprise/{id}", method = RequestMethod.GET)
 	public String view(@PathVariable final Integer id, final HttpServletRequest req, final HttpServletResponse resp, final ModelMap modelMap,
 			@RequestParam(value = "edit", required = false) final boolean edit) throws Exception {
@@ -40,10 +58,20 @@ public class EnterpriseController extends PagingController {
 		return "admin/enterprise/view";
 	}
 
-	@RequestMapping(value = "/admin/enterprise/{id}", method = { RequestMethod.POST, RequestMethod.PUT })
-	public String addOrEdit(@PathVariable final Integer id, @ModelAttribute("o") final Enterprise enterprise, final HttpServletRequest req, final HttpServletResponse resp,
+	@RequestMapping(value = "/admin/enterprise/{id}", method = RequestMethod.POST)
+	public String addOrEdit(@ModelAttribute("o") final Enterprise enterprise,
+			final BindingResult result,
+			final HttpServletRequest req,
+			@PathVariable final Integer id,
+			final HttpServletResponse resp,
 			final ModelMap modelMap) throws Exception {
-		logger.debug(enterprise);
+		validator.validate(enterprise, result);
+		if (result.hasErrors()) {
+			if (id == null) {
+				return "admin/enterprise/add";
+			}
+			return "admin/enterprise/edit";
+		}
 		enterpriseService.modify(enterprise);
 		return "redirect:/admin/enterprise";
 	}
@@ -65,4 +93,6 @@ public class EnterpriseController extends PagingController {
 
 	@Autowired
 	private EnterpriseService enterpriseService;
+	@Autowired
+	private Validator validator;
 }

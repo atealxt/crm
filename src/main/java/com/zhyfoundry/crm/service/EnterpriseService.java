@@ -84,13 +84,23 @@ public class EnterpriseService extends PaginationServiceImpl<Enterprise, Integer
 	}
 
 	@Transactional
+	public void add(Enterprise enterprise) {
+		enterprise.setCountry(initCountry(enterprise));
+		add(enterprise);
+	}
+
+	@Transactional
 	public void modify(Enterprise enterprise) {
+		enterprise.setCountry(initCountry(enterprise));
+		merge(enterprise);
+	}
+
+	private Country initCountry(Enterprise enterprise) {
 		Country country = countryDao.findByName(enterprise.getCountry().getName());
 		if (country == null) {
 			country = new Country(enterprise.getCountry().getName());
+			countryDao.save(country);
 		}
-		enterprise.setCountry(country);
-		merge(enterprise);
-//		enterpriseDao.flush();
+		return country;
 	}
 }

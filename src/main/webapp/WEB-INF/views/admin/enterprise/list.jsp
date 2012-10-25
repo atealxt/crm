@@ -15,6 +15,8 @@
 
   <jsp:include page="/WEB-INF/views/common/pagination.jsp"></jsp:include>
 
+  <A HREF="<c:url value="/admin/enterprise/add"/>" >新建</A>
+
   <table class="paginated">
     <thead>
       <th></th>

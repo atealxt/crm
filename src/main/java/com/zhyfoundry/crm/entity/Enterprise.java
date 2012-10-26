@@ -175,7 +175,7 @@ public class Enterprise implements java.io.Serializable {
 		this.createTime = createTime;
 	}
 
-	@Column(name = "UPDATE_TIME", insertable = false, updatable = false) //TODO create trigger?
+	@Column(name = "UPDATE_TIME", insertable = false, updatable = false)
 	@Temporal(TemporalType.TIMESTAMP)
 	public Date getUpdateTime() {
 		return updateTime;

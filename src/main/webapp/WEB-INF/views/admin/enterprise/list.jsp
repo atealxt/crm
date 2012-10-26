@@ -39,7 +39,7 @@
     <tbody>
     <tr>
       <td> </td>
-      <td><form:input path="id"/> </td>
+      <td></td>
       <td><form:input path="keyword"/> </td>
       <td><form:input path="country.name"/> </td>
       <td><form:input path="name"/> </td>

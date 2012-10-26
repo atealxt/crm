@@ -4,7 +4,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
@@ -78,7 +77,7 @@ public class EnterpriseController extends PagingController {
 
 	@RequestMapping(value = "/admin/enterprise/{id}", method = RequestMethod.DELETE)
 	public void delete(@PathVariable final Integer id, final HttpServletRequest req, final HttpServletResponse resp, final ModelMap modelMap) throws Exception {
-		enterpriseService.remove(enterpriseService.get(id));
+		enterpriseService.removeById(id);
 	}
 
 	@Override

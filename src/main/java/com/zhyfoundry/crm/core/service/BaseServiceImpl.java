@@ -31,8 +31,9 @@ public abstract class BaseServiceImpl<T, PK extends Serializable> implements Bas
 
     @Override
     @Transactional
-    public void remove(final T object) {
-        getDao().delete(object);
+    public void removeById(final PK id) {
+    	T t = getDao().findById(id);
+        getDao().delete(t);
     }
 
     @Override

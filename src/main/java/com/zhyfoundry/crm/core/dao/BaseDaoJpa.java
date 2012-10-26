@@ -117,12 +117,7 @@ public class BaseDaoJpa<T, PK extends Serializable> extends JpaDaoSupport implem
 
 	@Override
 	public void delete(final T persistentInstance) {
-		getJpaTemplate().remove(merge(persistentInstance)); // TODO we really need merge before remove??
-	}
-
-	@Override
-	public void deleteById(final PK id) {
-		throw new UnsupportedOperationException("TODO");// TODO deleteById
+		getJpaTemplate().remove(persistentInstance);
 	}
 
 	@Override

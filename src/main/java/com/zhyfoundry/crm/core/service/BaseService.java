@@ -14,7 +14,7 @@ public interface BaseService<T, PK extends Serializable> {
     T merge(T object);
 
     /** @see com.zhyfoundry.crm.core.dao.BaseDao#delete(Object) */
-    void remove(T object);
+    void removeById(PK id);
 
     /** @see com.zhyfoundry.crm.core.dao.BaseDao#initialize(Object) */
     void initialize(final Object obj);

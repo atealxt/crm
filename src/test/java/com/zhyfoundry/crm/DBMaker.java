@@ -61,7 +61,7 @@ public class DBMaker {
 		createMany2Many();
 		createAdmin();
 		createEnterprise();
-		DataTools.importEnterpriseDataFromExcel();
+		DataTools.importEnterpriseDataFromAnotherDB();
 	}
 
 	private void createEnterprise() {

@@ -22,7 +22,7 @@
 
   <table>
     <thead>
-      <th colspan="2">修改信息</th>
+      <th colspan="2">编辑信息</th>
     </thead>
     <tbody>
     <tr>

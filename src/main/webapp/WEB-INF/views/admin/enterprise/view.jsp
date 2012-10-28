@@ -14,7 +14,7 @@
 
   <table>
     <thead>
-      <th colspan="2">查看详细信息</th> <%-- TODO 添加修改按钮 --%>
+      <th colspan="2">详细信息（<a href="<c:url value="/admin/enterprise/${o.id}?edit=true"/>">编辑</a>）</th>
     </thead>
     <tbody>
     <tr>

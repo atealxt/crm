@@ -14,7 +14,7 @@
 
   <form:form commandName="condition">
 
-  <jsp:include page="/WEB-INF/views/common/pagination.jsp"></jsp:include>
+  <jsp:include page="/WEB-INF/views/common/pagination_fragment.jsp"></jsp:include>
 
   <A HREF="<c:url value="/admin/enterprise/add"/>" >新建</A>
 
@@ -69,8 +69,8 @@
       <td><c:out value="${o.faxNo}"/></td>
       <td><c:out value="${o.source}"/></td>
       <td><c:out value="${o.remark}"/></td>
-      <td><fmt:formatDate value="${o.createTime}" pattern="yyyy-MM-dd HH:mm"/></td>
-      <td><fmt:formatDate value="${o.updateTime}" pattern="yyyy-MM-dd HH:mm"/></td>
+      <td><fmt:formatDate value="${o.createTime}" pattern="yyyy-MM-dd"/></td>
+      <td><fmt:formatDate value="${o.updateTime}" pattern="yyyy-MM-dd"/></td>
       <td>
       <input type="button" value="查看" onclick="viewRecord('<c:url value="/admin/enterprise/${o.id}"/>')" />
       <input type="button" value="修改" onclick="editRecord('<c:url value="/admin/enterprise/${o.id}?edit=true"/>')" />
@@ -82,7 +82,7 @@
     <tfoot><th></th></tfoot>
   </table>
 
-  <jsp:include page="/WEB-INF/views/common/pagination.jsp"></jsp:include>
+  <jsp:include page="/WEB-INF/views/common/pagination_fragment.jsp"></jsp:include>
 
   </form:form>
 

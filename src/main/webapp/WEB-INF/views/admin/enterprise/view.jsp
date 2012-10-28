@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=utf-8"
     pageEncoding="utf-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
 <%@ taglib uri="http://www.springframework.org/tags/form" prefix="form" %>
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
    "http://www.w3.org/TR/html4/looso.dtd">
@@ -13,7 +14,7 @@
 
   <table>
     <thead>
-      <th colspan="2">查看详细信息</th>
+      <th colspan="2">查看详细信息</th> <%-- TODO 添加修改按钮 --%>
     </thead>
     <tbody>
     <tr>
@@ -62,11 +63,11 @@
     </tr>
     <tr>
       <td>创建时间</td>
-      <td><c:out value="${o.createTime}"/></td>
+      <td><fmt:formatDate value="${o.createTime}" pattern="yyyy-MM-dd HH:mm:ss"/></td>
     </tr>
     <tr>
       <td>修改时间</td>
-      <td><c:out value="${o.updateTime}"/></td>
+      <td><fmt:formatDate value="${o.updateTime}" pattern="yyyy-MM-dd HH:mm:ss"/></td>
     </tr>
     </tbody>
     <tfoot><th></th></tfoot>

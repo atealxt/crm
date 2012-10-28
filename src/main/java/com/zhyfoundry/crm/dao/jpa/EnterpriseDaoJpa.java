@@ -1,5 +1,7 @@
 package com.zhyfoundry.crm.dao.jpa;
 
+import java.util.List;
+
 import org.springframework.stereotype.Repository;
 
 import com.zhyfoundry.crm.core.dao.BaseDaoJpa;
@@ -11,5 +13,14 @@ public class EnterpriseDaoJpa extends BaseDaoJpa<Enterprise, Integer> implements
 
     public EnterpriseDaoJpa() {
         super(Enterprise.class);
+    }
+
+    @Override
+    public Enterprise findByName(final String name) {
+        List<Enterprise> list = findByQuery("from Enterprise where name = ?", name);
+        if (list.size() > 0) {
+            return list.get(0);
+        }
+        return null;
     }
 }

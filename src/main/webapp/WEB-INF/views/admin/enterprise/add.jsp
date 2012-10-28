@@ -17,6 +17,8 @@
 </head>
 <body>
 
+  <jsp:include page="/WEB-INF/views/common/message_fragment.jsp"></jsp:include>
+
   <form:form commandName="o">
   <form:hidden path="id"/>
 
@@ -34,6 +36,15 @@
   </table>
 
   </form:form>
+
+  <script src="<c:url value="/javascripts/jquery.min.js"/>" type="text/javascript"></script>
+  <script type="text/javascript">
+  (function($) {
+	  $('.enterpriseId').click(function() {
+		  window.open('<c:url value="/admin/enterprise/"/>' + $(this).attr("title"));
+	  });
+  })(jQuery);
+  </script>
 
 </body>
 </html>

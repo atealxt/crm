@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.zhyfoundry.crm.core.ServiceException;
 import com.zhyfoundry.crm.core.dao.BaseDao;
 import com.zhyfoundry.crm.core.dao.Pager;
 import com.zhyfoundry.crm.core.service.PaginationServiceImpl;
@@ -87,6 +88,17 @@ public class EnterpriseService extends PaginationServiceImpl<Enterprise, Integer
 	public void add(Enterprise enterprise) {
 		enterprise.setCountry(initCountry(enterprise));
 		add(enterprise);
+	}
+
+	@Transactional
+	public Enterprise checkAndModify(Enterprise enterprise) {
+		Enterprise e = enterpriseDao.findByName(enterprise.getName());
+		if (e != null) {
+			logger.warn("该企业名已存在。id = " + e.getId() + ", name = " + e.getName());
+			throw new ServiceException("Enterprise.name.exist").addReason(e.getId()).addReason(e.getName());
+		}
+		enterprise.setCountry(initCountry(enterprise));
+		return merge(enterprise);
 	}
 
 	@Transactional

@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import com.zhyfoundry.crm.core.ServiceException;
 import com.zhyfoundry.crm.core.dao.Pager;
 import com.zhyfoundry.crm.entity.Enterprise;
 import com.zhyfoundry.crm.service.EnterpriseService;
@@ -71,8 +72,20 @@ public class EnterpriseController extends PagingController {
 			}
 			return "admin/enterprise/edit";
 		}
-		enterpriseService.modify(enterprise);
-		return "redirect:/admin/enterprise";
+		if (id == null) {
+			Enterprise addedEnterprise;
+			try {
+				addedEnterprise = enterpriseService.checkAndModify(enterprise);
+			} catch (ServiceException e) {
+				appendError(req, e);
+				return "admin/enterprise/add";
+			}
+			appendInfo(req, "Enterprise.new.success", addedEnterprise.getId(), addedEnterprise.getName());
+			return preAdd(req, resp, modelMap);
+		} else {
+			enterpriseService.modify(enterprise);
+			return "redirect:/admin/enterprise";
+		}
 	}
 
 	@RequestMapping(value = "/admin/enterprise/{id}", method = RequestMethod.DELETE)

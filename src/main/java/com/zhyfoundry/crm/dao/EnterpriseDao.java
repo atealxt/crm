@@ -4,4 +4,6 @@ import com.zhyfoundry.crm.core.dao.BaseDao;
 import com.zhyfoundry.crm.entity.Enterprise;
 
 public interface EnterpriseDao extends BaseDao<Enterprise, Integer> {
+
+	Enterprise findByName(String name);
 }

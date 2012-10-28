@@ -37,6 +37,10 @@ public class EnterpriseService extends PaginationServiceImpl<Enterprise, Integer
 			sql.append(" and t.id = ?");
 			params.add(condition.getId());
 		}
+		if (condition.getStatus() != null) {
+			sql.append(" and t.status = ?");
+			params.add(condition.getStatus());
+		}
 		if (StringUtils.isNotBlank(condition.getKeyword())) {
 			sql.append(" and t.keyword like ?");
 			params.add("%" + condition.getKeyword() + "%");
@@ -114,5 +118,28 @@ public class EnterpriseService extends PaginationServiceImpl<Enterprise, Integer
 			countryDao.save(country);
 		}
 		return country;
+	}
+
+	@Override
+	@Transactional
+	public void removeById(Integer id) {
+		Enterprise enterprise = getDao().findById(id);
+		if (enterprise.removed()) {
+			getDao().delete(enterprise);
+		}
+		else {
+			enterprise.remove();
+		}
+	}
+
+	@Transactional
+	public void restore(Integer id) {
+		Enterprise enterprise = getDao().findById(id);
+		if (enterprise.removed()) {
+			enterprise.restore();
+			merge(enterprise);
+		} else {
+			logger.warn("操作异常：" + enterprise);
+		}
 	}
 }

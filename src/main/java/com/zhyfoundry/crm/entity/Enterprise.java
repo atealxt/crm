@@ -20,24 +20,46 @@ import org.springmodules.validation.bean.conf.loader.annotation.handler.NotBlank
 @Entity
 @Table(name = "ENTERPRISE", uniqueConstraints = { @UniqueConstraint(columnNames = { "NAME" }) })
 /** 企业总表 */
-public class Enterprise implements java.io.Serializable {
+public class Enterprise implements java.io.Serializable, Recyclable {
 
-	private static final int MAX_LEN = 20;
 	private static final long serialVersionUID = 867088200985240910L;
+	private static final int MAX_LEN_KEYWORD = 512;
+	private static final int MAX_LEN_NAME = 20;
+	private static final int MAX_LEN_CONTACT = 200;
+	private static final int MAX_LEN_EMAIL = 200;
+	private static final int MAX_LEN_TEL = 200;
+	private static final int MAX_LEN_MOBILENO = 200;
+	private static final int MAX_LEN_FAXNO = 200;
+	private static final int MAX_LEN_SOURCE = 200;
+	private static final int MAX_LEN_REMARK = 1024;
+	private static final int MAX_LEN_STATUS = 2;
+
 	private Integer id;
 	private Date createTime;
 	private Date updateTime;
+	private Integer status = STATUS_NORMAL;// 状态
+	public final static Integer STATUS_NORMAL = 0;// 状态 - 正常
+	public final static Integer STATUS_DELETE = -1;// 状态 - 删除
+
+	@Length(max = MAX_LEN_KEYWORD)
 	private String keyword;// 关键字
 	private Country country;// 所属国家
 	@NotBlank
-	@Length(max = MAX_LEN)
+	@Length(max = MAX_LEN_NAME)
 	private String name;// 公司名称
+	@Length(max = MAX_LEN_CONTACT)
 	private String contact;// 联系人
+	@Length(max = MAX_LEN_EMAIL)
 	private String email;// 邮箱
+	@Length(max = MAX_LEN_TEL)
 	private String tel;// 电话
+	@Length(max = MAX_LEN_MOBILENO)
 	private String mobileNo;// 手机
+	@Length(max = MAX_LEN_FAXNO)
 	private String faxNo;// 传真
+	@Length(max = MAX_LEN_SOURCE)
 	private String source;// 来源网站
+	@Length(max = MAX_LEN_REMARK)
 	private String remark;// 备注
 
 	public Enterprise() {
@@ -75,7 +97,7 @@ public class Enterprise implements java.io.Serializable {
 		this.id = id;
 	}
 
-	@Column(name = "KEYWORD")
+	@Column(name = "KEYWORD", length = MAX_LEN_KEYWORD)
 	public String getKeyword() {
 		return keyword;
 	}
@@ -94,7 +116,7 @@ public class Enterprise implements java.io.Serializable {
 		this.country = country;
 	}
 
-	@Column(name = "NAME")
+	@Column(name = "NAME", length = MAX_LEN_NAME)
 	public String getName() {
 		return name;
 	}
@@ -103,7 +125,7 @@ public class Enterprise implements java.io.Serializable {
 		this.name = name;
 	}
 
-	@Column(name = "CONTACT")
+	@Column(name = "CONTACT", length = MAX_LEN_CONTACT)
 	public String getContact() {
 		return contact;
 	}
@@ -112,7 +134,7 @@ public class Enterprise implements java.io.Serializable {
 		this.contact = contact;
 	}
 
-	@Column(name = "EMAIL")
+	@Column(name = "EMAIL", length = MAX_LEN_EMAIL)
 	public String getEmail() {
 		return email;
 	}
@@ -121,7 +143,7 @@ public class Enterprise implements java.io.Serializable {
 		this.email = email;
 	}
 
-	@Column(name = "TEL")
+	@Column(name = "TEL", length = MAX_LEN_TEL)
 	public String getTel() {
 		return tel;
 	}
@@ -130,7 +152,7 @@ public class Enterprise implements java.io.Serializable {
 		this.tel = tel;
 	}
 
-	@Column(name = "MOBILE_NO")
+	@Column(name = "MOBILE_NO", length = MAX_LEN_MOBILENO)
 	public String getMobileNo() {
 		return mobileNo;
 	}
@@ -139,7 +161,7 @@ public class Enterprise implements java.io.Serializable {
 		this.mobileNo = mobileNo;
 	}
 
-	@Column(name = "FAX_NO")
+	@Column(name = "FAX_NO", length = MAX_LEN_FAXNO)
 	public String getFaxNo() {
 		return faxNo;
 	}
@@ -148,7 +170,7 @@ public class Enterprise implements java.io.Serializable {
 		this.faxNo = faxNo;
 	}
 
-	@Column(name = "SOURCE")
+	@Column(name = "SOURCE", length = MAX_LEN_SOURCE)
 	public String getSource() {
 		return source;
 	}
@@ -157,7 +179,7 @@ public class Enterprise implements java.io.Serializable {
 		this.source = source;
 	}
 
-	@Column(name = "REMARK")
+	@Column(name = "REMARK", length = MAX_LEN_REMARK)
 	public String getRemark() {
 		return remark;
 	}
@@ -183,6 +205,29 @@ public class Enterprise implements java.io.Serializable {
 
 	public void setUpdateTime(Date updateTime) {
 		this.updateTime = updateTime;
+	}
+
+	@Column(name = "STATUS", length = MAX_LEN_STATUS)
+	public Integer getStatus() {
+		return status;
+	}
+
+	public void setStatus(Integer status) {
+		this.status = status;
+	}
+
+	@Override
+	public void remove() {
+		this.status = STATUS_DELETE;
+	}
+
+	public boolean removed() {
+		return STATUS_DELETE.equals(this.status);
+	}
+
+	@Override
+	public void restore() {
+		this.status = STATUS_NORMAL;
 	}
 
 	@Override

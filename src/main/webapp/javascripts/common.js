@@ -1,5 +1,6 @@
-var deleteRecord = function(e, url, refreshUrl) {
-	if (confirm("您确定要删除所选信息？")) {
+var deleteRecord = function(e, url, refreshUrl, soft) {
+	var msg = soft ? "您确定要删除所选信息？（删除后，该记录将会被放入回收站）" : "您确定要删除所选信息？";
+	if (confirm(msg)) {
 		$.ajax({
 			type : "DELETE",
 			url : url,
@@ -23,6 +24,12 @@ var viewRecord = function(url) {
 
 var editRecord = function(url) {
 	window.location.href = url;
+};
+
+var restoreRecord = function(e, url) {
+	if (confirm("您确定要恢复所选信息？")) {
+		$(e).closest("form").attr("action", url).submit();
+	}
 };
 
 $(document).ready(function() {

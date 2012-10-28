@@ -13,10 +13,22 @@
 <body>
 
   <form:form commandName="condition">
+  <c:set var="recycle" value="${param.status == '-1'}" />
+  <c:choose>
+	  <c:when test="${!recycle}">
+	  	<c:set var="pagingURL" value="/admin/enterprise" />
+	  </c:when>
+	  <c:otherwise>
+	  	<c:set var="pagingURL" value="/admin/enterprise?status=-1" />
+	  </c:otherwise>
+  </c:choose>
+  <jsp:include page="/WEB-INF/views/common/pagination_fragment.jsp">
+  	<jsp:param name="pagingURL" value="${pagingURL}"/>
+  </jsp:include>
 
-  <jsp:include page="/WEB-INF/views/common/pagination_fragment.jsp"></jsp:include>
-
-  <A HREF="<c:url value="/admin/enterprise/add"/>" >新建</A>
+  <c:if test="${!recycle}">
+  	<A HREF="<c:url value="/admin/enterprise/add"/>" >新建</A>
+  </c:if>
 
   <table class="paginated">
     <thead>
@@ -72,9 +84,14 @@
       <td><fmt:formatDate value="${o.createTime}" pattern="yyyy-MM-dd"/></td>
       <td><fmt:formatDate value="${o.updateTime}" pattern="yyyy-MM-dd"/></td>
       <td>
+      <c:if test="${!recycle}">
       <input type="button" value="查看" onclick="viewRecord('<c:url value="/admin/enterprise/${o.id}"/>')" />
-      <input type="button" value="修改" onclick="editRecord('<c:url value="/admin/enterprise/${o.id}?edit=true"/>')" />
-      <input type="button" value="删除" onclick="deleteRecord(this, '<c:url value="/admin/enterprise/${o.id}"/>', '<c:url value="/admin/enterprise"/>')" />
+      <input type="button" value="编辑" onclick="editRecord('<c:url value="/admin/enterprise/${o.id}?edit=true"/>')" />
+      </c:if>
+      <c:if test="${recycle}">
+      <input type="button" value="恢复" onclick="restoreRecord(this, '<c:url value="/admin/enterprise/${o.id}/restore"/>')" />
+      </c:if>
+      <input type="button" value="删除" onclick="deleteRecord(this, '<c:url value="/admin/enterprise/${o.id}"/>', '<c:url value="/admin/enterprise"/><c:if test="${recycle}">?status=-1</c:if>', <c:out value="${!recycle}"/>)" />
       </td>
     </tr>
     </c:forEach>
@@ -82,14 +99,16 @@
     <tfoot><th></th></tfoot>
   </table>
 
-  <jsp:include page="/WEB-INF/views/common/pagination_fragment.jsp"></jsp:include>
+  <jsp:include page="/WEB-INF/views/common/pagination_fragment.jsp">
+  	<jsp:param name="pagingURL" value="${pagingURL}"/>
+  </jsp:include>
 
   </form:form>
 
   <script src="<c:url value="/javascripts/jquery.min.js"/>" type="text/javascript"></script>
   <script src="<c:url value="/javascripts/pagination.js"/>" type="text/javascript"></script>
   <script src="<c:url value="/javascripts/common.js"/>" type="text/javascript"></script>
-  <%-- sitemesh --%>
+  <%-- TODO sitemesh, line mouse over, data link --%>
 
 </body>
 </html>

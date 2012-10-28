@@ -38,6 +38,19 @@ public class MenuController extends BaseController {
         link.setMsgShow("企业名录管理");
         links.add(link);
 
+        // TODO
+//        link = new PageLink();
+//        link.setLink("/###");
+//        link.setMsgShow("企业国家管理");
+//        links.add(link);
+
+        link = new PageLink();
+        link.setLink("/admin/enterprise?status=-1");
+        link.setMsgShow("企业名录回收站");
+        links.add(link);
+
+        // TODO group by module
+
         return links;
     }
 }

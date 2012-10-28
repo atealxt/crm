@@ -93,6 +93,12 @@ public class EnterpriseController extends PagingController {
 		enterpriseService.removeById(id);
 	}
 
+	@RequestMapping(value = "/admin/enterprise/{id}/restore", method = RequestMethod.POST)
+	public String restore(@PathVariable final Integer id, final HttpServletRequest req, final HttpServletResponse resp, final ModelMap modelMap) throws Exception {
+		enterpriseService.restore(id);
+		return "redirect:/admin/enterprise?status=-1";
+	}
+
 	@Override
 	protected int getDefaultPageSize() {
 		return 50;

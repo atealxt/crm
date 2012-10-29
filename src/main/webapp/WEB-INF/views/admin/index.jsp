@@ -5,7 +5,7 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<title>CRM</title>
+<title>CRM Administrator</title>
 </head>
 
     <frameset cols="197,*" frameborder="yes" border="1" framespacing="0">

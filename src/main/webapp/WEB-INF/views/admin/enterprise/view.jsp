@@ -3,14 +3,6 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
 <%@ taglib uri="http://www.springframework.org/tags/form" prefix="form" %>
-<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
-   "http://www.w3.org/TR/html4/looso.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml">
-<head>
-    <title>CRM</title>
-    <META HTTP-EQUIV="CONTENT-TYPE" CONTENT="TEXT/HTML; CHARSET=UTF-8">
-</head>
-<body>
 
   <table>
     <thead>
@@ -72,6 +64,3 @@
     </tbody>
     <tfoot><th></th></tfoot>
   </table>
-
-</body>
-</html>

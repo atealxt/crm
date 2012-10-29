@@ -1,8 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
-<web-app xmlns="http://java.sun.com/xml/ns/j2ee"
-      xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-      xsi:schemaLocation="http://java.sun.com/xml/ns/j2ee/web-app_2_5.xsd"
-      version="2.5">
+<web-app xmlns="http://java.sun.com/xml/ns/j2ee" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://java.sun.com/xml/ns/j2ee/web-app_2_5.xsd"
+	version="2.5">
 
 	<display-name>com.zhyfoundry.crm</display-name>
 
@@ -22,9 +21,19 @@
 
 	<context-param>
 		<param-name>contextConfigLocation</param-name>
-		<!-- <param-value>classpath:applicationContext*.xml</param-value> -->
 		<param-value>classpath:applicationContext.xml</param-value>
 	</context-param>
+
+	<filter>
+		<filter-name>sitemesh</filter-name>
+		<filter-class>com.opensymphony.sitemesh.webapp.SiteMeshFilter
+		</filter-class>
+	</filter>
+
+	<filter-mapping>
+		<filter-name>sitemesh</filter-name>
+		<url-pattern>/*</url-pattern>
+	</filter-mapping>
 
 	<filter>
 		<filter-name>Set Character Encoding</filter-name>
@@ -41,7 +50,8 @@
 	</filter-mapping>
 	<servlet>
 		<servlet-name>HelloServlet</servlet-name>
-		<servlet-class>com.zhyfoundry.crm.web.controller.TestServlet</servlet-class>
+		<servlet-class>com.zhyfoundry.crm.web.controller.TestServlet
+		</servlet-class>
 	</servlet>
 	<servlet-mapping>
 		<servlet-name>HelloServlet</servlet-name>
@@ -62,7 +72,8 @@
 	</servlet>
 	<servlet>
 		<servlet-name>SystemInitialization</servlet-name>
-		<servlet-class>com.zhyfoundry.crm.core.web.SystemInitialization</servlet-class>
+		<servlet-class>com.zhyfoundry.crm.core.web.SystemInitialization
+		</servlet-class>
 		<load-on-startup>5</load-on-startup>
 	</servlet>
 	<servlet-mapping>
@@ -81,9 +92,6 @@
 		<servlet-name>default</servlet-name>
 		<url-pattern>*.css</url-pattern>
 	</servlet-mapping>
-	<!-- 自spring3.0.4起，可以使用更简便的过滤映射方法 <mvc:resources location="/resources/"
-		mapping="/resources/**"/> location起始位置是web application根目录下，支持jar包内资源搜索。 cache-period可以使得静态资源进行web
-		cache -->
 
 	<!-- ehcache的GZIP Filter的实现并不是很好，这里仅测试 -->
 	<filter>

@@ -108,7 +108,7 @@
   <script src="<c:url value="/javascripts/jquery.min.js"/>" type="text/javascript"></script>
   <script src="<c:url value="/javascripts/pagination.js"/>" type="text/javascript"></script>
   <script src="<c:url value="/javascripts/common.js"/>" type="text/javascript"></script>
-  <%-- TODO sitemesh, line mouse over, data link --%>
+  <%-- TODO sitemesh, line mouse over, data link, order --%>
 
 </body>
 </html>

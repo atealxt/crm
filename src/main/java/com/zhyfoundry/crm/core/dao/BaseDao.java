@@ -41,6 +41,8 @@ public interface BaseDao<T, PK extends Serializable> {
 
 	long count(final String query, final Object... values);
 
+	void execute(final String query, final Object... values);
+
 	T save(T transientInstance);
 
 	void delete(T persistentInstance);

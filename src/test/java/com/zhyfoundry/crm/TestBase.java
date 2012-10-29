@@ -53,6 +53,7 @@ public abstract class TestBase extends AbstractTransactionalJUnit4SpringContextT
             execute();
         } catch (final Exception e) {
             e.printStackTrace();
+            logger.error(e.getMessage(), e);
             Assert.fail(e.getMessage());
         }
     }

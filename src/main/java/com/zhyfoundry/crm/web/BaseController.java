@@ -1,6 +1,7 @@
 package com.zhyfoundry.crm.web;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
@@ -15,8 +16,12 @@ public class BaseController {
 	private static final String INFOS = "INFOS";
 
 	@SuppressWarnings("unchecked")
-	public List<Exception> getErrors(final HttpServletRequest req) {
-		return (List<Exception>) req.getAttribute(ERRORS);
+	public static List<Exception> getErrors(final HttpServletRequest req) {
+		Object o = req.getAttribute(ERRORS);
+		if (o == null) {
+			return Collections.emptyList();
+		}
+		return (List<Exception>) o;
 	}
 
 	public void appendError(final HttpServletRequest req, Exception e) {

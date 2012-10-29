@@ -110,6 +110,21 @@ public class BaseDaoJpa<T, PK extends Serializable> extends JpaDaoSupport implem
 	}
 
 	@Override
+	public void execute(final String hql, final Object... values) {
+		getJpaTemplate().execute(new JpaCallback<Integer>() {
+
+			@Override
+			public Integer doInJpa(final EntityManager manager) throws PersistenceException {
+				Query query = manager.createQuery(hql);
+				for (int i = 0; i < values.length; i++) {
+					query.setParameter(i + 1, values[i]);
+				}
+				return query.executeUpdate();
+			}
+		});
+	}
+
+	@Override
 	public T save(final T transientInstance) {
 		getJpaTemplate().persist(transientInstance);
 		return transientInstance;

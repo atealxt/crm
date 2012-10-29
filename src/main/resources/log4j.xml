@@ -8,6 +8,24 @@
 		</layout>
 	</appender>
 
+    <appender name="NEED_NOTICE" class="org.apache.log4j.RollingFileAppender">
+        <param name="File" value="/logs/ERROR.log" />
+        <param name="Append" value="true" />
+        <param name="MaxFileSize" value="50MB" />
+        <param name="MaxBackupIndex" value="2" />
+        <layout class="org.apache.log4j.PatternLayout">
+            <param name="ConversionPattern" value="%d -%p- %c:%L %m%n" />
+        </layout>
+        <filter class="org.apache.log4j.varia.LevelRangeFilter">
+            <param name="LevelMin" value="WARN" />
+            <param name="LevelMax" value="ERROR" />
+        </filter>
+    </appender>
+
+	<logger name="org.springframework.aop.framework.Cglib2AopProxy">
+		<level value="ERROR" />
+	</logger>
+
 	<logger name="com.zhyfoundry.crm">
 		<level value="DEBUG" />
 	</logger>
@@ -15,6 +33,7 @@
 	<root>
 	    <level value="INFO"/>
 		<appender-ref ref="STDOUT" />
+		<appender-ref ref="NEED_NOTICE" />
 	</root>
 
 </log4j:configuration>

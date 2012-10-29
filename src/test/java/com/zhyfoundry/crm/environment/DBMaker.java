@@ -1,4 +1,4 @@
-package com.zhyfoundry.crm;
+package com.zhyfoundry.crm.environment;
 
 import java.util.HashSet;
 import java.util.Set;
@@ -11,6 +11,7 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
+import com.zhyfoundry.crm.TestConstants;
 import com.zhyfoundry.crm.entity.Administrator;
 import com.zhyfoundry.crm.entity.Child;
 import com.zhyfoundry.crm.entity.Country;
@@ -43,7 +44,7 @@ public class DBMaker {
 	public void mysql() {
 		try {
 			conf = new AnnotationConfiguration()
-					.configure(TestConstants.TEST_RESOURCES_PATH_BASE + "DBMaker_mysql.xml");
+					.configure(TestConstants.TEST_RESOURCES_PATH_BASE + "environment/DBMaker_mysql.xml");
 			sf = conf.buildSessionFactory();
 			createTable();
 			sf.close();
@@ -61,7 +62,6 @@ public class DBMaker {
 		createMany2Many();
 		createAdmin();
 		createEnterprise();
-		DataTools.importEnterpriseDataFromAnotherDB();
 	}
 
 	private void createEnterprise() {

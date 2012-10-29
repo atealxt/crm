@@ -24,9 +24,9 @@ public class Enterprise implements java.io.Serializable, Recyclable {
 
 	private static final long serialVersionUID = 867088200985240910L;
 	private static final int MAX_LEN_KEYWORD = 512;
-	private static final int MAX_LEN_NAME = 20;
+	private static final int MAX_LEN_NAME = 100;
 	private static final int MAX_LEN_CONTACT = 200;
-	private static final int MAX_LEN_EMAIL = 200;
+	private static final int MAX_LEN_EMAIL = 300;
 	private static final int MAX_LEN_TEL = 200;
 	private static final int MAX_LEN_MOBILENO = 200;
 	private static final int MAX_LEN_FAXNO = 200;
@@ -66,9 +66,9 @@ public class Enterprise implements java.io.Serializable, Recyclable {
 		super();
 	}
 
-	public Enterprise(Integer id) {
+	public Enterprise(String name) {
 		super();
-		this.id = id;
+		this.name = name;
 	}
 
 	public Enterprise(Integer id, String keyword, Country country, String name, String contact, String email, String tel, String mobileNo, String faxNo, String source,
@@ -221,6 +221,7 @@ public class Enterprise implements java.io.Serializable, Recyclable {
 		this.status = STATUS_DELETE;
 	}
 
+	@Override
 	public boolean removed() {
 		return STATUS_DELETE.equals(this.status);
 	}

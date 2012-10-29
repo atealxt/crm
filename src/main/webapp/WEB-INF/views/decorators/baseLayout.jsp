@@ -8,6 +8,7 @@
 <head>
     <title>CRM Administrator</title>
     <META HTTP-EQUIV="CONTENT-TYPE" CONTENT="TEXT/HTML; CHARSET=UTF-8">
+    <link rel="stylesheet" href="<c:url value="/stylesheets/common.css"/>" type="text/css" media="screen" />
 </head>
 <body>
 

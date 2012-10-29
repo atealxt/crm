@@ -2,12 +2,6 @@
     pageEncoding="utf-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ taglib uri="http://www.springframework.org/tags/form" prefix="form" %>
-    <style>
-	    .form-item { margin: 20px 0; }
-	    .form-label { font-weight: bold; }
-	    .form-error-field { background-color: red; }
-	    .form-error-message { font-weight: bold; color: #900; }
-	</style>
 
   <jsp:include page="/WEB-INF/views/common/message_fragment.jsp"></jsp:include>
 

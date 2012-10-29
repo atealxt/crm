@@ -4,6 +4,8 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
 <%@ taglib uri="http://www.springframework.org/tags/form" prefix="form" %>
 
+  <link rel="stylesheet" href="<c:url value="/stylesheets/paging.css"/>" type="text/css" media="screen" />
+
   <form:form commandName="condition">
   <c:set var="recycle" value="${param.status == '-1'}" />
   <c:choose>
@@ -97,4 +99,4 @@
 
   </form:form>
 
-  <%-- TODO sitemesh, line mouse over, data link, order --%>
+  <%-- TODO line mouse over, data link, order --%>

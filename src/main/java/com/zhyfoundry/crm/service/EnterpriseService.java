@@ -81,6 +81,7 @@ public class EnterpriseService extends PaginationServiceImpl<Enterprise, Integer
 			sql.append(" and t.remark like ?");
 			params.add("%" + condition.getRemark() + "%");
 		}
+		sql.append(" order by t.country.name,t.name,t.createTime");
 		final List<Enterprise> Enterprises = findByQuery(sql.toString(), pager, params.toArray());
 		for (final Enterprise f : Enterprises) {
 			initialize(f.getCountry());

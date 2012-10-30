@@ -4,8 +4,11 @@
 <%@ taglib uri="http://www.springframework.org/tags" prefix="spring" %>
     <div id="sidebar">
         <ul>
-		    <c:forEach items="${links}" var="e" varStatus="s">
-		        <li><a href="<spring:url value="${e.link}"/>" target="main"><c:out value="${e.msgShow}"/></a></li>
-		    </c:forEach>
+        	<c:forEach items="${mapLink}" var="entry">
+        		<c:out value="${entry.key}" />
+			    <c:forEach items="${entry.value}" var="e" varStatus="s">
+			        <li><a href="<spring:url value="${e.link}"/>" target="main"><c:out value="${e.msgShow}"/></a></li>
+			    </c:forEach>
+        	</c:forEach>
         </ul>
     </div>

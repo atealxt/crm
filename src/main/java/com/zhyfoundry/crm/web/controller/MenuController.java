@@ -2,7 +2,9 @@ package com.zhyfoundry.crm.web.controller;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -19,38 +21,41 @@ import com.zhyfoundry.crm.web.vo.PageLink;
 @RequestMapping("/admin/menu")
 public class MenuController extends BaseController {
 
-    @RequestMapping(method = RequestMethod.GET)
-    public String main(final HttpServletRequest req, final HttpServletResponse resp, final ModelMap model) throws IOException {
-        makeRootMain(req, model);
-        return "admin/menu";
-    }
+	@RequestMapping(method = RequestMethod.GET)
+	public String main(final HttpServletRequest req, final HttpServletResponse resp, final ModelMap model) throws IOException {
+		makeRootMain(req, model);
+		return "admin/menu";
+	}
 
-    private void makeRootMain(final HttpServletRequest req, final ModelMap model) {
-        model.addAttribute("links", makeLink());
-    }
+	private void makeRootMain(final HttpServletRequest req, final ModelMap model) {
+		model.addAttribute("mapLink", makeLink());
+	}
 
-    private List<PageLink> makeLink() {
-        final List<PageLink> links = new ArrayList<PageLink>();
-        PageLink link = null;
+	private Map<String, List<PageLink>> makeLink() {
 
-        link = new PageLink();
-        link.setLink("/admin/enterprise");
-        link.setMsgShow("企业名录管理");
-        links.add(link);
+		Map<String, List<PageLink>> mapLink = new HashMap<String, List<PageLink>>();
 
-        // TODO 国家管理
-//        link = new PageLink();
-//        link.setLink("/###");
-//        link.setMsgShow("企业国家管理");
-//        links.add(link);
+		final List<PageLink> links = new ArrayList<PageLink>();
+		PageLink link = null;
 
-        link = new PageLink();
-        link.setLink("/admin/enterprise?status=-1");
-        link.setMsgShow("企业名录回收站");
-        links.add(link);
+		link = new PageLink();
+		link.setLink("/admin/enterprise");
+		link.setMsgShow("企业名录管理");
+		links.add(link);
 
-        // TODO group by module
+		// TODO 国家管理
+		// link = new PageLink();
+		// link.setLink("/###");
+		// link.setMsgShow("企业国家管理");
+		// links.add(link);
 
-        return links;
-    }
+		link = new PageLink();
+		link.setLink("/admin/enterprise?status=-1");
+		link.setMsgShow("回收站");
+		links.add(link);
+
+		mapLink.put("企业名录", links);
+
+		return mapLink;
+	}
 }

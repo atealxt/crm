@@ -1,3 +1,9 @@
+#sidebar ul li{
+	margin: 5px 0;
+	padding-top: 3px;
+	font-size: 14px;
+}
+
 .form-item {
 	margin: 20px 0;
 }

@@ -15,6 +15,10 @@
 	color: #900;
 }
 
-.mousetr {
- background: #E9EEFE;
+.elementFocus {
+	background: #E9EEFE;
+}
+
+.elementSelect {
+	background: #FFFF99;
 }

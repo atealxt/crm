@@ -33,9 +33,15 @@ var restoreRecord = function(e, url) {
 };
 
 (function($) {
-    $('form table tr:gt(2)').mouseover(function() {
-        $(this).children().addClass("mousetr");
+	var $tr = $('form table tr:gt(2)'); 
+	$tr.mouseover(function() {
+        $(this).children().addClass("elementFocus");
     }).mouseout(function() {
-        $(this).children().removeClass("mousetr");
-    });// TODO click style
+        $(this).children().removeClass("elementFocus");
+    });
+	$tr.toggle(function() {
+		$(this).children().addClass("elementSelect");
+	}, function() {
+		$(this).children().removeClass("elementSelect");
+	});
 })(jQuery);

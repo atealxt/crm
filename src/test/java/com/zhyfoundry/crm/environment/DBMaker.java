@@ -1,5 +1,6 @@
 package com.zhyfoundry.crm.environment;
 
+import java.security.NoSuchAlgorithmException;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -19,6 +20,7 @@ import com.zhyfoundry.crm.entity.Enterprise;
 import com.zhyfoundry.crm.entity.Father;
 import com.zhyfoundry.crm.entity.Student;
 import com.zhyfoundry.crm.entity.Teacher;
+import com.zhyfoundry.crm.utils.CommonUtils;
 
 /**
  * DB环境初始化类
@@ -79,10 +81,10 @@ public class DBMaker {
 		sf.getCurrentSession().close();
 	}
 
-	private void createAdmin() {
+	private void createAdmin() throws NoSuchAlgorithmException {
 		Administrator admin = new Administrator();
 		admin.setUsername(USERNAME_ADMIN);
-		admin.setPassword(PASSWORD_ADMIN);
+		admin.setPassword(CommonUtils.md5Hex(PASSWORD_ADMIN));
 		sf.getCurrentSession().beginTransaction();
 		sf.getCurrentSession().save(admin);
 		sf.getCurrentSession().getTransaction().commit();

@@ -1,6 +1,7 @@
 package com.zhyfoundry.crm.web.controller;
 
 import java.io.IOException;
+import java.security.NoSuchAlgorithmException;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -18,6 +19,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 import com.zhyfoundry.crm.dao.GeneralDao;
 import com.zhyfoundry.crm.entity.Administrator;
+import com.zhyfoundry.crm.utils.CommonUtils;
 import com.zhyfoundry.crm.web.BaseController;
 
 @Controller
@@ -29,9 +31,7 @@ public class AdminController extends BaseController {
 	public static final String OK = "OK";
 
 	@RequestMapping(value = { "/admin" }, method = RequestMethod.GET)
-	public ModelAndView admin(final HttpServletRequest req,
-			final HttpServletResponse resp, final ModelMap model)
-			throws IOException {
+	public ModelAndView admin(final HttpServletRequest req, final HttpServletResponse resp, final ModelMap model) throws IOException {
 		if (OK.equals(req.getSession().getAttribute(LOGGEDIN))) {
 			return new ModelAndView(ADMIN_INDEX, null);
 		}
@@ -40,19 +40,15 @@ public class AdminController extends BaseController {
 	}
 
 	@RequestMapping(value = { "/admin" }, method = RequestMethod.POST)
-	public String login(@ModelAttribute("admin") final Administrator admin,
-			final BindingResult result, final HttpServletRequest req,
-			final HttpServletResponse resp) throws IOException {
+	public String login(@ModelAttribute("admin") final Administrator admin, final BindingResult result, final HttpServletRequest req, final HttpServletResponse resp)
+			throws IOException, NoSuchAlgorithmException {
 
 		validator.validate(admin, result);
 		if (result.hasErrors()) {
 			return ADMIN_LOGIN;
 		}
 
-		// TODO encrypt password
-		if (generalDao.findByQuery(
-				"from Administrator t where t.username=? and t.password=?",
-				admin.getUsername(), admin.getPassword()).isEmpty()) {
+		if (generalDao.findByQuery("from Administrator t where t.username=? and t.password=?", admin.getUsername(), CommonUtils.md5Hex(admin.getPassword())).isEmpty()) {
 			resp.sendError(HttpServletResponse.SC_FORBIDDEN);
 			return null;
 		}

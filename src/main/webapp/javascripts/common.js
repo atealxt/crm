@@ -32,11 +32,10 @@ var restoreRecord = function(e, url) {
 	}
 };
 
-$(document).ready(function() {
-	$('.btnDel').click(function() {
-		// if (confirm("您确定要删除所选信息？")) {
-		// $(this).closest("form").attr("method", "delete").attr("action",
-		// url).submit(); // TODO
-		// }
-	});
-});
+(function($) {
+    $('form table tr:gt(2)').mouseover(function() {
+        $(this).children().addClass("mousetr");
+    }).mouseout(function() {
+        $(this).children().removeClass("mousetr");
+    });// TODO click style
+})(jQuery);

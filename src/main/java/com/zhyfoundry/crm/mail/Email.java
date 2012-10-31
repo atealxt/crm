@@ -20,6 +20,7 @@ public class Email {
 	private String subject = EMPTY;
 	@NotNull
 	private String content = EMPTY;
+	private boolean html;
 	private List<EmailAttachment> attachments = new ArrayList<EmailAttachment>();
 
 	public String getFrom() {
@@ -52,6 +53,14 @@ public class Email {
 
 	public void setContent(final String content) {
 		this.content = content;
+	}
+
+	public boolean isHtml() {
+		return html;
+	}
+
+	public void setHtml(boolean html) {
+		this.html = html;
 	}
 
 	public List<EmailAttachment> getAttachments() {

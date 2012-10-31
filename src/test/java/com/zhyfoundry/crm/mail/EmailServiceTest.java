@@ -22,7 +22,8 @@ public class EmailServiceTest extends TestBase {
 		email.setFrom("a@aaaaaaaa.com");
 		email.setTo("b@aaaaaaaa.com", "c@aaaaaaaa.com");
 		email.setSubject("test email subject");
-		email.setContent("test email content text");
+		email.setContent("test email content text a<b>b</b>c<i>d</i>e ");
+		email.setHtml(true);
 
 		final URL baseUrl = getClass().getResource("/");
 		try {

@@ -33,7 +33,7 @@ public class EmailService  {
 			helper.setFrom(email.getFrom());
 			helper.setTo(email.getTo());
 			helper.setSubject(email.getSubject());
-			helper.setText(email.getContent(), false);
+			helper.setText(email.getContent(), email.isHtml());
 
 			for (final EmailAttachment each : email.getAttachments()) {
 				helper.addAttachment(each.getName(), new UrlResource(each.getUrl()));

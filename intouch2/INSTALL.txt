@@ -1,0 +1,33 @@
+INSTALLATION
+-------------------------------------------------------
+For clean installation please read the instructions at 
+http://www.claros.org/products/intouch/installation.html
+
+Claros inTouch 2.0 is a brand new implementation of the webmail software
+and it is not upgradable from previous releases. Apologies for this convenience. 
+
+Installation : 
+
+1. Have your MySQL DB installed on your system and create a new database called intouch.
+
+mysqladmin -u root -p create intouch
+
+2. Run the intouch-mysql.sql query in the SQL directory.
+
+mysql -u root -p intouch < intouch2-xxx-mysql.sql
+
+3. Copy intouch2.war into webapps directory on Tomcat
+4. Start Tomcat
+5. Edit the WEB-INF/config/config.xml file, follow the instructions. Do not forget to set the namespaces if your IMAP server uses one. Look at imap support.txt for more information. 
+6. create a tmp directory and give read/write permissions to the user running tomcat. set this directory at config.xml Example: 
+
+mkdir /tmp
+chown tomcat:tomcat -R /tmp
+chmod 777 -R /tmp (it is better if you do chmod 600 if you know what you are doing)
+and edit the config.xml as : <tmp-dir>/tmp</tmp-dir>
+
+7. Restart tomcat
+8. You can reach intouch2 at http://localhost:8080/intouch2
+
+PLEASE NOTE: You'll need at least 256MB of a heap size configuration at your JVM.
+

@@ -498,6 +498,17 @@
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-war-plugin</artifactId>
+				<configuration>
+					<webResources>
+						<resource>
+							<directory>intouch2/war</directory>
+							<excludes>
+								<exclude>**/web.xml</exclude>
+								<exclude>**/index.jsp</exclude>
+							</excludes>
+						</resource>
+					</webResources>
+				</configuration>
 			</plugin>
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>

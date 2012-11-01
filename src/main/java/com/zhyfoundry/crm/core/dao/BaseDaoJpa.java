@@ -92,7 +92,13 @@ public class BaseDaoJpa<T, PK extends Serializable> extends JpaDaoSupport implem
 
 	@Override
 	public long count(final String hql, final Object... values) {
-		final String countHql = "SELECT COUNT(*) FROM " + hql.substring(hql.toUpperCase().indexOf("from") + "from".length() + 1);
+		final String countHql;
+		int idxFrom = hql.toUpperCase().indexOf("FROM");
+		if (idxFrom != -1) {
+			countHql = "SELECT COUNT(*) FROM " + hql.substring(idxFrom + "FROM".length() + 1);
+		} else {
+			countHql = new StringBuilder("SELECT COUNT(*) FROM ").append(persistentClass.getSimpleName()).append(" WHERE ").append(hql).toString();
+		}
 		return getJpaTemplate().execute(new JpaCallback<Long>() {
 
 			@Override

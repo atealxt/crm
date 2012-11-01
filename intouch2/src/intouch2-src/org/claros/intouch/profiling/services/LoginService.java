@@ -23,6 +23,9 @@ import org.claros.commons.mail.models.ConnectionProfileList;
 import org.claros.intouch.webmail.controllers.FolderController;
 import org.claros.intouch.webmail.factory.FolderControllerFactory;
 
+import com.zhyfoundry.crm.core.DIManager;
+import com.zhyfoundry.crm.service.AdminService;
+
 public class LoginService extends HttpServlet {
 	private static final long serialVersionUID = -7565470602365037845L;
 	private static Log log = LogFactory.getLog(LoginService.class);
@@ -84,6 +87,13 @@ public class LoginService extends HttpServlet {
 						handler = MailAuth.authenticate(profile, auth, handler);
 						if (handler != null) {
 							log.debug("Authentication was successful... :) Good news!");
+
+							// login to CRM
+							if (!DIManager.getBean(AdminService.class).loginFromMail(auth)) {
+								log.debug("Can't authenticate. username and password is most probably wrong.1");
+								out.print("no");
+								return;
+							}
 
 							request.getSession().setAttribute("handler", handler);
 							request.getSession().setAttribute("auth", auth);

@@ -17,8 +17,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 
-import com.zhyfoundry.crm.dao.GeneralDao;
 import com.zhyfoundry.crm.entity.Administrator;
+import com.zhyfoundry.crm.service.AdminService;
 import com.zhyfoundry.crm.utils.CommonUtils;
 import com.zhyfoundry.crm.web.BaseController;
 
@@ -48,7 +48,7 @@ public class AdminController extends BaseController {
 			return ADMIN_LOGIN;
 		}
 
-		if (generalDao.findByQuery("from Administrator t where t.username=? and t.password=?", admin.getUsername(), CommonUtils.md5Hex(admin.getPassword())).isEmpty()) {
+		if (!adminService.login(admin.getUsername(), CommonUtils.md5Hex(admin.getPassword()))) {
 			resp.sendError(HttpServletResponse.SC_FORBIDDEN);
 			return null;
 		}
@@ -57,7 +57,7 @@ public class AdminController extends BaseController {
 	}
 
 	@Autowired
-	private GeneralDao generalDao;
+	AdminService adminService;
 
 	@Autowired
 	@Qualifier("validator")

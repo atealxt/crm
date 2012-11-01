@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.MapBindingResult;
 
 import com.zhyfoundry.crm.TestBase;
+import com.zhyfoundry.crm.dao.AdminDao;
 import com.zhyfoundry.crm.entity.Administrator;
 import com.zhyfoundry.crm.environment.DBMaker;
 
@@ -15,6 +16,8 @@ public class AdminControllerTest extends TestBase {
 
 	@Autowired
 	protected AdminController controller;
+	@Autowired
+	protected AdminDao adminDao;
 
 	@Override
 	public void execute() throws Exception {

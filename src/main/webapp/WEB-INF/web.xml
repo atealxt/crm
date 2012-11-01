@@ -6,7 +6,7 @@
 	<display-name>com.zhyfoundry.crm</display-name>
 
 	<session-config>
-		<session-timeout>10</session-timeout>
+		<session-timeout>120</session-timeout><!-- TODO auto redirect when timeout -->
 	</session-config>
 	<welcome-file-list>
 		<welcome-file>index.jsp</welcome-file>

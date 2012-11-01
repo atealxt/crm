@@ -214,6 +214,10 @@
 					<groupId>javax.jms</groupId>
 					<artifactId>jms</artifactId>
 				</exclusion>
+				<exclusion>
+					<artifactId>mail</artifactId>
+					<groupId>javax.mail</groupId>
+				</exclusion>
 			</exclusions>
 		</dependency>
 		<dependency>
@@ -474,6 +478,63 @@
 			<groupId>commons-lang</groupId>
 			<artifactId>commons-lang</artifactId>
 			<version>2.6</version>
+		</dependency>
+		<dependency>
+			<groupId>com.jenkov</groupId>
+			<artifactId>mrpersister</artifactId>
+			<version>0.0.1</version>
+			<scope>system</scope>
+			<systemPath>${project.basedir}/intouch2/war/WEB-INF/lib/mrpersister.jar</systemPath>
+		</dependency>
+		<dependency>
+			<groupId>org.gnu</groupId>
+			<artifactId>stealthp.rsslib</artifactId>
+			<version>0.0.1</version>
+			<scope>system</scope>
+			<systemPath>${project.basedir}/intouch2/war/WEB-INF/lib/rsslib4j.jar</systemPath>
+		</dependency>
+		<dependency>
+			<groupId>javax.mail</groupId>
+			<artifactId>mail</artifactId>
+			<version>1.4.1</version>
+		</dependency>
+		<dependency>
+			<groupId>commons-dbutils</groupId>
+			<artifactId>commons-dbutils</artifactId>
+			<version>1.5</version>
+		</dependency>
+		<dependency>
+			<groupId>org.jivesoftware</groupId>
+			<artifactId>smack</artifactId>
+			<version>0.0.1</version>
+			<scope>system</scope>
+			<systemPath>${project.basedir}/intouch2/war/WEB-INF/lib/smack.jar</systemPath>
+		</dependency>
+		<dependency>
+			<groupId>org.jivesoftware</groupId>
+			<artifactId>smackx</artifactId>
+			<version>0.0.1</version>
+			<scope>system</scope>
+			<systemPath>${project.basedir}/intouch2/war/WEB-INF/lib/smackx.jar</systemPath>
+		</dependency>
+		<dependency>
+			<groupId>org.jivesoftware</groupId>
+			<artifactId>smackx-debug</artifactId>
+			<version>0.0.1</version>
+			<scope>system</scope>
+			<systemPath>${project.basedir}/intouch2/war/WEB-INF/lib/smackx-debug.jar</systemPath>
+		</dependency>
+		<dependency>
+			<groupId>commons-configuration</groupId>
+			<artifactId>commons-configuration</artifactId>
+			<version>1.9</version>
+		</dependency>
+		<dependency>
+			<groupId>org.jasen</groupId>
+			<artifactId>jasen</artifactId>
+			<version>0.0.1</version>
+			<scope>system</scope>
+			<systemPath>${project.basedir}/intouch2/war/WEB-INF/lib/jasen.jar</systemPath>
 		</dependency>
 	</dependencies>
 

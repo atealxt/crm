@@ -68,7 +68,7 @@
 			<!-- do not change the term file!!! -->
 			<id>file</id>
 			<!-- the connection url for the JDBC connection -->
-			<database>jdbc:mysql://localhost:3306/intouch</database>
+			<database>jdbc:mysql://localhost:3306/ZHYFOUNDRY_CRM</database>
 			<!-- the connection class -->
 			<driver>com.mysql.jdbc.Driver</driver>
 			<!-- the user with read/write/delete/update/select permission to the database  -->

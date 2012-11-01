@@ -568,10 +568,9 @@
 					<webResources>
 						<resource>
 							<directory>intouch2/war</directory>
-							<excludes>
+							<!-- <excludes>
 								<exclude>**/web.xml</exclude>
-								<exclude>**/index.jsp</exclude>
-							</excludes>
+							</excludes> -->
 						</resource>
 					</webResources>
 				</configuration>

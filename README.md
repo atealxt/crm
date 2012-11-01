@@ -10,7 +10,7 @@
 
 ## Step to install
 
-* Manual create database `ZHYFOUNDRY_CRM`.
+* Manual create database:
 
 ```
 mysql> CREATE DATABASE `ZHYFOUNDRY_CRM`;

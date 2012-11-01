@@ -77,20 +77,20 @@ function login() {
 
 	var paramData = "username=" + username + "&password=" + password;
 	var url = "profiling/login.cl";
-	new Rico.Effect.FadeTo('login', 0, 700, 10, {
-		complete:function() {
+//	new Rico.Effect.FadeTo('login', 0, 700, 10, {
+//		complete:function() {
 			Dom.get('login').style.display = 'none';
 			Dom.get('loginstatus').style.display = 'block';
-			}
-		});
+//			}
+//		});
 
 	var callback = {
 	  success: 	function(o) {
 			if(o.responseText !== undefined){
 				if (o.responseText != 'ok') {
 					for(var i=0;i<5000;i++){}
-					new Rico.Effect.FadeTo('login', 1, 700, 10, {
-						complete:function() {
+//					new Rico.Effect.FadeTo('login', 1, 700, 10, {
+//						complete:function() {
 							res.style.color = 'red';
 							if (o.responseText == 'system') {
 								res.innerHTML = system_error;
@@ -99,8 +99,8 @@ function login() {
 							}
 							Dom.get('login').style.display = 'block';
 							Dom.get('loginstatus').style.display = 'none';
-						}
-					});
+//						}
+//					});
 				} else {
 					loggedIn = true;
 					
@@ -108,14 +108,18 @@ function login() {
 					// login is successful go on.
 					location.href = "intouch.jsp";
 				}
+			} else {
+				res.style.color = 'red';
+				res.innerHTML = system_error;
+				Dom.get('login').style.display = 'block';
+				Dom.get('loginstatus').style.display = 'none';
 			}
 		},
 	  failure: 	function(o) {
-			if (o.responseText !== undefined){
-				res.style.color = 'red';
-				res.innerHTML = system_error;
-				Dom.get('loginstatus').style.display = 'none';
-			}
+			res.style.color = 'red';
+			res.innerHTML = system_error;
+			Dom.get('login').style.display = 'block';
+			Dom.get('loginstatus').style.display = 'none';
 		},
 	  argument: []
 	}

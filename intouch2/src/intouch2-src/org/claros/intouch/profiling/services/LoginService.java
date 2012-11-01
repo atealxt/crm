@@ -31,12 +31,13 @@ public class LoginService extends HttpServlet {
 	 * The doPost method of the servlet. <br>
 	 *
 	 * This method is called when a form has its tag value method equals to post.
-	 * 
+	 *
 	 * @param request the request send by the client to the server
 	 * @param response the response send by the server to the client
 	 * @throws ServletException if an error occurred
 	 * @throws IOException if an error occurred
 	 */
+	@Override
 	public void doPost(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 
@@ -48,7 +49,7 @@ public class LoginService extends HttpServlet {
 		PrintWriter out = response.getWriter();
 
 		log.debug("Fetching the server profile from the config.xml file");
-		
+
 		try {
 			HashMap map = ConnectionProfileList.getConList();
 			if (map != null) {
@@ -68,7 +69,7 @@ public class LoginService extends HttpServlet {
 					throw new SystemException();
 				}
 				log.debug("I've got the mail server profile. Keep on... " + profile.toString());
-				
+
 				String username = request.getParameter("username");
 				String password = request.getParameter("password");
 
@@ -83,7 +84,7 @@ public class LoginService extends HttpServlet {
 						handler = MailAuth.authenticate(profile, auth, handler);
 						if (handler != null) {
 							log.debug("Authentication was successful... :) Good news!");
-							
+
 							request.getSession().setAttribute("handler", handler);
 							request.getSession().setAttribute("auth", auth);
 							request.getSession().setAttribute("profile", profile);

@@ -9,7 +9,7 @@
 		<session-timeout>120</session-timeout><!-- TODO auto redirect when timeout -->
 	</session-config>
 	<welcome-file-list>
-		<welcome-file>crm.jsp</welcome-file>
+		<welcome-file>index.jsp</welcome-file>
 	</welcome-file-list>
 
 	<!-- Define the basename for a resource bundle for I18N -->

@@ -1,5 +1,7 @@
 package org.claros.commons.mail.configuration;
 
+import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 
 import javax.servlet.ServletException;
@@ -13,17 +15,18 @@ import org.xml.sax.SAXException;
 
 public class Initiator extends HttpServlet {
     /**
-	 * 
+	 *
 	 */
 	private static final long serialVersionUID = -2277013867291644084L;
 	private static Log log = LogFactory.getLog(Initiator.class);
 
     /**
      * Initialization of the servlet. <br>
-     * 
+     *
      * @throws ServletException if an error occure
      */
-    public void init() throws ServletException {
+    @Override
+	public void init() throws ServletException {
 		try {
 			Digester digester = new Digester();
 			digester.setValidating(false);
@@ -38,9 +41,11 @@ public class Initiator extends HttpServlet {
 			digester.addCallMethod("claros-config/servers/server/smtp-authenticated", "setSmtpAuthenticated", 0);
 			digester.addCallMethod("claros-config/servers/server/folder-namespace", "setFolderNameSpace", 0);
 			digester.addSetNext("claros-config/servers/server", "addConnectionProfile", "org.claros.commons.mail.models.ConnectionProfile");
-			digester.parse(Paths.getCfgFolder() + "/config.xml");
-		} catch (IOException e) {
+			digester.parse(new File(Paths.getCfgFolder() + "/config.xml"));
+		} catch (FileNotFoundException e) {
 			log.fatal("Could not find config.xml file in your config path.(" + Paths.getCfgFolder() + ")", e);
+		} catch (IOException e) {
+			log.fatal(e.getMessage(), e);
 		} catch (SAXException e) {
 			log.fatal("Could not validate config.xml file or could not read its contents", e);
 		}

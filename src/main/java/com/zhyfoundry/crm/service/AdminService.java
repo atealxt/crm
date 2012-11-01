@@ -1,6 +1,6 @@
 package com.zhyfoundry.crm.service;
 
-import java.security.NoSuchAlgorithmException;
+import java.util.List;
 
 import org.claros.commons.auth.models.AuthProfile;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,13 +11,12 @@ import com.zhyfoundry.crm.core.dao.BaseDao;
 import com.zhyfoundry.crm.core.service.BaseServiceImpl;
 import com.zhyfoundry.crm.dao.AdminDao;
 import com.zhyfoundry.crm.entity.Administrator;
-import com.zhyfoundry.crm.utils.CommonUtils;
 
 @Service
 public class AdminService extends BaseServiceImpl<Administrator, Integer> {
 
-    @Autowired
-    protected AdminDao adminDao;
+	@Autowired
+	protected AdminDao adminDao;
 
 	@Override
 	protected BaseDao<Administrator, Integer> getDao() {
@@ -28,17 +27,19 @@ public class AdminService extends BaseServiceImpl<Administrator, Integer> {
 		return adminDao.exist(username, password);
 	}
 
-	@Transactional
-	public boolean loginFromMail(AuthProfile auth) {
-		if (adminDao.exist(auth.getUsername())) {
-			try {
-				return adminDao.exist(auth.getUsername(), CommonUtils.md5Hex(auth.getPassword()));
-			} catch (NoSuchAlgorithmException e) {
-				logger.error(e.getMessage(), e);
-				return false;
-			}
+	public Administrator find(String username, String password) {
+		List<Administrator> list = find("from Administrator where username = ? and password = ?", username, password);
+		if (list.isEmpty()) {
+			return null;
 		}
-		save(new Administrator(auth.getUsername(), auth.getPassword()));
-		return true;
+		return list.get(0);
+	}
+
+	@Transactional
+	public Administrator loginFromMail(AuthProfile auth) {
+		if (adminDao.exist(auth.getUsername())) {
+			return find(auth.getUsername(), auth.getPassword());
+		}
+		return save(new Administrator(auth.getUsername(), auth.getPassword()));
 	}
 }

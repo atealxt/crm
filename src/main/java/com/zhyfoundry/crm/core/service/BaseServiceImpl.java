@@ -1,6 +1,7 @@
 package com.zhyfoundry.crm.core.service;
 
 import java.io.Serializable;
+import java.util.List;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -47,5 +48,10 @@ public abstract class BaseServiceImpl<T, PK extends Serializable> implements Bas
 	@Override
 	public void execute(String query, Object... values) {
 		getDao().execute(query, values);
+	}
+
+	@Override
+	public List<T> find(String query, Object... values) {
+		return getDao().findByQuery(query, values);
 	}
 }

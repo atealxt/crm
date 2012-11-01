@@ -1,6 +1,7 @@
 package com.zhyfoundry.crm.core.service;
 
 import java.io.Serializable;
+import java.util.List;
 
 public interface BaseService<T, PK extends Serializable> {
 
@@ -24,4 +25,7 @@ public interface BaseService<T, PK extends Serializable> {
 
     /** @see com.zhyfoundry.crm.core.dao.BaseDao#execute(String, Object...) */
     void execute(final String query, final Object... values);
+
+    /** @see com.zhyfoundry.crm.core.dao.BaseDao#findByQuery(String, Object...) */
+	List<T> find(String query, Object... values);
 }

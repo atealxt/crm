@@ -48,12 +48,17 @@ public class AdminController extends BaseController {
 			return ADMIN_LOGIN;
 		}
 
-		if (!adminService.login(admin.getUsername(), CommonUtils.md5Hex(admin.getPassword()))) {
+		Administrator adminFromDb = adminService.find(admin.getUsername(), CommonUtils.md5Hex(admin.getPassword()));
+		if (adminFromDb == null) {
 			resp.sendError(HttpServletResponse.SC_FORBIDDEN);
 			return null;
 		}
-		req.getSession().setAttribute(LOGGEDIN, OK);
+		init(req, adminFromDb);
 		return ADMIN_INDEX;
+	}
+
+	public static void init(HttpServletRequest req, Administrator admin) {
+		req.getSession().setAttribute(LOGGEDIN, OK);
 	}
 
 	@Autowired

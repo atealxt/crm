@@ -24,7 +24,9 @@ import org.claros.intouch.webmail.controllers.FolderController;
 import org.claros.intouch.webmail.factory.FolderControllerFactory;
 
 import com.zhyfoundry.crm.core.DIManager;
+import com.zhyfoundry.crm.entity.Administrator;
 import com.zhyfoundry.crm.service.AdminService;
+import com.zhyfoundry.crm.web.controller.AdminController;
 
 public class LoginService extends HttpServlet {
 	private static final long serialVersionUID = -7565470602365037845L;
@@ -89,10 +91,13 @@ public class LoginService extends HttpServlet {
 							log.debug("Authentication was successful... :) Good news!");
 
 							// login to CRM
-							if (!DIManager.getBean(AdminService.class).loginFromMail(auth)) {
+							Administrator admin = DIManager.getBean(AdminService.class).loginFromMail(auth);
+							if (admin == null) {
 								log.debug("Can't authenticate. username and password is most probably wrong.1");
 								out.print("no");
 								return;
+							} else {
+								AdminController.init(request, admin);
 							}
 
 							request.getSession().setAttribute("handler", handler);

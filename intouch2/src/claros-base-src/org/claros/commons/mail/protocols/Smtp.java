@@ -19,6 +19,8 @@ import javax.mail.internet.MimeBodyPart;
 import javax.mail.internet.MimeMultipart;
 import javax.mail.internet.MimeUtility;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.claros.commons.auth.models.AuthProfile;
 import org.claros.commons.configuration.PropertyFile;
 import org.claros.commons.mail.models.ByteArrayDataSource;
@@ -182,6 +184,7 @@ public class Smtp {
 				Address[] sent = mimeMsg.getAllRecipients();
 				out.put("sent", sent);
 			} catch (SendFailedException se) {
+				logger.error(se.getMessage(), se);
 				Address[] sent = se.getValidSentAddresses();
 				Address[] invalid = se.getInvalidAddresses();
 				Address[] fail = se.getValidUnsentAddresses();
@@ -192,4 +195,6 @@ public class Smtp {
 		}
 		return out;
 	}
+
+	protected Log logger = LogFactory.getLog(getClass());
 }

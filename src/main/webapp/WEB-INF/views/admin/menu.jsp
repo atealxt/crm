@@ -5,9 +5,9 @@
     <div id="sidebar">
         <ul>
         	<c:forEach items="${mapLink}" var="entry">
-        		<c:out value="${entry.key}" />
+        		<spring:message code="${entry.key}" text="${entry.key}"/>
 			    <c:forEach items="${entry.value}" var="e" varStatus="s">
-			        <li><a href="<spring:url value="${e.link}"/>" target="main"><c:out value="${e.msgShow}"/></a></li>
+			        <li><a href="<spring:url value="${e.link}"/>" target="main"><spring:message code="${e.msgShow}" text="${e.msgShow}"/></a></li>
 			    </c:forEach>
         	</c:forEach>
         </ul>

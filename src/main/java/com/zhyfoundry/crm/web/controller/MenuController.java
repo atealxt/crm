@@ -40,21 +40,21 @@ public class MenuController extends BaseController {
 
 		link = new PageLink();
 		link.setLink("/admin/enterprise");
-		link.setMsgShow("企业名录管理");
+		link.setMsgShow("Enterprise.management");
 		links.add(link);
 
-		// TODO 国家管理
+		// TODO Country.management
 		// link = new PageLink();
 		// link.setLink("/###");
-		// link.setMsgShow("企业国家管理");
+		// link.setMsgShow("Country.management");
 		// links.add(link);
 
 		link = new PageLink();
 		link.setLink("/admin/enterprise?status=-1");
-		link.setMsgShow("回收站");
+		link.setMsgShow("Enterprise.recycle");
 		links.add(link);
 
-		mapLink.put("企业名录", links);
+		mapLink.put("Enterprise", links);
 
 		return mapLink;
 	}

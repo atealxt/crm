@@ -20,8 +20,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import com.zhyfoundry.crm.core.dao.Pager;
 import com.zhyfoundry.crm.entity.Father;
 import com.zhyfoundry.crm.service.FatherService;
-import com.zhyfoundry.crm.web.PagingController;
 import com.zhyfoundry.crm.web.PageInfo;
+import com.zhyfoundry.crm.web.PagingController;
 
 @Controller
 public class TestPaging extends PagingController {
@@ -55,7 +55,6 @@ public class TestPaging extends PagingController {
         return "pagination_front";
     }
 
-    //TODO 抽象此函数
     @RequestMapping("/pagination_front_ajax")
     public void test4(final HttpServletRequest req, final HttpServletResponse resp) throws IOException {
         final int page = getPageNo(req);

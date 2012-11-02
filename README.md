@@ -10,6 +10,12 @@
 
 ## Step to install
 
+* Download all project dependencies with Maven command:
+
+```
+$ mvn install -Dmaven.test.skip=true
+```
+
 * Manual create database:
 
 ```
@@ -18,12 +24,11 @@ mysql> CREATE DATABASE `ZHYFOUNDRY_CRM`;
 
 * Setting database username and password in `/src/main/resources/jdbc.properties` and `/src/test/java/com/zhyfoundry/crm/environment/DBMaker_mysql.xml`.
 * Run `/src/test/java/com/zhyfoundry/crm/environment/DBMaker.java` by using JUnit.
-  (Note that you can change the default Admin username and password which in that file before run it.)
-* Execute script file which in folder `/script`
+* Execute script files which in folder `/script`
 * Now you can package it to a war file and run it:
 
 ```
-$ mvn install
+$ mvn clean install
 ```
 
 ## Step to import history data

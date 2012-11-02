@@ -41,5 +41,4 @@ $ mvn clean install
 * Name the data excel file `ImportData.xlsx`, and put it to `/src/test/java/com/zhyfoundry/crm/environment/` (Cover the old file).
 * Run `/src/test/java/com/zhyfoundry/crm/environment/ExcelDataImporter.java` by using JUnit.
 * Check if error occurred at `/logs/ERROR.log`.
-
   (Note that you can change the default error log file path at `/src/main/resources/log4j.xml`.)

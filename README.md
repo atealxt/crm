@@ -22,7 +22,13 @@ $ mvn install -Dmaven.test.skip=true
 mysql> CREATE DATABASE `ZHYFOUNDRY_CRM`;
 ```
 
-* Setting database username and password in `/src/main/resources/jdbc.properties` and `/src/test/java/com/zhyfoundry/crm/environment/DBMaker_mysql.xml`.
+* Setting database username and password in following files:
+
+  `/src/main/resources/jdbc.properties`
+
+  `/src/test/java/com/zhyfoundry/crm/environment/DBMaker_mysql.xml`
+
+  `intouch2/war/WEB-INF/config/config.xml`
 * Run `/src/test/java/com/zhyfoundry/crm/environment/DBMaker.java` by using JUnit.
 * Execute script files which in folder `/script`
 * Now you can package it to a war file and run it:
@@ -32,7 +38,7 @@ $ mvn clean install
 ```
 
 ## Step to import history data
-* Name the data excel file `ImportData.xlsx`, and put it to `/src/test/java/com/zhyfoundry/crm/environment/` (Cover the old file). 
+* Name the data excel file `ImportData.xlsx`, and put it to `/src/test/java/com/zhyfoundry/crm/environment/` (Cover the old file).
 * Run `/src/test/java/com/zhyfoundry/crm/environment/ExcelDataImporter.java` by using JUnit.
 * Check if error occurred at `/logs/ERROR.log`.
   (Note that you can change the default error log file path at `/src/main/resources/log4j.xml`.)

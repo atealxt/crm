@@ -43,7 +43,7 @@ public class Smtp {
 		Properties props = new Properties();
 		props.put("mail.smtp.host", profile.getSmtpServer());
 		props.put("mail.smtp.port", Integer.toString(profile.getISmtpPort()));
-		
+
 		if (profile.getSmtpAuthenticated() != null && profile.getSmtpAuthenticated().equals("true")) {
 			props.setProperty("mail.smtp.auth", "true");
 			SmtpAuthenticator authenticator = new SmtpAuthenticator(auth.getUsername(), auth.getPassword());
@@ -65,7 +65,7 @@ public class Smtp {
 
 		SMTPMessage mimeMsg = new SMTPMessage(session);
 		String subject = msg.getBaseHeader().getSubject();
-		
+
 		mimeMsg.setFrom(from);
 		if (to != null) {
 			mimeMsg.setRecipients(Message.RecipientType.TO, to);
@@ -88,7 +88,7 @@ public class Smtp {
 		if(requestReceiptNotification!=null){
 			mimeMsg.addHeader("Disposition-Notification-To", from.toString());
 		}
-		
+
 		if(priority > 0){
 			mimeMsg.addHeader("X-Priority", String.valueOf(priority));
 			mimeMsg.addHeader("X-MSMail-Priority", EmailPriority.toStringValue(priority));
@@ -99,7 +99,7 @@ public class Smtp {
 		}
 
 		String charset = PropertyFile.getConfiguration("/config/config.xml").getString("common-params.charset");
-		
+
 		mimeMsg.setSubject(MimeUtility.encodeText(subject,charset,null));
 		ArrayList parts = msg.getParts();
 		EmailPart bodyPart = (EmailPart)parts.get(0);
@@ -110,33 +110,12 @@ public class Smtp {
 			mimeMsg.setText((String)bodyPart.getContent(), charset);
 		} else {
 			BodyPart bp = new MimeBodyPart();
-			bp.setContent((String)bodyPart.getContent(), bodyPart.getContentType());
+			bp.setContent(bodyPart.getContent(), bodyPart.getContentType());
 			bp.setHeader("Content-Type", bodyPart.getContentType());
 
-			// attachments are added here. 
+			// attachments are added here.
 			MimeMultipart multipart = new MimeMultipart();
 			multipart.addBodyPart(bp);
-
-			// text body is added if it is a HTML message.
-			/*
-			if (!isTextBody) {
-				BodyPart bp2 = new MimeBodyPart();
-				bp2.setHeader("Content-Type", "text/plain; charset=" + charset);
-				String txtBody = (String)bodyPart.getContent();
-				txtBody = Utility.replaceAllOccurances(txtBody, "<br />", "\n");
-				txtBody = Utility.replaceAllOccurances(txtBody, "<p>", "\n");
-				txtBody = Utility.replaceAllOccurances(txtBody, "</p>", "\n");
-				txtBody = Utility.replaceAllOccurances(txtBody, "&nbsp;", " ");
-				txtBody = Utility.replaceAllOccurances(txtBody, "&uuml;", "�");
-				txtBody = Utility.replaceAllOccurances(txtBody, "&Uuml;", "Ü");
-				txtBody = Utility.replaceAllOccurances(txtBody, "&ccedil;", "�");
-				txtBody = Utility.replaceAllOccurances(txtBody, "&Ccedil;", "Ç");
-				txtBody = Utility.replaceAllOccurances(txtBody, "&ouml;", "ö");
-				txtBody = Utility.replaceAllOccurances(txtBody, "&Ouml;", "Ö");
-				bp2.setContent(org.claros.commons.mail.utility.Utility.stripHTMLTags(txtBody), "text/plain; charset=" + charset);
-				multipart.addBodyPart(bp2);
-			}
-			*/
 
 			// other attachments will follow
 			MimeBodyPart attPart = null;
@@ -147,7 +126,7 @@ public class Smtp {
 			for (int i=1; i < msg.getParts().size(); i++) {
 				myPart = (EmailPart)msg.getParts().get(i);
 				attPart = new MimeBodyPart();
-				
+
 				ds = myPart.getDataSource();
 				if (ds == null) {
 					if (myPart.getContent() instanceof ByteArrayOutputStream) {
@@ -172,12 +151,12 @@ public class Smtp {
 				} else {
 					attPart.setDataHandler(new DataHandler(ds));
 				}
-				
+
 				attPart.setDisposition(myPart.getDisposition());
 				attPart.setFileName(MimeUtility.encodeText(myPart.getFilename(),charset,null));
-				
+
 				tmpContType = (myPart.getContentType() == null) ? "application/octet-stream" : myPart.getContentType();
-				
+
 				pos = tmpContType.indexOf(";");
 				if (pos >= 0) {
 					tmpContType = tmpContType.substring(0, pos);

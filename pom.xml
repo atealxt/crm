@@ -553,6 +553,26 @@
 	<build>
 		<plugins>
 			<plugin>
+				<groupId>org.codehaus.mojo</groupId>
+				<artifactId>build-helper-maven-plugin</artifactId>
+				<version>1.7</version>
+				<executions><!-- http://stackoverflow.com/questions/7409823/m2e-lifecycle-mapping-not-found -->
+					<execution>
+						<id>add-source</id>
+						<phase>generate-sources</phase>
+						<goals>
+							<goal>add-source</goal>
+						</goals>
+						<configuration>
+							<sources>
+								<source>intouch2/src/intouch2-src/</source>
+								<source>intouch2/src/claros-base-src/</source>
+							</sources>
+						</configuration>
+					</execution>
+				</executions>
+			</plugin>
+			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-compiler-plugin</artifactId>
 				<configuration>
@@ -568,9 +588,7 @@
 					<webResources>
 						<resource>
 							<directory>intouch2/war</directory>
-							<!-- <excludes>
-								<exclude>**/web.xml</exclude>
-							</excludes> -->
+							<!-- <excludes> <exclude>**/web.xml</exclude> </excludes> -->
 						</resource>
 					</webResources>
 				</configuration>

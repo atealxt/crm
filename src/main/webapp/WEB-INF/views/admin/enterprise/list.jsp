@@ -21,7 +21,9 @@
   </jsp:include>
 
   <c:if test="${!recycle}">
-  	<A HREF="<c:url value="/admin/enterprise/add"/>" >新建</A>
+  	<input type="button" value="新建" onclick="createRecord('<c:url value="/admin/enterprise/add"/>')" />
+  	<input type="button" value="给匹配的企业发送邮件" onclick="sendEmail(this, '<c:url value="/admin/enterprise/sendEmail"/>')" />
+  	<!-- <input type="button" value="给选中的企业发送邮件" onclick="sendEmail('<c:url value="/admin/enterprise/sendEmail"/>')" /> -->
   </c:if>
 
   <table class="paginated">
@@ -98,5 +100,7 @@
   </jsp:include>
 
   </form:form>
+
+  <script src="<c:url value="/javascripts/admin/enterprise.js"/>" type="text/javascript"></script>
 
   <%-- TODO data link, order --%>

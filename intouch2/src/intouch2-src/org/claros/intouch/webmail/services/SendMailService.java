@@ -54,7 +54,7 @@ import org.htmlcleaner.HtmlCleaner;
 public class SendMailService extends BaseService {
 
 	/**
-	 * 
+	 *
 	 */
 	private static final long serialVersionUID = -7451365138227115574L;
 	private static Log log = LogFactory.getLog(SendMailService.class);
@@ -63,7 +63,7 @@ public class SendMailService extends BaseService {
 	 * The doPost method of the servlet. <br>
 	 *
 	 * This method is called when a form has its tag value method equals to post.
-	 * 
+	 *
 	 * @param request the request send by the client to the server
 	 * @param response the response send by the server to the client
 	 * @throws ServletException if an error occurred
@@ -99,7 +99,7 @@ public class SendMailService extends BaseService {
 			String requestReceiptNotification = request.getParameter("requestReceiptNotification");
 			String priority = request.getParameter("priority");
 			String sensitivity = request.getParameter("sensitivity");
-			
+
 			// learn the global charset setting.
 
 			// learn user preferences from the DB.
@@ -109,20 +109,22 @@ public class SendMailService extends BaseService {
 			if (saveSentContacts == null) {
 				saveSentContacts = "yes";
 			}
-			
+
+			// TODO group send email for Enterprise
+
 			// now create a new email object.
 			Email email = new Email();
 			EmailHeader header = new EmailHeader();
-			
+
 			Address adrs[] = Utility.stringToAddressArray(from);
 			header.setFrom(adrs);
-			
+
 			Address tos[] = Utility.stringToAddressArray(to);
 			header.setTo(tos);
 			if (saveSentContacts != null && saveSentContacts.equals("yes")) {
 				saveContacts(auth, tos);
 			}
-			
+
 			if (cc != null && cc.trim() != "") {
 				Address ccs[] = Utility.stringToAddressArray(cc);
 				header.setCc(ccs);
@@ -144,11 +146,11 @@ public class SendMailService extends BaseService {
 			if (replyTo != null && replyTo.trim().length() != 0) {
 				header.setReplyTo(new Address[] {new InternetAddress(replyTo)});
 			}
-			
+
 			if (requestReceiptNotification!=null && requestReceiptNotification.equals("1")) {
 				header.setRequestReceiptNotification(Boolean.valueOf(true));
 			}
-			
+
 			if (priority!=null) {
 				header.setPriority(Short.valueOf(priority).shortValue());
 			}
@@ -156,7 +158,7 @@ public class SendMailService extends BaseService {
 			if (sensitivity!=null) {
 				header.setSensitivity(Short.valueOf(sensitivity).shortValue());
 			}
-			
+
 			email.setBaseHeader(header);
 
 			ArrayList parts = new ArrayList();
@@ -168,7 +170,7 @@ public class SendMailService extends BaseService {
 			*/
 			bodyPart.setContent(body);
 			parts.add(0, bodyPart);
-			
+
 			// attach some files...
 			ArrayList attachments = (ArrayList)request.getSession().getAttribute("attachments");
 			if (attachments != null) {
@@ -193,7 +195,7 @@ public class SendMailService extends BaseService {
 						tmp.setDataSource(ds);
 						tmp.setContent(bp.getContent());
 						newLst.add(tmp);
-						
+
 					} catch (Exception e) {
 						e.printStackTrace();
 					}
@@ -201,18 +203,18 @@ public class SendMailService extends BaseService {
 				parts.addAll(newLst);
 			}
 			email.setParts(parts);
-			
+
 			// it is time to send the email object message
 			Smtp smtp = new Smtp(getConnectionProfile(request), getAuthProfile(request));
 			HashMap sendRes = smtp.send(email, false);
 			MimeMessage msg = (MimeMessage)sendRes.get("msg");
-			
+
 			// if we fail to send the message to any of the recepients
-			// we should make a report about it to the user. 
+			// we should make a report about it to the user.
 			Address[] sent = (Address[])sendRes.get("sent");
 //			Address[] fail = (Address[])sendRes.get("fail");
 //			Address[] invalid = (Address[])sendRes.get("invalid");
-			
+
 			if (sent == null || sent.length == 0) {
 				out.print("fail");
 			} else {
@@ -232,7 +234,7 @@ public class SendMailService extends BaseService {
 	}
 
 	/**
-	 * 
+	 *
 	 * @param auth
 	 * @param adrs
 	 */
@@ -248,11 +250,11 @@ public class SendMailService extends BaseService {
 		} catch (Exception e) {
 			log.debug("save contact failed.", e);
 		}
-		
+
 	}
 
 	/**
-	 * 
+	 *
 	 * @param auth
 	 * @param msg
 	 * @param request
@@ -262,7 +264,7 @@ public class SendMailService extends BaseService {
 		ByteArrayOutputStream bos = new ByteArrayOutputStream();
 		msg.writeTo(bos);
 		byte bMsg[] = bos.toByteArray();
-					
+
 		// serialize the message byte array
 		ObjectOutputStream os = new ObjectOutputStream(bos);
 		os.writeObject(bMsg);

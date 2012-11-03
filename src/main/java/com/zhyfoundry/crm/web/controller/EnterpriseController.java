@@ -32,6 +32,13 @@ public class EnterpriseController extends PagingController {
 		return "admin/enterprise/list";
 	}
 
+	@RequestMapping(value = "/admin/enterprise/sendEmail", method = RequestMethod.POST)
+	public String sendEmail(final HttpServletRequest req, final HttpServletResponse resp, final ModelMap modelMap, @ModelAttribute("condition") final Enterprise condition)
+			throws Exception {
+		req.getSession().setAttribute("EMAIL_CONTIDION_OBJ", condition);
+		return null;// TODO forward to mail page
+	}
+
 	@RequestMapping(value = "/admin/enterprise/add", method = RequestMethod.GET)
 	public String preAdd(final HttpServletRequest req, final HttpServletResponse resp, final ModelMap modelMap) throws Exception {
 		modelMap.addAttribute("o", new Enterprise());

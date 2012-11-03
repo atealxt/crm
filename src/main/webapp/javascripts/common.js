@@ -18,6 +18,10 @@ var deleteRecord = function(e, url, refreshUrl, soft) {
 	}
 };
 
+var createRecord = function(url) {
+	window.location.href = url;
+};
+
 var viewRecord = function(url) {
 	window.location.href = url;
 };
@@ -33,7 +37,7 @@ var restoreRecord = function(e, url) {
 };
 
 (function($) {
-	var $tr = $('form table tr:gt(2)'); 
+	var $tr = $('form table tr:gt(2)');
 	$tr.mouseover(function() {
         $(this).children().addClass("elementFocus");
     }).mouseout(function() {

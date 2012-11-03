@@ -9,12 +9,12 @@
     <title>CRM Administrator</title>
     <META HTTP-EQUIV="CONTENT-TYPE" CONTENT="TEXT/HTML; CHARSET=UTF-8">
     <link rel="stylesheet" href="<c:url value="/stylesheets/common.css"/>" type="text/css" media="screen" />
+  	<script src="<c:url value="/javascripts/jquery.min.js"/>" type="text/javascript"></script>
 </head>
 <body>
 
   <decorator:body />
 
-  <script src="<c:url value="/javascripts/jquery.min.js"/>" type="text/javascript"></script>
   <script src="<c:url value="/javascripts/pagination.js"/>" type="text/javascript"></script>
   <script src="<c:url value="/javascripts/common.js"/>" type="text/javascript"></script>
 

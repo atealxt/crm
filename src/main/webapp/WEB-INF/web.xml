@@ -139,7 +139,7 @@
 	<filter-mapping>
 		<filter-name>Compress</filter-name>
 		<url-pattern>*.css</url-pattern>
-	</filter-mapping> -->
+	</filter-mapping>
 	<filter-mapping>
 		<filter-name>Compress</filter-name>
 		<url-pattern>*.js</url-pattern>
@@ -147,7 +147,7 @@
 	<filter-mapping>
 		<filter-name>Compress</filter-name>
 		<url-pattern>*.cl</url-pattern>
-	</filter-mapping>
+	</filter-mapping> -->
 
 	<listener>
 		<listener-class>org.claros.intouch.common.filters.SessionListener

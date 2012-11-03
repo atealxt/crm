@@ -19,7 +19,7 @@ public class Utility {
 	}
 
 	/**
-	 * 
+	 *
 	 * @param addr
 	 * @return
 	 */
@@ -51,7 +51,7 @@ public class Utility {
 	}
 
 	/**
-	 * 
+	 *
 	 * @param addr
 	 * @return
 	 */
@@ -69,7 +69,7 @@ public class Utility {
 	}
 
 	/**
-	 * 
+	 *
 	 * @param addr
 	 * @return
 	 */
@@ -83,7 +83,7 @@ public class Utility {
 
 				if (personal != null && personal.length() > 0) {
 					str[j] = personal;
-				} else if (address != null && address.length() > 0) { 
+				} else if (address != null && address.length() > 0) {
 					str[j] = address;
 				} else {
 					str[j] = "Unknown";
@@ -93,9 +93,9 @@ public class Utility {
 		}
 		return null;
 	}
-	
+
 	/**
-	 * 
+	 *
 	 * @param addr
 	 * @return
 	 */
@@ -114,7 +114,7 @@ public class Utility {
 	}
 
 	/**
-	 * 
+	 *
 	 * @param str
 	 * @return
 	 * @throws Exception
@@ -122,9 +122,9 @@ public class Utility {
 	public static Address[] stringToAddressArray(String str) throws Exception {
 		if (str == null)
 			return null;
-		
+
 		str = org.claros.commons.utility.Utility.extendedTrim(str, ",");
-		StringTokenizer token = new StringTokenizer(str, ",");
+		StringTokenizer token = new StringTokenizer(str, ","); // TODO add seperator ';' '|'
 		if (token.countTokens() != 0) {
 			Address[] outAddr = new Address[token.countTokens()];
 			int counter = 0;
@@ -158,7 +158,7 @@ public class Utility {
 	}
 
 	/**
-	 * 
+	 *
 	 * @param size
 	 * @return
 	 */
@@ -171,7 +171,7 @@ public class Utility {
 	}
 
 	/**
-	 * 
+	 *
 	 * @param message
 	 * @return
 	 */

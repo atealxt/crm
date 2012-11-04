@@ -45,8 +45,6 @@ session.setAttribute("lang", lang);
 						<img alt="" src="<c:url value="/images/new-icon.gif"/>" id="attachMailImg" /><i18n:message key="attach.file" />
 					</div>
 				<%// end region%>
-
-				<li id="saveMail"><a href="javascript:saveAsDraft();"><span><img alt="" src="<c:url value="/images/save-icon.gif"/>" id="saveMailImg"/></span><i18n:message key="save.as.draft"/></a></li>
 				<li id="preferencesMail"><a href="javascript:showHidePrefsMail();"><span><img alt="" src="<c:url value="/images/message-preferences.gif"/>" id="preferencesMailImg"/></span><i18n:message key="options"/></a></li>
 				<li id="cancelMail"><a href="javascript:cancelMail();"><span><img alt="" src="<c:url value="/images/delete-icon.gif"/>" id="cancelMailImg"/></span><i18n:message key="cancel"/></a></li>
 			</ul>
@@ -156,5 +154,12 @@ session.setAttribute("lang", lang);
 	</div>
 </div>
 <!-- COMPOSE ENDS -->
+<div id="uploader"></div>
 
+<script type="text/javascript">
+var uploadingGif = "<c:url value="/images/uploading.gif"/>";
+var uploadAttachment = "<c:url value="/webmail/uploadAttachment.cl"/>";
+var deleteAttachment = "<c:url value="/webmail/deleteAttachment.cl"/>";
+var txtRemove = "<i18n:message key="remove"/>";
+</script>
 <script type="text/javascript" src="<c:url value="/javascripts/admin/mail.js"/>"></script>

@@ -7,11 +7,12 @@
 <%@page import ="java.util.Locale" %>
 <%@page import ="org.claros.commons.utility.Utility" %>
 <%@ taglib uri="http://jakarta.apache.org/taglibs/i18n-1.0" prefix="i18n" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <%
 	String lang = request.getParameter("lang");
 
-	String defaultLang = org.claros.commons.configuration.PropertyFile.getConfiguration("/config/config.xml").getString("common-params.default-lang"); 
+	String defaultLang = org.claros.commons.configuration.PropertyFile.getConfiguration("/config/config.xml").getString("common-params.default-lang");
 	if (lang == null) lang = defaultLang;
 	Locale loc = new Locale(defaultLang);
 	try {
@@ -29,12 +30,12 @@
 	var result = '<%= request.getParameter("result") %>';
 	var maxAttSize = '<%= request.getParameter("maxAttSize") %>';
 	var maxMailSize = '<%= request.getParameter("maxMailSize") %>';
-	
+
 	switch (result) {
 		case '0':
-			// everything is ok 
+			// everything is ok
 			parent.document.getElementById('totalSize').innerHTML = totalSize;
-		
+
 			var outAtt = fileName + " (" + size + ")";
 			var li = parent.document.getElementById('uploadli' + id);
 			var span = li.getElementsByTagName("span")[0];
@@ -42,25 +43,25 @@
 
 			var a = li.getElementsByTagName("a")[0];
 			a.style.display = '';
-			
+
 			var img = li.getElementsByTagName("img")[0];
-			img.src = "images/attachment.gif";
-			
+			img.src = "<c:url value="/images/attachment.gif"/>";
+
 			break;
 		case '1':
 			// attachment exceeded the max att size limit
 			alert(size_exceeds_att_limit + maxAttSize);
-			
+
 			var attMail = parent.document.getElementById('composeAttachmentList');
 
 			var lis = attMail.getElementsByTagName("li");
-			
+
 			for (var i=0;i<lis.length;i++) {
 				var li = lis[i];
 
 				if (li.getElementsByTagName("img")[0].src.indexOf("images/uploading.gif") > 0) {
 					li.style.display = "none";
-					
+
 					var actCount = 0;
 					if (lis.length > 1) {
 						for (var j=0;j<lis.length;j++) {
@@ -82,13 +83,13 @@
 
 			var attMail = parent.document.getElementById('composeAttachmentList');
 			var lis = attMail.getElementsByTagName("li");
-			
+
 			for (var i=0;i<lis.length;i++) {
 				var li = lis[i];
 
 				if (li.innerHTML.indexOf(fileName) >= 0) {
 					li.style.display = "none";
-					
+
 					var actCount = 0;
 					if (lis.length > 1) {
 						for (var j=0;j<lis.length;j++) {
@@ -107,17 +108,17 @@
 		case '3':
 			// attachment exceeded the max att size limit
 			alert(system_error);
-			
+
 			var attMail = parent.document.getElementById('composeAttachmentList');
 
 			var lis = attMail.getElementsByTagName("li");
-			
+
 			for (var i=0;i<lis.length;i++) {
 				var li = lis[i];
 
 				if (li.getElementsByTagName("img")[0].src.indexOf("images/uploading.gif") > 0) {
 					li.style.display = "none";
-					
+
 					var actCount = 0;
 					if (lis.length > 1) {
 						for (var j=0;j<lis.length;j++) {

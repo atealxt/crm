@@ -45,8 +45,8 @@ session.setAttribute("lang", lang);
 						<img alt="" src="<c:url value="/images/new-icon.gif"/>" id="attachMailImg" /><i18n:message key="attach.file" />
 					</div>
 				<%// end region%>
-				<li id="preferencesMail"><a href="javascript:showHidePrefsMail();"><span><img alt="" src="<c:url value="/images/message-preferences.gif"/>" id="preferencesMailImg"/></span><i18n:message key="options"/></a></li>
-				<li id="cancelMail"><a href="javascript:cancelMail();"><span><img alt="" src="<c:url value="/images/delete-icon.gif"/>" id="cancelMailImg"/></span><i18n:message key="cancel"/></a></li>
+				<!-- TODO showHidePrefsMail--><li id="preferencesMail"><a href="javascript:showHidePrefsMail();"><span><img alt="" src="<c:url value="/images/message-preferences.gif"/>" id="preferencesMailImg"/></span><i18n:message key="options"/></a></li>
+				<!-- TODO cancelMail--><li id="cancelMail"><a href="javascript:cancelMail();"><span><img alt="" src="<c:url value="/images/delete-icon.gif"/>" id="cancelMailImg"/></span><i18n:message key="cancel"/></a></li>
 			</ul>
 			<div class="inboxTitle" id="inboxTitle2"><i18n:message key="compose.mail"/></div>
 			<div id="composer">

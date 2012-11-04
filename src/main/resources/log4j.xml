@@ -8,11 +8,11 @@
 		</layout>
 	</appender>
 
-    <appender name="NEED_NOTICE" class="org.apache.log4j.RollingFileAppender">
-        <param name="File" value="/logs/ERROR.log" />
+    <appender name="LOG_ERROR" class="org.apache.log4j.DailyRollingFileAppender">
+        <param name="File" value="/logs/ERROR" />
         <param name="Append" value="true" />
-        <param name="MaxFileSize" value="50MB" />
-        <param name="MaxBackupIndex" value="2" />
+        <param name="encoding" value="utf-8" />
+        <param name="DatePattern" value="'-'yyyy-MM-dd'.log'"/>
         <layout class="org.apache.log4j.PatternLayout">
             <param name="ConversionPattern" value="%d -%p- %c:%L %m%n" />
         </layout>
@@ -22,15 +22,16 @@
         </filter>
     </appender>
 
-    <appender name="MAIL" class="org.apache.log4j.RollingFileAppender">
-        <param name="File" value="/logs/MAIL.log" />
+	<!-- TODO filter logger name -->
+    <appender name="LOG_INFO" class="org.apache.log4j.DailyRollingFileAppender">
+        <param name="File" value="/logs/INFO" />
         <param name="Append" value="true" />
-        <param name="MaxFileSize" value="50MB" />
-        <param name="MaxBackupIndex" value="2" />
+        <param name="encoding" value="utf-8" />
+        <param name="DatePattern" value="'-'yyyy-MM-dd'.log'"/>
         <layout class="org.apache.log4j.PatternLayout">
             <param name="ConversionPattern" value="%d -%p- %c:%L %m%n" />
         </layout>
-        <filter class="org.apache.log4j.varia.LevelRangeFilter"><!-- TODO logger name filter -->
+        <filter class="org.apache.log4j.varia.LevelRangeFilter">
             <param name="LevelMin" value="INFO" />
             <param name="LevelMax" value="INFO" />
         </filter>
@@ -48,10 +49,10 @@
 	</logger>
 
 	<root>
-	    <level value="INFO"/>
+	    <level value="WARN"/>
 		<appender-ref ref="STDOUT" />
-		<appender-ref ref="MAIL" />
-		<appender-ref ref="NEED_NOTICE" />
+		<appender-ref ref="LOG_INFO" />
+		<appender-ref ref="LOG_ERROR" />
 	</root>
 
 </log4j:configuration>

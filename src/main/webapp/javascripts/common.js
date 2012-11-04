@@ -37,7 +37,7 @@ var restoreRecord = function(e, url) {
 };
 
 (function($) {
-	var $tr = $('form table tr:gt(2)');
+	var $tr = $('table[class*="paginated"] tr:gt(2)');
 	$tr.mouseover(function() {
         $(this).children().addClass("elementFocus");
     }).mouseout(function() {

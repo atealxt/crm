@@ -124,7 +124,7 @@ public class Utility {
 			return null;
 
 		str = org.claros.commons.utility.Utility.extendedTrim(str, ",");
-		StringTokenizer token = new StringTokenizer(str, ","); // TODO add seperator ';' '|'
+		StringTokenizer token = new StringTokenizer(str, ",");
 		if (token.countTokens() != 0) {
 			Address[] outAddr = new Address[token.countTokens()];
 			int counter = 0;

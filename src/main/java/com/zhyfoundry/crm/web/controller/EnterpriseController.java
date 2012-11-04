@@ -36,7 +36,7 @@ public class EnterpriseController extends PagingController {
 	public String sendEmail(final HttpServletRequest req, final HttpServletResponse resp, final ModelMap modelMap, @ModelAttribute("condition") final Enterprise condition)
 			throws Exception {
 		req.getSession().setAttribute("EMAIL_CONTIDION_OBJ", condition);
-		return null;// TODO forward to mail page
+		return "admin/enterprise/compose";
 	}
 
 	@RequestMapping(value = "/admin/enterprise/add", method = RequestMethod.GET)

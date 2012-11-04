@@ -22,6 +22,20 @@
         </filter>
     </appender>
 
+    <appender name="MAIL" class="org.apache.log4j.RollingFileAppender">
+        <param name="File" value="/logs/MAIL.log" />
+        <param name="Append" value="true" />
+        <param name="MaxFileSize" value="50MB" />
+        <param name="MaxBackupIndex" value="2" />
+        <layout class="org.apache.log4j.PatternLayout">
+            <param name="ConversionPattern" value="%d -%p- %c:%L %m%n" />
+        </layout>
+        <filter class="org.apache.log4j.varia.LevelRangeFilter"><!-- TODO logger name filter -->
+            <param name="LevelMin" value="INFO" />
+            <param name="LevelMax" value="INFO" />
+        </filter>
+    </appender>
+
 	<logger name="org.springframework.aop.framework.Cglib2AopProxy">
 		<level value="ERROR" />
 	</logger>
@@ -34,8 +48,9 @@
 	</logger>
 
 	<root>
-	    <level value="INFO"/>
+	    <level value="MAIL"/>
 		<appender-ref ref="STDOUT" />
+		<appender-ref ref="MAIL" />
 		<appender-ref ref="NEED_NOTICE" />
 	</root>
 

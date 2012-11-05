@@ -27,8 +27,15 @@ session.setAttribute("lang", lang);
 <link type="text/css" rel="stylesheet" href="<c:url value="/css/all.css"/>" />
 <link type="text/css" rel="stylesheet" href="<c:url value="/css/body.css"/>">
 <link type="text/css" rel="stylesheet" href="<c:url value="/css/ie6.css"/>">
+<style>
+#main .inboxholder {
+	margin: 0 10px;
+}
+</style>
 <script>var lang = "<%=loc%>";</script>
 <script type="text/javascript" src="<c:url value="/tinymce/tiny_mce.js"/>"></script>
+
+<div id="main">
 
 <!-- COMPOSE STARTS -->
 <div id="compose" style="">
@@ -154,6 +161,8 @@ session.setAttribute("lang", lang);
 	</div>
 </div>
 <!-- COMPOSE ENDS -->
+
+</div>
 <div id="uploader"></div>
 
 <script type="text/javascript">

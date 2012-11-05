@@ -100,3 +100,20 @@ function myEncode(str) {
 	str = str.replace(new RegExp("[?]",'g'), "%3F");
 	return str;
 }
+
+function showHidePrefsMail() {
+	showHide('messageOptions');
+}
+
+function showHide(id) {
+	var obj = $('#' + id)[0];
+	if (obj.style.display == 'none') {
+		obj.style.display = '';
+	} else {
+		obj.style.display = 'none';
+	}
+}
+
+function cancelMail() {
+	history.back();
+}

@@ -9,10 +9,10 @@
 	</appender>
 
     <appender name="LOG_ERROR" class="org.apache.log4j.DailyRollingFileAppender">
-        <param name="File" value="/logs/ERROR" />
+        <param name="File" value="/logs/ERROR.log" />
         <param name="Append" value="true" />
         <param name="encoding" value="utf-8" />
-        <param name="DatePattern" value="'-'yyyy-MM-dd'.log'"/>
+        <param name="DatePattern" value=".yyyy-MM-dd"/>
         <layout class="org.apache.log4j.PatternLayout">
             <param name="ConversionPattern" value="%d -%p- %c:%L %m%n" />
         </layout>
@@ -22,12 +22,11 @@
         </filter>
     </appender>
 
-	<!-- TODO filter logger name -->
     <appender name="LOG_INFO" class="org.apache.log4j.DailyRollingFileAppender">
-        <param name="File" value="/logs/INFO" />
+        <param name="File" value="/logs/INFO.log" />
         <param name="Append" value="true" />
         <param name="encoding" value="utf-8" />
-        <param name="DatePattern" value="'-'yyyy-MM-dd'.log'"/>
+        <param name="DatePattern" value=".yyyy-MM-dd"/>
         <layout class="org.apache.log4j.PatternLayout">
             <param name="ConversionPattern" value="%d -%p- %c:%L %m%n" />
         </layout>
@@ -44,14 +43,19 @@
 	<logger name="com.zhyfoundry.crm">
 		<level value="DEBUG" />
 	</logger>
+
+	<logger name="com.zhyfoundry.crm">
+		<level value="INFO" />
+		<appender-ref ref="LOG_INFO"/>
+	</logger>
+
 	<logger name="org.claros">
 		<level value="DEBUG" />
 	</logger>
 
 	<root>
-	    <level value="WARN"/>
+	    <level value="INFO"/>
 		<appender-ref ref="STDOUT" />
-		<appender-ref ref="LOG_INFO" />
 		<appender-ref ref="LOG_ERROR" />
 	</root>
 

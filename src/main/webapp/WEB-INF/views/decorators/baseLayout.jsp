@@ -13,6 +13,8 @@
 </head>
 <body>
 
+  <jsp:include page="/WEB-INF/views/common/message_fragment.jsp"></jsp:include>
+
   <decorator:body />
 
   <script src="<c:url value="/javascripts/pagination.js"/>" type="text/javascript"></script>

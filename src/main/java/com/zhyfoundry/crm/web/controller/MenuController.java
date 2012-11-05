@@ -43,12 +43,6 @@ public class MenuController extends BaseController {
 		link.setMsgShow("Enterprise.management");
 		links.add(link);
 
-		// TODO Country.management
-		// link = new PageLink();
-		// link.setLink("/###");
-		// link.setMsgShow("Country.management");
-		// links.add(link);
-
 		link = new PageLink();
 		link.setLink("/admin/enterprise?status=-1");
 		link.setMsgShow("Enterprise.recycle");

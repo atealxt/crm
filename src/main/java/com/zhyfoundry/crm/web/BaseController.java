@@ -5,6 +5,7 @@ import java.util.Collections;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -57,5 +58,9 @@ public class BaseController {
 			req.setAttribute(INFOS, list);
 		}
 		return list;
+	}
+
+	protected void initResponse(final HttpServletResponse resp) {
+		resp.setContentType("text/html; charset=UTF-8");// for AJAX encode
 	}
 }

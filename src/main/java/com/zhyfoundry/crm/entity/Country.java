@@ -8,6 +8,7 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 
 import org.springmodules.validation.bean.conf.loader.annotation.handler.Length;
+import org.springmodules.validation.bean.conf.loader.annotation.handler.NotBlank;
 
 @Entity
 @Table(name = "COUNTRY")
@@ -17,6 +18,7 @@ public class Country implements java.io.Serializable {
 	private static final long serialVersionUID = 7995004583868794600L;
 	private static final int MAX_LEN_NAME = 20;
 	private Integer id;
+	@NotBlank
 	@Length(max = MAX_LEN_NAME)
 	private String name;// 国家名称
 
@@ -48,4 +50,8 @@ public class Country implements java.io.Serializable {
 		this.name = name;
 	}
 
+	@Override
+	public String toString() {
+		return "Country [id=" + id + ", name=" + name + "]";
+	}
 }

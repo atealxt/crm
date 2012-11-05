@@ -11,7 +11,7 @@
       <th colspan="2">添加信息</th>
     </thead>
     <tbody>
-    <jsp:include page="/WEB-INF/views/admin/enterprise/common/obj_fragment.jsp"></jsp:include>
+    <jsp:include page="/WEB-INF/views/admin/country/common/obj_fragment.jsp"></jsp:include>
     <tr>
       <td colspan="2"><input type="submit" value="提交" /> <input type="reset"/></td>
     </tr>
@@ -24,8 +24,8 @@
   <script src="<c:url value="/javascripts/jquery.min.js"/>" type="text/javascript"></script>
   <script type="text/javascript">
   (function($) {
-	  $('.enterpriseId').click(function() {
-		  window.open('<c:url value="/admin/enterprise/"/>' + $(this).attr("title"));
+	  $('.countryId').click(function() {
+		  window.open('<c:url value="/admin/country/"/>' + $(this).attr("title"));
 	  });
   })(jQuery);
   </script>

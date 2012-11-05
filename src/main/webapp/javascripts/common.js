@@ -5,6 +5,10 @@ var deleteRecord = function(e, url, refreshUrl, soft) {
 			type : "DELETE",
 			url : url,
 			success : function(data) {
+				if (data) {
+					$('#dynamicErrorMessage').html(data);
+					return;
+				}
 				if (refreshUrl) {
 					window.location.href = refreshUrl;
 				} else {

@@ -28,3 +28,9 @@
 .elementSelect {
 	background: #FFFF99;
 }
+
+#dynamicErrorMessage {
+	font-weight: bold;
+	color: #900;
+	background-color: red;
+}

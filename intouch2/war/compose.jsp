@@ -6,7 +6,7 @@
 		<div class="inner">
 			<ul id="tools">
 				<li id="sendMail"><a href="javascript:sendMail();"><span><img alt="" src="images/send-icon.gif" id="okMailImg"/></span><i18n:message key="send.mail"/></a></li>
-				
+
 				<%// BEST UPLOADING SOLUTION (M.O.)%>
 				<%// start region%>
 				<li id="attachMail">
@@ -38,12 +38,13 @@
 										<input type="hidden" name="htmlEmail" value="false" />
 										<table border="0"  cellspacing="1"  cellpadding="3" width="100%">
 											<tbody class="tableBody" >
+												<%-- TODO 模板 --%>
 												<tr>
 													<td width="1%" nowrap="nowrap"><strong><i18n:message key="to"/>:</strong></td>
 													<td width="99%" valign="middle" nowrap="nowrap">
 														<input type="text" name="to" size="80" id="to"/>
 														<div id="autoCompleteTo" class="autocomplete"></div>
-														<!-- 
+														<!--
 														&nbsp;
 														[ <a href="javascript:showHide('bcctr');" style='color:#5A799E;font-weight:bold;'>bcc</a> ]
 														 -->
@@ -52,7 +53,7 @@
 												<tr id="cctr">
 													<td width="1%" nowrap="nowrap"><strong><i18n:message key="cc"/>:</strong> </td>
 													<td width="99%">
-														<input type="text" name="cc" size="80" id="cc"/> 
+														<input type="text" name="cc" size="80" id="cc"/>
 														<div id="autoCompleteCc" class="autocomplete"></div>
 													</td>
 												</tr>
@@ -95,7 +96,7 @@
 																	<td style="float: left;" width="99%">
 																		<div style="float: left;">
 																			<ul id="composeAttachmentList">
-																				<!-- 
+																				<!--
 																				<li><img src="images/attachment.gif"/><span>hebelek.jpg (120KB)</span><a href="#" onclick="removeAttach()" attid="1">Remove</a></li>
 																				<li><img src="images/uploading.gif"/><span>cabbar.doc (148KB)</span><a href="#" onclick="removeAttach()" attid="2">Remove</a></li>
 																				 -->
@@ -133,7 +134,7 @@
 												auto_resize : false,
 												verify_html : "false"
 											});
-										
+
 										</script>
 										<textarea id="composeBody" rows="25" cols="60" style="width:85%;" name="composeBody"></textarea>
 										<br>
@@ -153,5 +154,5 @@
 
 		</div>
 	</div>
-</div>	
+</div>
 <!-- COMPOSE ENDS -->

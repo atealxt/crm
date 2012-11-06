@@ -33,4 +33,19 @@
 	font-weight: bold;
 	color: #900;
 	background-color: red;
+	font-size: 12px;
+}
+
+#dynamicWarnMessage {
+	font-weight: bold;
+	color: #F8F8FF;
+	background-color: #FFD700;
+	font-size: 12px;
+}
+
+#dynamicInfoMessage {
+	font-weight: bold;
+	color: #F8F8FF;
+	background-color: #228B22;
+	font-size: 12px;
 }

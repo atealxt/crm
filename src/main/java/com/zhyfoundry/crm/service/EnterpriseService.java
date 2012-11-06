@@ -90,7 +90,7 @@ public class EnterpriseService extends PaginationServiceImpl<Enterprise, Integer
 		sql.append(" order by t.country.name,t.name,t.createTime");
 		final List<Enterprise> enterprises = findByQuery(sql.toString(), pager, params.toArray());
 		for (final Enterprise f : enterprises) {
-			initialize(f.getCountry()); // TODO left join
+			initialize(f.getCountry());
 		}
 		return enterprises;
 	}

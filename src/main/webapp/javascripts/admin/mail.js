@@ -1,5 +1,21 @@
 function sendMail(e) {
-	//TODO check to see if there are currently any active uploads
+	var attMail = parent.document.getElementById('composeAttachmentList');
+	if (!attMail) {
+		attMail = document.getElementById('composeAttachmentList');
+	}
+	var lis = attMail.getElementsByTagName("li");
+
+	for (var i=0;i<lis.length;i++) {
+		var li = lis[i];
+
+		if (li.getElementsByTagName("img")[0].src.indexOf("images/uploading.gif") > 0) {
+			alert('There are active uploads, please wait.');
+			return;
+		}
+	}
+
+	$('#dynamicInfoMessage').text('邮件正在发送，请稍候...');
+	$('#aSendMail').attr('href', '###');
 
 	$("#composeForm").submit();
 }

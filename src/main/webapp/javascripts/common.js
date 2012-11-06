@@ -47,9 +47,9 @@ var restoreRecord = function(e, url) {
     }).mouseout(function() {
         $(this).children().removeClass("elementFocus");
     });
-	$tr.toggle(function() {
-		$(this).children().addClass("elementSelect");
-	}, function() {
-		$(this).children().removeClass("elementSelect");
-	});
+//	$tr.toggle(function() {
+//		$(this).children().addClass("elementSelect");
+//	}, function() {
+//		$(this).children().removeClass("elementSelect");
+//	});
 })(jQuery);

@@ -24,6 +24,7 @@ session.setAttribute("lang", lang);
 <script>var title = '<%=PropertyFile.getConfiguration("/config/config.xml").getString("common-params.title")%>';</script>
 <i18n:bundle baseName="org.claros.intouch.i18n.lang" locale="<%= loc %>"/>
 
+<link rel="stylesheet" href="<c:url value="/stylesheets/common.css"/>" type="text/css" media="screen" />
 <link type="text/css" rel="stylesheet" href="<c:url value="/css/all.css"/>" />
 <link type="text/css" rel="stylesheet" href="<c:url value="/css/body.css"/>">
 <link type="text/css" rel="stylesheet" href="<c:url value="/css/ie6.css"/>">
@@ -42,7 +43,7 @@ session.setAttribute("lang", lang);
 	<div class="inboxholder">
 		<div class="inner">
 			<ul id="tools">
-				<li id="sendMail"><a href="javascript:sendMail();"><span><img alt="" src="<c:url value="/images/send-icon.gif"/>" id="okMailImg"/></span><i18n:message key="send.mail"/></a></li>
+				<li id="sendMail"><a id="aSendMail" href="javascript:sendMail();"><span><img alt="" src="<c:url value="/images/send-icon.gif"/>" id="okMailImg"/></span><i18n:message key="send.mail"/></a></li>
 
 				<%// BEST UPLOADING SOLUTION (M.O.)%>
 				<%// start region%>

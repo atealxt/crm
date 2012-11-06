@@ -231,12 +231,25 @@ public class SendMailService extends BaseService {
 						String enterpriseEmail = o.getEmail();
 						List<String> enterpriseEmails = splitEmails(enterpriseEmail);
 						for (String s : enterpriseEmails) {
-							setTo(enterpriseEmail, email.getBaseHeader(), saveSentContacts, auth);
-							boolean statusOK = sendMail(smtp, email, auth, request); // TODO 可定制标题和内容
+							boolean statusOK;
+							String statusMsg;
+							try {
+								setTo(s, email.getBaseHeader(), saveSentContacts, auth);
+								statusOK = sendMail(smtp, email, auth, request); // TODO 可根据企业定制标题和内容
+								if (statusOK) {
+									statusMsg = "成功";
+								}else {
+									statusMsg = "失败";
+								}
+							} catch (Exception e) {
+								log.error(e.getMessage(), e);
+								statusOK = false;
+								statusMsg = "失败(" + e.getMessage() + ")";
+							}
 							StringBuilder info = new StringBuilder();
 							info.append("企业名：").append(o.getName());
 							info.append(" 邮箱：").append(s);
-							info.append(" 状态：").append(statusOK ? "成功" : "失败");
+							info.append(" 状态：").append(statusMsg);
 							log.info("发送邮件 " + info.toString());
 							sendInfo.append(info).append("<br>");
 						}

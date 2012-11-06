@@ -31,7 +31,7 @@ public class EnterpriseService extends PaginationServiceImpl<Enterprise, Integer
 	}
 
 	public List<Enterprise> getEnterprises(Enterprise condition, final Pager pager) {
-		StringBuilder sql = new StringBuilder("from Enterprise t where 1=1 ");
+		StringBuilder sql = new StringBuilder("select t from Enterprise t left join t.country where 1=1 ");
 		List<Object> params = new ArrayList<Object>();
 		if (condition.getId() != null) {
 			sql.append(" and t.id = ?");

@@ -7,7 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import com.zhyfoundry.crm.TestBase;
 import com.zhyfoundry.crm.environment.DBMaker;
 
-public class AdminDaoTest extends TestBase{
+public class AdminDaoTest extends TestBase {
 
 	@Autowired
 	private AdminDao adminDao;

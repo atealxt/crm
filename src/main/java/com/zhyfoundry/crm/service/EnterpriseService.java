@@ -45,9 +45,15 @@ public class EnterpriseService extends PaginationServiceImpl<Enterprise, Integer
 			sql.append(" and t.keyword like ?");
 			params.add("%" + condition.getKeyword() + "%");
 		}
-		if (condition.getCountry() != null && StringUtils.isNotBlank(condition.getCountry().getName())) {
-			sql.append(" and t.country.name like ?");
-			params.add("%" + condition.getCountry().getName() + "%");
+		if (condition.getCountry() != null) {
+			if (condition.getCountry().getId() != null) {
+				sql.append(" and t.country.id = ?");
+				params.add(condition.getCountry().getId());
+			}
+			if (StringUtils.isNotBlank(condition.getCountry().getName())) {
+				sql.append(" and t.country.name like ?");
+				params.add("%" + condition.getCountry().getName() + "%");
+			}
 		}
 		if (StringUtils.isNotBlank(condition.getName())) {
 			sql.append(" and t.name like ?");
@@ -84,7 +90,7 @@ public class EnterpriseService extends PaginationServiceImpl<Enterprise, Integer
 		sql.append(" order by t.country.name,t.name,t.createTime");
 		final List<Enterprise> enterprises = findByQuery(sql.toString(), pager, params.toArray());
 		for (final Enterprise f : enterprises) {
-			initialize(f.getCountry());
+			initialize(f.getCountry()); // TODO left join
 		}
 		return enterprises;
 	}
@@ -113,7 +119,14 @@ public class EnterpriseService extends PaginationServiceImpl<Enterprise, Integer
 	}
 
 	private Country initCountry(Enterprise enterprise) {
-		Country country = countryDao.findByName(enterprise.getCountry().getName());
+		Country country;
+		if (StringUtils.isNotBlank(enterprise.getCountry().getName())) {
+			country = countryDao.findByName(enterprise.getCountry().getName());
+		} else if (enterprise.getCountry().getId() != null) {
+			country = countryDao.findById(enterprise.getCountry().getId());
+		} else {
+			return null;
+		}
 		if (country == null) {
 			country = new Country(enterprise.getCountry().getName());
 			countryDao.save(country);
@@ -127,8 +140,7 @@ public class EnterpriseService extends PaginationServiceImpl<Enterprise, Integer
 		Enterprise enterprise = getDao().findById(id);
 		if (enterprise.removed()) {
 			getDao().delete(enterprise);
-		}
-		else {
+		} else {
 			enterprise.remove();
 		}
 	}

@@ -27,7 +27,7 @@ public class CountryController extends PagingController {
 	public String list(final HttpServletRequest req, final HttpServletResponse resp, final ModelMap modelMap, @ModelAttribute("condition") final Country condition)
 			throws Exception {
 		Pager pager = getPager(req);
-		modelMap.addAttribute("list", countryService.getCountrys(condition, pager));
+		modelMap.addAttribute("list", countryService.getCountries(condition, pager));
 		modelMap.addAttribute("pager", pager);
 		return "admin/country/list";
 	}

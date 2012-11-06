@@ -8,7 +8,10 @@
     </tr>
     <tr>
       <td>所属国家</td>
-      <td><form:input path="country.name"/></td>
+      <td><form:select path="country.id"><form:option value="" label="--- Select ---"/><form:options items="${countries}" itemValue="id" itemLabel="name"/></form:select>
+      <a href="###" id="newCountry">新添</a>
+      <span id="spanNewCountry" style="display:none;"><form:input path="country.name"/></span>
+      </td>
     </tr>
     <tr>
       <td>公司名称</td>
@@ -43,3 +46,5 @@
       <td>备注</td>
       <td><form:input path="remark"/></td>
     </tr>
+
+    <script src="<c:url value="/javascripts/admin/enterprise.js"/>" type="text/javascript"></script>

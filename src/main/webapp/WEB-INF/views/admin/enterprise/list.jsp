@@ -49,7 +49,7 @@
       <td> </td>
       <td></td>
       <td><form:input path="keyword"/> </td>
-      <td><form:input path="country.name"/> </td>
+      <td><form:select path="country.id"><form:option value="" label="--- Select ---"/><form:options items="${countries}" itemValue="id" itemLabel="name"/></form:select></td>
       <td><form:input path="name"/> </td>
       <td><form:input path="contact"/> </td>
       <td><form:input path="email"/> </td>

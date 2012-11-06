@@ -35,7 +35,7 @@ public class MenuController extends BaseController {
 
 		Map<String, List<PageLink>> mapLink = new HashMap<String, List<PageLink>>();
 
-		final List<PageLink> links = new ArrayList<PageLink>();
+		List<PageLink> links = new ArrayList<PageLink>();
 		PageLink link = null;
 
 		link = new PageLink();
@@ -49,6 +49,15 @@ public class MenuController extends BaseController {
 		links.add(link);
 
 		mapLink.put("Enterprise", links);
+
+		links = new ArrayList<PageLink>();
+
+		link = new PageLink();
+		link.setLink("/admin/country");
+		link.setMsgShow("Country.management");
+		links.add(link);
+
+		mapLink.put("Country", links);
 
 		return mapLink;
 	}

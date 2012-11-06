@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import com.zhyfoundry.crm.core.ServiceException;
 import com.zhyfoundry.crm.core.dao.Pager;
 import com.zhyfoundry.crm.entity.Enterprise;
+import com.zhyfoundry.crm.service.CountryService;
 import com.zhyfoundry.crm.service.EnterpriseService;
 import com.zhyfoundry.crm.web.PagingController;
 
@@ -29,6 +30,7 @@ public class EnterpriseController extends PagingController {
 		Pager pager = getPager(req);
 		modelMap.addAttribute("list", enterpriseService.getEnterprises(condition, pager));
 		modelMap.addAttribute("pager", pager);
+		modelMap.addAttribute("countries", eountryService.getAllCountries());
 		return "admin/enterprise/list";
 	}
 
@@ -42,6 +44,7 @@ public class EnterpriseController extends PagingController {
 	@RequestMapping(value = "/admin/enterprise/add", method = RequestMethod.GET)
 	public String preAdd(final HttpServletRequest req, final HttpServletResponse resp, final ModelMap modelMap) throws Exception {
 		modelMap.addAttribute("o", new Enterprise());
+		modelMap.addAttribute("countries", eountryService.getAllCountries());
 		return "admin/enterprise/add";
 	}
 
@@ -60,6 +63,7 @@ public class EnterpriseController extends PagingController {
 		Enterprise o = enterpriseService.get(id);
 		modelMap.addAttribute("o", o);
 		if (edit) {
+			modelMap.addAttribute("countries", eountryService.getAllCountries());
 			return "admin/enterprise/edit";
 		}
 		return "admin/enterprise/view";
@@ -118,6 +122,8 @@ public class EnterpriseController extends PagingController {
 
 	@Autowired
 	private EnterpriseService enterpriseService;
+	@Autowired
+	private CountryService eountryService;
 	@Autowired
 	private Validator validator;
 }

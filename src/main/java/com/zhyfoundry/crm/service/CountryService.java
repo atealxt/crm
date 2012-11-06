@@ -29,7 +29,12 @@ public class CountryService extends PaginationServiceImpl<Country, Integer> {
 		return countryDao;
 	}
 
-	public List<Country> getCountrys(Country condition, final Pager pager) {
+	public List<Country> getAllCountries() {
+		// TODO cache
+		return getDao().findByQuery("from Country t order by t.name");
+	}
+
+	public List<Country> getCountries(Country condition, final Pager pager) {
 		StringBuilder sql = new StringBuilder("from Country t where 1=1 ");
 		List<Object> params = new ArrayList<Object>();
 		if (condition.getId() != null) {

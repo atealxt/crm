@@ -9,6 +9,7 @@
 			    <c:forEach items="${entry.value}" var="e" varStatus="s">
 			        <li><a href="<spring:url value="${e.link}"/>" target="main"><spring:message code="${e.msgShow}" text="${e.msgShow}"/></a></li>
 			    </c:forEach>
+			    <br/>
         	</c:forEach>
         </ul>
     </div>

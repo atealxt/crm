@@ -238,7 +238,7 @@ public class SendMailService extends BaseService {
 								statusOK = sendMail(smtp, email, auth, request); // TODO 可根据企业定制标题和内容
 								if (statusOK) {
 									statusMsg = "成功";
-								}else {
+								} else {
 									statusMsg = "失败";
 								}
 							} catch (Exception e) {

@@ -8,12 +8,13 @@ public class MsgDbObject {
 	private String username;
 	private Long folderId;
 	private String uniqueId;
+	private String messageId;
 	private Boolean unread;
 	private Long msgSize;
 	private byte[] email;
 
 	/**
-	 * 
+	 *
 	 */
 	public MsgDbObject() {
 		super();
@@ -117,4 +118,17 @@ public class MsgDbObject {
 		msgSize = long1;
 	}
 
+	/**
+	 * @return
+	 */
+	public String getMessageId() {
+		return messageId;
+	}
+
+	/**
+	 * @param string
+	 */
+	public void setMessageId(String messageId) {
+		this.messageId = messageId;
+	}
 }

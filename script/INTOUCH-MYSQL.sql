@@ -119,9 +119,11 @@ CREATE TABLE `MSG_DB_OBJECTS` (
   `USERNAME` varchar(255) NOT NULL default '',
   `FOLDER_ID` bigint(20) unsigned NOT NULL default '0',
   `UNIQUE_ID` varchar(100) NOT NULL default '',
+  `MESSAGE_ID` varchar(100) NOT NULL default '',
   `UNREAD` tinyint(1) default '0',
   `MSG_SIZE` bigint(20) unsigned NOT NULL default '0',
   `EMAIL` longblob,
+  `CREATE_TIME` TIMESTAMP NULL default CURRENT_TIMESTAMP,
   PRIMARY KEY  (`ID`)
 ) ENGINE=MyISAM;
 

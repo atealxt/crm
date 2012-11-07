@@ -8,7 +8,6 @@ import java.io.IOException;
 import java.io.ObjectOutputStream;
 import java.io.PrintWriter;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -75,6 +74,7 @@ public class SendMailService extends BaseService {
 	 * @throws IOException
 	 *             if an error occurred
 	 */
+	@Override
 	public void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
 		response.setHeader("Expires", "-1");
@@ -365,6 +365,7 @@ public class SendMailService extends BaseService {
 		FolderDbObject fItem = foldCont.getSentItems();
 
 		item.setUniqueId(md5Header);
+		item.setMessageId(msg.getHeader("Message-ID", null)); // TODO test
 		item.setFolderId(fItem.getId());
 		item.setUnread(new Boolean(false));
 		item.setUsername(auth.getUsername());
@@ -372,7 +373,7 @@ public class SendMailService extends BaseService {
 
 		// save the email db item.
 		MailControllerFactory mailFact = new MailControllerFactory(auth, profile, handler, fItem.getFolderName());
-		MailController mailCont = mailFact.getMailController();
+		MailController mailCont = mailFact.getMailController(); // TODO if is IMAP, also save to DB.
 		mailCont.appendEmail(item);
 	}
 }

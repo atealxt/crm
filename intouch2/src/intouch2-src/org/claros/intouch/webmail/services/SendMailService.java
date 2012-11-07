@@ -365,7 +365,7 @@ public class SendMailService extends BaseService {
 		FolderDbObject fItem = foldCont.getSentItems();
 
 		item.setUniqueId(md5Header);
-		item.setMessageId(msg.getHeader("Message-ID", null)); // TODO test
+		item.setMessageId(msg.getHeader("Message-ID", null));
 		item.setFolderId(fItem.getId());
 		item.setUnread(new Boolean(false));
 		item.setUsername(auth.getUsername());

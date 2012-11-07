@@ -31,68 +31,73 @@ public class EnterpriseService extends PaginationServiceImpl<Enterprise, Integer
 	}
 
 	public List<Enterprise> getEnterprises(Enterprise condition, final Pager pager) {
-		StringBuilder sql = new StringBuilder("select t from Enterprise t left join t.country where 1=1 ");
+		StringBuilder query = new StringBuilder();
 		List<Object> params = new ArrayList<Object>();
-		if (condition.getId() != null) {
-			sql.append(" and t.id = ?");
-			params.add(condition.getId());
-		}
-		if (condition.getStatus() != null) {
-			sql.append(" and t.status = ?");
-			params.add(condition.getStatus());
-		}
-		if (StringUtils.isNotBlank(condition.getKeyword())) {
-			sql.append(" and t.keyword like ?");
-			params.add("%" + condition.getKeyword() + "%");
-		}
-		if (condition.getCountry() != null) {
-			if (condition.getCountry().getId() != null) {
-				sql.append(" and t.country.id = ?");
-				params.add(condition.getCountry().getId());
-			}
-			if (StringUtils.isNotBlank(condition.getCountry().getName())) {
-				sql.append(" and t.country.name like ?");
-				params.add("%" + condition.getCountry().getName() + "%");
-			}
-		}
-		if (StringUtils.isNotBlank(condition.getName())) {
-			sql.append(" and t.name like ?");
-			params.add("%" + condition.getName() + "%");
-		}
-		if (StringUtils.isNotBlank(condition.getContact())) {
-			sql.append(" and t.contact like ?");
-			params.add("%" + condition.getContact() + "%");
-		}
-		if (StringUtils.isNotBlank(condition.getEmail())) {
-			sql.append(" and t.email like ?");
-			params.add("%" + condition.getEmail() + "%");
-		}
-		if (StringUtils.isNotBlank(condition.getTel())) {
-			sql.append(" and t.tel like ?");
-			params.add("%" + condition.getTel() + "%");
-		}
-		if (StringUtils.isNotBlank(condition.getMobileNo())) {
-			sql.append(" and t.mobileNo like ?");
-			params.add("%" + condition.getMobileNo() + "%");
-		}
-		if (StringUtils.isNotBlank(condition.getFaxNo())) {
-			sql.append(" and t.faxNo like ?");
-			params.add("%" + condition.getFaxNo() + "%");
-		}
-		if (StringUtils.isNotBlank(condition.getSource())) {
-			sql.append(" and t.source like ?");
-			params.add("%" + condition.getSource() + "%");
-		}
-		if (StringUtils.isNotBlank(condition.getRemark())) {
-			sql.append(" and t.remark like ?");
-			params.add("%" + condition.getRemark() + "%");
-		}
-		sql.append(" order by t.country.name,t.name,t.createTime");
-		final List<Enterprise> enterprises = findByQuery(sql.toString(), pager, params.toArray());
+		geneQueryString(query, params, condition);
+		final List<Enterprise> enterprises = findByQuery(query.toString(), pager, params.toArray());
 		for (final Enterprise f : enterprises) {
 			initialize(f.getCountry());
 		}
 		return enterprises;
+	}
+
+	private void geneQueryString(StringBuilder query, List<Object> params, Enterprise condition) {
+		query.append("select t from Enterprise t left join t.country where 1=1 ");
+		if (condition.getId() != null) {
+			query.append(" and t.id = ?");
+			params.add(condition.getId());
+		}
+		if (condition.getStatus() != null) {
+			query.append(" and t.status = ?");
+			params.add(condition.getStatus());
+		}
+		if (StringUtils.isNotBlank(condition.getKeyword())) {
+			query.append(" and t.keyword like ?");
+			params.add("%" + condition.getKeyword() + "%");
+		}
+		if (condition.getCountry() != null) {
+			if (condition.getCountry().getId() != null) {
+				query.append(" and t.country.id = ?");
+				params.add(condition.getCountry().getId());
+			}
+			if (StringUtils.isNotBlank(condition.getCountry().getName())) {
+				query.append(" and t.country.name like ?");
+				params.add("%" + condition.getCountry().getName() + "%");
+			}
+		}
+		if (StringUtils.isNotBlank(condition.getName())) {
+			query.append(" and t.name like ?");
+			params.add("%" + condition.getName() + "%");
+		}
+		if (StringUtils.isNotBlank(condition.getContact())) {
+			query.append(" and t.contact like ?");
+			params.add("%" + condition.getContact() + "%");
+		}
+		if (StringUtils.isNotBlank(condition.getEmail())) {
+			query.append(" and t.email like ?");
+			params.add("%" + condition.getEmail() + "%");
+		}
+		if (StringUtils.isNotBlank(condition.getTel())) {
+			query.append(" and t.tel like ?");
+			params.add("%" + condition.getTel() + "%");
+		}
+		if (StringUtils.isNotBlank(condition.getMobileNo())) {
+			query.append(" and t.mobileNo like ?");
+			params.add("%" + condition.getMobileNo() + "%");
+		}
+		if (StringUtils.isNotBlank(condition.getFaxNo())) {
+			query.append(" and t.faxNo like ?");
+			params.add("%" + condition.getFaxNo() + "%");
+		}
+		if (StringUtils.isNotBlank(condition.getSource())) {
+			query.append(" and t.source like ?");
+			params.add("%" + condition.getSource() + "%");
+		}
+		if (StringUtils.isNotBlank(condition.getRemark())) {
+			query.append(" and t.remark like ?");
+			params.add("%" + condition.getRemark() + "%");
+		}
+		query.append(" order by t.country.name,t.name,t.createTime");
 	}
 
 	@Transactional
@@ -154,5 +159,12 @@ public class EnterpriseService extends PaginationServiceImpl<Enterprise, Integer
 		} else {
 			logger.warn("操作异常：" + enterprise);
 		}
+	}
+
+	public long count(Enterprise condition) {
+		StringBuilder query = new StringBuilder();
+		List<Object> params = new ArrayList<Object>();
+		geneQueryString(query, params, condition);
+		return getDao().count(query.toString(), params.toArray());
 	}
 }

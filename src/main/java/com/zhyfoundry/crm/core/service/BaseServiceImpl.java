@@ -45,11 +45,6 @@ public abstract class BaseServiceImpl<T, PK extends Serializable> implements Bas
         return getDao().count();
     }
 
-    @Override
-	public long count(final String query, final Object... values) {
-    	return getDao().count(query, values);
-    }
-
 	@Override
 	public void execute(String query, Object... values) {
 		getDao().execute(query, values);

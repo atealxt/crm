@@ -3,6 +3,7 @@
 <%@ page import="org.claros.commons.configuration.PropertyFile" %>
 <%@ taglib uri="http://jakarta.apache.org/taglibs/i18n-1.0" prefix="i18n" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@ taglib uri="http://www.springframework.org/tags" prefix="spring" %>
 
 <%
 response.setHeader("Expires","-1");
@@ -74,6 +75,9 @@ session.setAttribute("lang", lang);
 										<input type="hidden" name="htmlEmail" value="false" />
 										<table border="0"  cellspacing="1"  cellpadding="3" width="100%">
 											<tbody class="tableBody" >
+												<tr>
+													<td colspan="2" nowrap="nowrap"><spring:message code="Enterprise.sendMailCount" text="Enterprise.sendMailCount" arguments="${EnterpriseCount}"/></td>
+												</tr>
 												<tr>
 													<td width="1%" nowrap="nowrap"><strong><i18n:message key="subject"/>:</strong> </td>
 													<td width="99%" nowrap="nowrap"><input type="text" name="subject" id="subject" size="80" onkeydown="return(subjectJump(event));"/></td>

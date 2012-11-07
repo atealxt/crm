@@ -23,9 +23,6 @@ public interface BaseService<T, PK extends Serializable> {
     /** @see com.zhyfoundry.crm.core.dao.BaseDao#count() */
     long count();
 
-    /** @see com.zhyfoundry.crm.core.dao.BaseDao#count(String, Object...) */
-    long count(final String query, final Object... values);
-
     /** @see com.zhyfoundry.crm.core.dao.BaseDao#execute(String, Object...) */
     void execute(final String query, final Object... values);
 

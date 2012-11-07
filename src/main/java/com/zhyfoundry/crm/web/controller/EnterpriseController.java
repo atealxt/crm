@@ -37,7 +37,7 @@ public class EnterpriseController extends PagingController {
 	@RequestMapping(value = "/admin/enterprise/sendEmail", method = RequestMethod.POST)
 	public String sendEmail(final HttpServletRequest req, final HttpServletResponse resp, final ModelMap modelMap, @ModelAttribute("condition") final Enterprise condition)
 			throws Exception {
-		// TODO 计算企业个数
+		modelMap.addAttribute("EnterpriseCount", enterpriseService.count(condition));
 		req.getSession().setAttribute("EMAIL_CONTIDION_OBJ", condition);
 		return "admin/enterprise/compose";
 	}

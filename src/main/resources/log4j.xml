@@ -44,11 +44,6 @@
 		<level value="DEBUG" />
 	</logger>
 
-	<logger name="com.zhyfoundry.crm">
-		<level value="INFO" />
-		<appender-ref ref="LOG_INFO"/>
-	</logger>
-
 	<logger name="org.claros">
 		<level value="DEBUG" />
 	</logger>

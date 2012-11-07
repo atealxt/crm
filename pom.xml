@@ -536,6 +536,13 @@
 			<scope>system</scope>
 			<systemPath>${project.basedir}/intouch2/war/WEB-INF/lib/jasen.jar</systemPath>
 		</dependency>
+		<dependency>
+			<groupId>org.apache</groupId>
+			<artifactId>taglibs-i18n</artifactId>
+			<version>0.0.1</version>
+			<scope>system</scope>
+			<systemPath>${project.basedir}/intouch2/war/WEB-INF/lib/taglibs-i18n.jar</systemPath>
+		</dependency>
 	</dependencies>
 
 	<repositories>

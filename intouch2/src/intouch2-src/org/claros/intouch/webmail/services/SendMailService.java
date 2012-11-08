@@ -50,6 +50,7 @@ import com.zhyfoundry.crm.core.DIManager;
 import com.zhyfoundry.crm.core.dao.Pager;
 import com.zhyfoundry.crm.entity.Enterprise;
 import com.zhyfoundry.crm.service.EnterpriseService;
+import com.zhyfoundry.crm.web.controller.EnterpriseController;
 
 public class SendMailService extends BaseService {
 
@@ -221,7 +222,7 @@ public class SendMailService extends BaseService {
 
 			if (isEnterprise) {
 				StringBuilder sendInfo = new StringBuilder("<h2>发送报告</h2>");// TODO 使用模板格式化显示
-				Enterprise condition = (Enterprise) request.getSession().getAttribute("EMAIL_CONTIDION_OBJ");
+				Enterprise condition = (Enterprise) request.getSession().getAttribute(EnterpriseController.EMAIL_CONTIDION_OBJ);
 				int i = 1;
 				Pager pager = new Pager(i++, 20);
 				EnterpriseService enterpriseService = DIManager.getBean(EnterpriseService.class);
@@ -235,7 +236,7 @@ public class SendMailService extends BaseService {
 							String statusMsg;
 							try {
 								setTo(s, email.getBaseHeader(), saveSentContacts, auth);
-								statusOK = sendMail(smtp, email, auth, request); // TODO 可根据企业定制标题和内容
+								statusOK = sendMail(smtp, email, auth, request, o); // TODO 可根据企业定制标题和内容
 								if (statusOK) {
 									statusMsg = "成功";
 								} else {
@@ -259,7 +260,7 @@ public class SendMailService extends BaseService {
 				}
 				out.print(sendInfo.toString());
 			} else {
-				boolean statusOK = sendMail(smtp, email, auth, request);
+				boolean statusOK = sendMail(smtp, email, auth, request, null);
 				if (statusOK) {
 					out.print("ok");
 				} else {
@@ -291,7 +292,7 @@ public class SendMailService extends BaseService {
 		}
 	}
 
-	private boolean sendMail(Smtp smtp, Email email, AuthProfile auth, HttpServletRequest request) throws Exception {
+	private boolean sendMail(Smtp smtp, Email email, AuthProfile auth, HttpServletRequest request, Enterprise enterprise) throws Exception {
 		HashMap sendRes = smtp.send(email, false);
 		MimeMessage msg = (MimeMessage) sendRes.get("msg");
 
@@ -310,7 +311,7 @@ public class SendMailService extends BaseService {
 				saveEnabled = "yes";
 			}
 			if (saveEnabled == null || saveEnabled.equals("yes")) {
-				saveSentMail(auth, msg, request);
+				saveSentMail(auth, msg, request, enterprise);
 			}
 			return true;
 		}
@@ -341,9 +342,10 @@ public class SendMailService extends BaseService {
 	 * @param auth
 	 * @param msg
 	 * @param request
+	 * @param enterprise
 	 * @throws Exception
 	 */
-	private void saveSentMail(AuthProfile auth, MimeMessage msg, HttpServletRequest request) throws Exception {
+	private void saveSentMail(AuthProfile auth, MimeMessage msg, HttpServletRequest request, Enterprise enterprise) throws Exception {
 		ByteArrayOutputStream bos = new ByteArrayOutputStream();
 		msg.writeTo(bos);
 		byte bMsg[] = bos.toByteArray();
@@ -370,6 +372,9 @@ public class SendMailService extends BaseService {
 		item.setUnread(new Boolean(false));
 		item.setUsername(auth.getUsername());
 		item.setMsgSize(new Long(bMsg.length));
+		if (enterprise != null) {
+			item.setEnterpriseId(enterprise.getId());
+		}
 
 		// save the email db item.
 		MailControllerFactory mailFact = new MailControllerFactory(auth, profile, handler, fItem.getFolderName());

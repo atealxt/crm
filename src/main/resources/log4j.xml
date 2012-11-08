@@ -40,7 +40,7 @@
 		<level value="ERROR" />
 	</logger>
 
-	<logger name="com.zhyfoundry.crm">
+	<logger name="com.zhyfoundry">
 		<level value="DEBUG" />
 	</logger>
 

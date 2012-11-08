@@ -7,6 +7,7 @@ public class MsgDbObject {
 	private Long id;
 	private String username;
 	private Long folderId;
+	private Integer enterpriseId;
 	private String uniqueId;
 	private String messageId;
 	private Boolean unread;
@@ -130,5 +131,19 @@ public class MsgDbObject {
 	 */
 	public void setMessageId(String messageId) {
 		this.messageId = messageId;
+	}
+
+	/**
+	 * @return
+	 */
+	public Integer getEnterpriseId() {
+		return enterpriseId;
+	}
+
+	/**
+	 * @param enterpriseId
+	 */
+	public void setEnterpriseId(Integer enterpriseId) {
+		this.enterpriseId = enterpriseId;
 	}
 }

@@ -38,7 +38,7 @@ public class EnterpriseController extends PagingController {
 	public String sendEmail(final HttpServletRequest req, final HttpServletResponse resp, final ModelMap modelMap, @ModelAttribute("condition") final Enterprise condition)
 			throws Exception {
 		modelMap.addAttribute("EnterpriseCount", enterpriseService.count(condition));
-		req.getSession().setAttribute("EMAIL_CONTIDION_OBJ", condition);
+		req.getSession().setAttribute(EMAIL_CONTIDION_OBJ, condition);
 		return "admin/enterprise/compose";
 	}
 
@@ -127,4 +127,5 @@ public class EnterpriseController extends PagingController {
 	private CountryService eountryService;
 	@Autowired
 	private Validator validator;
+	public static final String EMAIL_CONTIDION_OBJ = "EMAIL_CONTIDION_OBJ";
 }

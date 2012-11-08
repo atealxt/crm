@@ -120,6 +120,7 @@ CREATE TABLE `MSG_DB_OBJECTS` (
   `FOLDER_ID` bigint(20) unsigned NOT NULL default '0',
   `UNIQUE_ID` varchar(100) NOT NULL default '',
   `MESSAGE_ID` varchar(100) NOT NULL default '',
+  `ENTERPRISE_ID` int(11),
   `UNREAD` tinyint(1) default '0',
   `MSG_SIZE` bigint(20) unsigned NOT NULL default '0',
   `EMAIL` longblob,

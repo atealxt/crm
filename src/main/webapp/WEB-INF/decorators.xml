@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <decorators defaultdir="/WEB-INF/views/decorators">
 	<excludes>
-		<pattern>*ajax*</pattern><!-- TODO Sitemesh的与REST风格存在兼容问题！ -->
+		<pattern>*ajax*</pattern>
 	</excludes>
 	<decorator name="baseLayout" page="baseLayout.jsp">
 		<pattern>/admin/*</pattern>

@@ -29,7 +29,6 @@
   <table class="paginated">
     <thead>
       <th></th>
-      <th>企业ID</th>
       <th>关键字</th>
       <th>所属国家</th>
       <th>公司名称</th>
@@ -47,7 +46,6 @@
     <tbody>
     <tr>
       <td> </td>
-      <td></td>
       <td><form:input path="keyword"/> </td>
       <td><form:select path="country.id"><form:option value="" label="--- Select ---"/><form:options items="${countries}" itemValue="id" itemLabel="name"/></form:select></td>
       <td><form:input path="name"/> </td>
@@ -66,7 +64,6 @@
     <c:forEach items="${list}" var="o">
     <tr>
       <td><%--<input type="checkbox" name="selectedObj" value="${o.id}" />  --%></td>
-      <td><c:out value="${o.id}"/></td>
       <td><c:out value="${o.keyword}"/></td>
       <td><c:out value="${o.country.name}"/></td>
       <td><c:out value="${o.name}"/></td>

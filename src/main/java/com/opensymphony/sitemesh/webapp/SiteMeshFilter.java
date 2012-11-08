@@ -12,6 +12,8 @@ import javax.servlet.ServletResponse;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.springframework.http.HttpMethod;
+
 import com.opensymphony.module.sitemesh.Config;
 import com.opensymphony.module.sitemesh.Factory;
 import com.opensymphony.sitemesh.Content;
@@ -70,7 +72,10 @@ public class SiteMeshFilter implements Filter {
             return;
         }
 
-        // TODO handle REST
+        if (isRestMethod(request)) {
+            chain.doFilter(request, response);
+            return;
+        }
 
         if (!contentProcessor.handles(webAppContext)) {
             // Optimization: If the content doesn't need to be processed, bypass SiteMesh.
@@ -115,7 +120,12 @@ public class SiteMeshFilter implements Filter {
 
     }
 
-    protected ContentProcessor initContentProcessor(SiteMeshWebAppContext webAppContext) {
+    private boolean isRestMethod(HttpServletRequest request) {
+    	String method = request.getMethod();
+		return "DELETE".equalsIgnoreCase(method) || "PUT".equalsIgnoreCase(method);
+	}
+
+	protected ContentProcessor initContentProcessor(SiteMeshWebAppContext webAppContext) {
         // TODO: Remove heavy coupling on horrible SM2 Factory
         Factory factory = Factory.getInstance(new Config(filterConfig));
         factory.refresh();

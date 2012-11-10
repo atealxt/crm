@@ -4,6 +4,8 @@ import java.io.InputStream;
 import java.util.HashMap;
 import java.util.List;
 
+import junit.framework.Assert;
+
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Sheet;
@@ -37,6 +39,7 @@ public class ExcelDataImporter extends TestBase {
 	public void execute() throws Exception {
 //		InputStream inp = new FileInputStream(new File(EXCEL_FILE_PATH));
 		InputStream inp = Thread.currentThread().getContextClassLoader().getResourceAsStream(TestConstants.TEST_RESOURCES_PATH_BASE + "environment/" + EXCEL_FILE_PATH);
+		Assert.assertNotNull(inp);
 		Workbook wb;
 		if (EXCEL_FILE_PATH.endsWith(".xlsx")) {
 			wb = new XSSFWorkbook(inp);

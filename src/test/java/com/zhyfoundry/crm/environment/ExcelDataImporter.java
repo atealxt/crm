@@ -53,13 +53,14 @@ public class ExcelDataImporter extends TestBase {
 
 		for (int i = 1; i <= rowCount; i++) {
 			Row row = sheet.getRow(i);
-			if (row.getZeroHeight()) {
-				continue;
-			}
 			int j = 2;
 			if (ImportUtil.isRowNull(row)) {
 				break;
 			}
+			if (row.getZeroHeight()) {
+				continue;
+			}
+			request.clearAttributes();
 			Enterprise o = new Enterprise();
 			o.setKeyword(ImportUtil.getCellValue(row.getCell(j++)));
 			o.setCountry(new Country(ImportUtil.getCellValue(row.getCell(j++))));

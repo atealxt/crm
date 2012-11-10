@@ -3,6 +3,7 @@ package com.zhyfoundry.crm.web.controller;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
@@ -78,6 +79,9 @@ public class EnterpriseController extends PagingController {
 			final HttpServletResponse resp,
 			final ModelMap modelMap) throws Exception {
 		validator.validate(enterprise, result);
+		if (enterprise.getCountry() != null && StringUtils.isNotEmpty(enterprise.getCountry().getName())) {
+			validator.validate(enterprise.getCountry(), result);
+		}
 		if (result.hasErrors()) {
 			if (id == null) {
 				return "admin/enterprise/add";

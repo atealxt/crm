@@ -230,6 +230,9 @@ public class SendMailService extends BaseService {
 				while (!enterprises.isEmpty()) {
 					for (Enterprise o : enterprises) {
 						String enterpriseEmail = o.getEmail();
+						if (StringUtils.isBlank(enterpriseEmail)) {
+							continue;
+						}
 						List<String> enterpriseEmails = splitEmails(enterpriseEmail);
 						for (String s : enterpriseEmails) {
 							boolean statusOK;

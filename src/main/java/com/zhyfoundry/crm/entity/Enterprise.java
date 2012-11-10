@@ -26,7 +26,7 @@ public class Enterprise implements java.io.Serializable, Recyclable {
 	private static final int MAX_LEN_KEYWORD = 512;
 	private static final int MAX_LEN_NAME = 100;
 	private static final int MAX_LEN_CONTACT = 200;
-	private static final int MAX_LEN_EMAIL = 300;
+	private static final int MAX_LEN_EMAIL = 1024;
 	private static final int MAX_LEN_TEL = 200;
 	private static final int MAX_LEN_MOBILENO = 200;
 	private static final int MAX_LEN_FAXNO = 200;

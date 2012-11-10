@@ -50,6 +50,9 @@ public class ExcelDataImporter extends TestBase {
 
 		for (int i = 1; i <= rowCount; i++) {
 			Row row = sheet.getRow(i);
+			if (row.getZeroHeight()) {
+				continue;
+			}
 			int j = 2;
 			if (ImportUtil.isRowNull(row)) {
 				break;

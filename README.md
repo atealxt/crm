@@ -16,10 +16,33 @@
 $ mvn install -Dmaven.test.skip=true
 ```
 
-* Manual create database:
+* Make sure your database Charset is UTF-8:
 
 ```
-mysql> CREATE DATABASE `ZHYFOUNDRY_CRM`;
+mysql> show variables like 'character_set_%';
++--------------------------+----------------------------+
+| Variable_name            | Value                      |
++--------------------------+----------------------------+
+| character_set_client     | utf8                       |
+| character_set_connection | utf8                       |
+| character_set_database   | utf8                       |
+| character_set_filesystem | binary                     |
+| character_set_results    | utf8                       |
+| character_set_server     | utf8                       |
+| character_set_system     | utf8                       |
+| character_sets_dir       | /usr/share/mysql/charsets/ |
++--------------------------+----------------------------+
+8 rows in set (0.00 sec)
+
+mysql> show variables like 'collation_%';
++----------------------+-----------------+
+| Variable_name        | Value           |
++----------------------+-----------------+
+| collation_connection | utf8_general_ci |
+| collation_database   | utf8_general_ci |
+| collation_server     | utf8_general_ci |
++----------------------+-----------------+
+3 rows in set (0.00 sec)
 ```
 
 * Setting database username and password in following files:

@@ -13,6 +13,8 @@ import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.Table;
 
+import org.springmodules.validation.bean.conf.loader.annotation.handler.Length;
+
 /**
  * @hibernate.class table="student"
  */
@@ -33,6 +35,7 @@ public class Student implements java.io.Serializable {
      * @hibernate.id generator-class="uuid.hex" column="id" length="32"
      */
     @Id
+    @Column(name = "id", length = 36)
     public String getId() {
         return this.id;
     }

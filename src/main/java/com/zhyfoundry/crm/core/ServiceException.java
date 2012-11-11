@@ -13,6 +13,7 @@ public class ServiceException extends RuntimeException {
 		super();
 	}
 
+	// TODO compile error?
 	public ServiceException(String message, Throwable cause, boolean enableSuppression, boolean writableStackTrace) {
 		super(message, cause, enableSuppression, writableStackTrace);
 	}

@@ -5,6 +5,7 @@
 
   <form:form commandName="o">
   <form:hidden path="id"/>
+  <%-- TODO 404 when click existed link? --%>
 
   <table>
     <thead>

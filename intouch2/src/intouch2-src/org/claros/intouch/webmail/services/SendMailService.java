@@ -239,7 +239,7 @@ public class SendMailService extends BaseService {
 							String statusMsg;
 							try {
 								setTo(s, email.getBaseHeader(), saveSentContacts, auth);
-								statusOK = sendMail(smtp, email, auth, request, o); // TODO 可根据企业定制标题和内容
+								statusOK = sendMail(smtp, email, auth, request, o); // TODO 可根据企业定制标题和内容 邮件标题规则
 								if (statusOK) {
 									statusMsg = "成功";
 								} else {

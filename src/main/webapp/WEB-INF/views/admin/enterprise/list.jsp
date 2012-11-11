@@ -28,7 +28,7 @@
 
   <table class="paginated">
     <thead>
-      <th></th>
+      <th></th><%-- TODO checkbox --%>
       <th>关键字</th>
       <th>所属国家</th>
       <th>公司名称</th>
@@ -41,6 +41,7 @@
       <th>备注</th>
       <th>创建时间</th><%-- TODO 时间控件 --%>
       <th>修改时间</th>
+      <%-- TODO 总计发送次数, 最后邮件发送时间 --%>
       <th>操作</th>
     </thead>
     <tbody>
@@ -100,4 +101,4 @@
 
   <script src="<c:url value="/javascripts/admin/enterprise.js"/>" type="text/javascript"></script>
 
-  <%-- TODO data link, order --%>
+  <%-- TODO ！order！, data link --%>

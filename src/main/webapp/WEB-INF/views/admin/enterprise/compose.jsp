@@ -125,7 +125,7 @@ session.setAttribute("lang", lang);
 												</tr>
 											</tbody>
 										</table>
-										<br/>
+										<br/><%-- TODO html link 404? --%>
 										<script>
 											tinyMCE.init({
 												mode : "exact",

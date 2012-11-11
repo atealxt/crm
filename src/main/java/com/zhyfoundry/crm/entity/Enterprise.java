@@ -12,10 +12,13 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+import javax.persistence.Transient;
 import javax.persistence.UniqueConstraint;
 
 import org.springmodules.validation.bean.conf.loader.annotation.handler.Length;
 import org.springmodules.validation.bean.conf.loader.annotation.handler.NotBlank;
+
+import com.zhyfoundry.crm.utils.CommonUtils;
 
 @Entity
 @Table(name = "ENTERPRISE", uniqueConstraints = { @UniqueConstraint(columnNames = { "NAME" }) })
@@ -229,6 +232,11 @@ public class Enterprise implements java.io.Serializable, Recyclable {
 	@Override
 	public void restore() {
 		this.status = STATUS_NORMAL;
+	}
+
+	@Transient
+	public String getEmailBrief() {
+		return CommonUtils.brief(email, 50);
 	}
 
 	@Override

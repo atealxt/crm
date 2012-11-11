@@ -14,7 +14,7 @@
 	    <c:when test="${!noRecord}">
 		    第${pager.pageNo}页共${pager.pageCount}页
 		    <c:forEach var ="i" begin="1" end ="${pager.pageCount}">
-		      <%-- 改进分页体验 --%><A HREF="###" onclick="goPage(this, '<c:url value="${pagingURL}"/>' + '&page=${i}')" >${i}</A>&nbsp;
+		      <%-- TODO 改进分页体验 --%><A HREF="###" onclick="goPage(this, '<c:url value="${pagingURL}"/>' + '&page=${i}')" >${i}</A>&nbsp;
 		    </c:forEach>
 		    第${pager.startRow + 1}条至第${pager.endRow}条记录，共${pager.totalRows}条记录
 	    </c:when>

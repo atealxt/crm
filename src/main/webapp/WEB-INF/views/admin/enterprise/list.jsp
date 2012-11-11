@@ -69,7 +69,7 @@
       <td><c:out value="${o.country.name}"/></td>
       <td><c:out value="${o.name}"/></td>
       <td><c:out value="${o.contact}"/></td>
-      <td><c:out value="${o.email}"/></td>
+      <td><c:out value="${o.emailBrief}"/></td>
       <td><c:out value="${o.tel}"/></td>
       <td><c:out value="${o.mobileNo}"/></td>
       <td><c:out value="${o.faxNo}"/></td>

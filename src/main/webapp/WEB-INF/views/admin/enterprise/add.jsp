@@ -5,7 +5,6 @@
 
   <form:form commandName="o">
   <form:hidden path="id"/>
-  <%-- TODO 404 when click existed link? --%>
 
   <table>
     <thead>
@@ -26,7 +25,7 @@
   <script type="text/javascript">
   (function($) {
 	  $('.enterpriseId').click(function() {
-		  window.open('<c:url value="/admin/enterprise/"/>' + $(this).attr("title"));
+		  window.open('<c:url value="/admin/enterprise/"/>' + $(this).attr("title").replace(",", ""));
 	  });
   })(jQuery);
   </script>

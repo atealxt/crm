@@ -27,3 +27,14 @@
 .paginated .even {
   background: #FFF5EE;
 }
+.paginated thead th {
+    cursor: pointer;
+    /*border-style: solid;
+	border-width: .5px;*/
+}
+.paginated thead th.asc{
+	background:url(../images/sort-arrow.gif) no-repeat 0 -19px;
+}
+.paginated thead th.desc{
+	background:url(../images/sort-arrow.gif) no-repeat 0 0;
+}

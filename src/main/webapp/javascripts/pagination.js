@@ -100,7 +100,7 @@ var goPage = function(e, url) {
 	$(e).closest("form").attr("action", url).submit();
 };
 
-$(document).ready(function() {
+(function($) {
 
 	var KEY_ORDER = 'order';
 	var VALUE_ORDER_ASC = 'asc';
@@ -136,4 +136,4 @@ $(document).ready(function() {
 		$order.val(decodeURIComponent($.param($paginated.data(KEY_ORDER))));
 		$paginated.closest("form").submit();
 	});
-});
+})(jQuery);

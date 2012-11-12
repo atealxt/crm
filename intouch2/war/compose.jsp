@@ -38,7 +38,6 @@
 										<input type="hidden" name="htmlEmail" value="false" />
 										<table border="0"  cellspacing="1"  cellpadding="3" width="100%">
 											<tbody class="tableBody" >
-												<%-- TODO 模板 --%>
 												<tr>
 													<td width="1%" nowrap="nowrap"><strong><i18n:message key="to"/>:</strong></td>
 													<td width="99%" valign="middle" nowrap="nowrap">

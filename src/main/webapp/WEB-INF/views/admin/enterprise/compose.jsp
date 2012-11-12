@@ -75,6 +75,7 @@ session.setAttribute("lang", lang);
 										<input type="hidden" name="htmlEmail" value="false" />
 										<table border="0"  cellspacing="1"  cellpadding="3" width="100%">
 											<tbody class="tableBody" >
+												<%-- TODO 模板 --%>
 												<tr>
 													<td colspan="2" nowrap="nowrap"><spring:message code="Enterprise.sendMailCount" text="Enterprise.sendMailCount" arguments="${EnterpriseCount}"/></td>
 												</tr>

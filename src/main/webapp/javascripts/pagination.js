@@ -105,13 +105,14 @@ $(document).ready(function() {
 	var KEY_ORDER = 'order';
 	var VALUE_ORDER_ASC = 'asc';
 	var VALUE_ORDER_DESC = 'desc';
-	var $body = $('.paginated');
+	var $paginated = $('.paginated');
+	var $order = $('#order');
 
-	var regex = /[?&]([^=#]+)=([^&#]*)/g, url = "?" + $('#order').val(), params = {}, match;
+	var regex = /[?&]([^=#]+)=([^&#]*)/g, url = "?" + $order.val(), params = {}, match;
 	while (match = regex.exec(url)) {
 		params[match[1]] = match[2];
 	}
-	$body.data(KEY_ORDER, params);
+	$paginated.data(KEY_ORDER, params);
 	// TODO style
 
 	$('.paginated thead th').click(function() {
@@ -119,7 +120,7 @@ $(document).ready(function() {
 		if (!name) {
 			return;
 		}
-		var order = $body.data(KEY_ORDER);
+		var order = $paginated.data(KEY_ORDER);
 		if (typeof order == "undefined" || order == null) {
 			order = {};
 		}
@@ -131,8 +132,8 @@ $(document).ready(function() {
 		} else {
 			delete order[name];
 		}
-		$body.data(KEY_ORDER, order);
-		$('#order').val(decodeURIComponent($.param($body.data(KEY_ORDER))));
-		// TODO submit
+		$paginated.data(KEY_ORDER, order);
+		$order.val(decodeURIComponent($.param($paginated.data(KEY_ORDER))));
+		$paginated.closest("form").submit();
 	});
 });

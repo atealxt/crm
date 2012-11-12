@@ -23,8 +23,8 @@
       <td><input type="submit" value="查询" /></td>
     </tr>
 
-    <c:forEach items="${list}" var="o">
-    <tr>
+    <c:forEach items="${list}" var="o" varStatus="loopStatus">
+    <tr class="${loopStatus.index % 2 == 0 ? 'even' : 'odd'}">
       <td></td>
       <td><c:out value="${o.name}"/></td>
       <td>

@@ -24,3 +24,6 @@
 .paginated .pager {
   margin: .25em;
 }
+.paginated .even {
+  background: #FFF5EE;
+}

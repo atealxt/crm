@@ -23,26 +23,26 @@
   <c:if test="${!recycle}">
   	<input type="button" value="新建" onclick="createRecord('<c:url value="/admin/enterprise/add"/>')" />
   	<input type="button" value="给匹配的企业发送邮件" onclick="sendEmail(this, '<c:url value="/admin/enterprise/sendEmail"/>')" />
-  	<!-- <input type="button" value="给选中的企业发送邮件" onclick="sendEmail('<c:url value="/admin/enterprise/sendEmail"/>')" /> -->
+  	<!-- TODO <input type="button" value="给选中的企业发送邮件" onclick="sendEmail('<c:url value="/admin/enterprise/sendEmail"/>')" /> -->
   </c:if>
 
   <table class="paginated">
     <thead>
       <th></th><%-- TODO checkbox --%>
-      <th>关键字</th>
-      <th>所属国家</th>
-      <th>公司名称</th>
-      <th>联系人</th>
-      <th>邮箱</th>
-      <th>电话</th>
-      <th>手机</th>
-      <th>传真</th>
-      <th>来源网站</th>
-      <th>备注</th>
-      <th>创建时间</th><%-- TODO 时间控件 --%>
-      <th>修改时间</th>
-      <th>邮件发送次数</th>
-      <th>最后发送时间</th>
+      <th name="keyword">关键字</th>
+      <th name="country.name">所属国家</th>
+      <th name="name">公司名称</th>
+      <th name="contact">联系人</th>
+      <th name="email">邮箱</th>
+      <th name="tel">电话</th>
+      <th name="mobileNo">手机</th>
+      <th name="faxNo">传真</th>
+      <th name="source">来源网站</th>
+      <th name="remark">备注</th>
+      <th name="createTime">创建时间</th><%-- TODO 时间控件 --%>
+      <th name="updateTime">修改时间</th>
+      <th name="countMailSent">邮件发送次数</th>
+      <th name="latestMailSent">最后发送时间</th>
       <th>操作</th>
     </thead>
     <tbody>
@@ -65,8 +65,8 @@
       <td><input type="submit" value="查询" /></td>
     </tr>
 
-    <c:forEach items="${list}" var="o">
-    <tr>
+    <c:forEach items="${list}" var="o" varStatus="loopStatus">
+    <tr class="${loopStatus.index % 2 == 0 ? 'even' : 'odd'}">
       <td><%--<input type="checkbox" name="selectedObj" value="${o.id}" />  --%></td>
       <td><c:out value="${o.keyword}"/></td>
       <td><c:out value="${o.country.name}"/></td>

@@ -99,3 +99,12 @@
 var goPage = function(e, url) {
 	$(e).closest("form").attr("action", url).submit();
 };
+
+$(document).ready(function(){
+	$('.paginated thead th').click(function() {
+		var name = $(this).attr("name");
+		if (!name) {
+			return;
+		}
+	});
+});

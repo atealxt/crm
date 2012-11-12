@@ -65,6 +65,9 @@ public class Enterprise implements java.io.Serializable, Recyclable {
 	@Length(max = MAX_LEN_REMARK)
 	private String remark;// 备注
 
+	private Integer countMailSent = 0;// 总计邮件发送次数
+	private Date latestMailSent;// 最后一次发送邮件的时间
+
 	public Enterprise() {
 		super();
 	}
@@ -192,6 +195,7 @@ public class Enterprise implements java.io.Serializable, Recyclable {
 	}
 
 	@Column(name = "CREATE_TIME", insertable = false, updatable = false, columnDefinition = "TIMESTAMP NULL default CURRENT_TIMESTAMP")
+	@Temporal(TemporalType.TIMESTAMP)
 	public Date getCreateTime() {
 		return createTime;
 	}
@@ -219,6 +223,25 @@ public class Enterprise implements java.io.Serializable, Recyclable {
 		this.status = status;
 	}
 
+	@Column(name = "COUNT_MAIL_SENT")
+	public Integer getCountMailSent() {
+		return countMailSent;
+	}
+
+	public void setCountMailSent(Integer countMailSent) {
+		this.countMailSent = countMailSent;
+	}
+
+	@Column(name = "LATEST_MAIL_SENT", insertable = false, updatable = false)
+	@Temporal(TemporalType.TIMESTAMP)
+	public Date getLatestMailSent() {
+		return latestMailSent;
+	}
+
+	public void setLatestMailSent(Date latestMailSent) {
+		this.latestMailSent = latestMailSent;
+	}
+
 	@Override
 	public void remove() {
 		this.status = STATUS_DELETE;
@@ -237,6 +260,11 @@ public class Enterprise implements java.io.Serializable, Recyclable {
 	@Transient
 	public String getEmailBrief() {
 		return CommonUtils.brief(email, 50);
+	}
+
+	@Transient
+	public void increaseMailSentCount() {
+		this.countMailSent++;
 	}
 
 	@Override

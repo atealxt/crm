@@ -61,6 +61,14 @@
       <td>修改时间</td>
       <td><fmt:formatDate value="${o.updateTime}" pattern="yyyy-MM-dd HH:mm:ss"/></td>
     </tr>
+    <tr>
+      <td>邮件发送次数</td>
+      <td><c:out value="${o.countMailSent}"/></td>
+    </tr>
+    <tr>
+      <td>最后发送时间</td>
+      <td><fmt:formatDate value="${o.latestMailSent}" pattern="yyyy-MM-dd HH:mm:ss"/></td>
+    </tr>
     </tbody>
     <tfoot><th></th></tfoot>
   </table>

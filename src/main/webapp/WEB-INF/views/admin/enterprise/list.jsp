@@ -41,7 +41,8 @@
       <th>备注</th>
       <th>创建时间</th><%-- TODO 时间控件 --%>
       <th>修改时间</th>
-      <%-- TODO 总计发送次数, 最后邮件发送时间 --%>
+      <th>邮件发送次数</th>
+      <th>最后发送时间</th>
       <th>操作</th>
     </thead>
     <tbody>
@@ -57,6 +58,8 @@
       <td><form:input path="faxNo"/> </td>
       <td><form:input path="source"/> </td>
       <td><form:input path="remark"/> </td>
+      <td></td>
+      <td></td>
       <td></td>
       <td></td>
       <td><input type="submit" value="查询" /></td>
@@ -77,6 +80,8 @@
       <td><c:out value="${o.remark}"/></td>
       <td><fmt:formatDate value="${o.createTime}" pattern="yyyy-MM-dd"/></td>
       <td><fmt:formatDate value="${o.updateTime}" pattern="yyyy-MM-dd"/></td>
+      <td><c:out value="${o.countMailSent}"/></td>
+      <td><fmt:formatDate value="${o.latestMailSent}" pattern="yyyy-MM-dd"/></td>
       <td>
       <c:if test="${!recycle}">
       <input type="button" value="查看" onclick="viewRecord('<c:url value="/admin/enterprise/${o.id}"/>')" />

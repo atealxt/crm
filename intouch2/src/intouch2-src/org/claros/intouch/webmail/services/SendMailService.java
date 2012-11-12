@@ -233,6 +233,7 @@ public class SendMailService extends BaseService {
 						if (StringUtils.isBlank(enterpriseEmail)) {
 							continue;
 						}
+						boolean hasEnterpriseSent = false;
 						List<String> enterpriseEmails = splitEmails(enterpriseEmail);
 						for (String s : enterpriseEmails) {
 							boolean statusOK;
@@ -242,6 +243,7 @@ public class SendMailService extends BaseService {
 								statusOK = sendMail(smtp, email, auth, request, o); // TODO 可根据企业定制标题和内容 邮件标题规则
 								if (statusOK) {
 									statusMsg = "成功";
+									hasEnterpriseSent = true;
 								} else {
 									statusMsg = "失败";
 								}
@@ -256,6 +258,10 @@ public class SendMailService extends BaseService {
 							info.append(" 状态：").append(statusMsg);
 							log.info("发送邮件 " + info.toString());
 							sendInfo.append(info).append("<br>");
+						}
+						if (hasEnterpriseSent) {
+							o.increaseMailSentCount();
+							enterpriseService.merge(o); // TODO test
 						}
 					}
 					pager = new Pager(i++, 20);

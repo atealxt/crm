@@ -87,7 +87,7 @@ public class LoginService extends HttpServlet {
 					log.debug("Starting authentication");
 
 					try {
-						handler = MailAuth.authenticate(profile, auth, handler); // TODO fail without run in IDE?
+						handler = MailAuth.authenticate(profile, auth, handler);
 						if (handler != null) {
 							log.debug("Authentication was successful... :) Good news!");
 

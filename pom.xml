@@ -108,7 +108,7 @@
 			<exclusions>
 				<exclusion>
 					<artifactId>commons-beanutils</artifactId>
-					<groupId>commons-beanutils</groupId>
+					<groupId>commons-beanutils</groupId><!-- TODO build double jar? -->
 				</exclusion>
 			</exclusions>
 		</dependency>
@@ -574,6 +574,29 @@
 								<source>intouch2/src/intouch2-src/</source>
 								<source>intouch2/src/claros-base-src/</source>
 							</sources>
+						</configuration>
+					</execution>
+					<execution>
+						<id>add-resource</id>
+						<phase>generate-resources</phase>
+						<goals>
+							<goal>add-resource</goal>
+						</goals>
+						<configuration>
+							<resources>
+								<resource>
+									<directory>intouch2/src/claros-base-src</directory>
+									<excludes>
+										<exclude>**/*.java</exclude>
+									</excludes>
+								</resource>
+								<resource>
+									<directory>intouch2/src/intouch2-src</directory>
+									<excludes>
+										<exclude>**/*.java</exclude>
+									</excludes>
+								</resource>
+							</resources>
 						</configuration>
 					</execution>
 				</executions>

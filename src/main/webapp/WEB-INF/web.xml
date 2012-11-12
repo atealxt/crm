@@ -108,6 +108,10 @@
 		<servlet-name>default</servlet-name>
 		<url-pattern>*.html</url-pattern>
 	</servlet-mapping>
+	<servlet-mapping>
+		<servlet-name>default</servlet-name>
+		<url-pattern>/tinymce/*</url-pattern>
+	</servlet-mapping>
 
 	<!-- ehcache的GZIP Filter的实现并不是很好，这里仅测试 -->
 	<filter>

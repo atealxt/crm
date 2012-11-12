@@ -71,7 +71,7 @@ public class DBMaker {
 		sf.getCurrentSession().beginTransaction();
 		sf.getCurrentSession().save(country);
 
-		for (int i = 1; i < 60; i++) {
+		for (int i = 1; i < 160; i++) {
 			Enterprise e = new Enterprise(i, "keyword", country, "name" + i, "admin", "admin@admin.com", "123456",
 					"234567", "345678", "http://www.123.com", "remark");
 			sf.getCurrentSession().save(e);

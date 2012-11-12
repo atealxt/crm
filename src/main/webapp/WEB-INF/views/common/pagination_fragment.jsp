@@ -13,9 +13,27 @@
     <c:choose>
 	    <c:when test="${!noRecord}">
 		    第${pager.pageNo}页共${pager.pageCount}页
-		    <c:forEach var ="i" begin="1" end ="${pager.pageCount}">
-		      <%-- TODO 改进分页体验 --%><A HREF="###" onclick="goPage(this, '<c:url value="${pagingURL}"/>' + '&page=${i}')" >${i}</A>&nbsp;
-		    </c:forEach>
+		    <%-- TODO 改进分页体验 --%>
+		    <c:choose>
+			    <c:when test="${pager.pageNo != 1}">
+			    	<A HREF="###" onclick="goPage(this, '<c:url value="${pagingURL}"/>' + '&page=${1}')" >首页</A>&nbsp;
+			    	<A HREF="###" onclick="goPage(this, '<c:url value="${pagingURL}"/>' + '&page=${pager.pageNo - 1}')" >上一页</A>&nbsp;
+			    </c:when>
+			    <c:otherwise>
+			    	<A>首页</A>&nbsp;
+			    	<A>上一页</A>&nbsp;
+			    </c:otherwise>
+		    </c:choose>
+		    <c:choose>
+			    <c:when test="${pager.pageNo != pager.pageCount}">
+			    	<A HREF="###" onclick="goPage(this, '<c:url value="${pagingURL}"/>' + '&page=${pager.pageNo + 1}')" >下一页</A>&nbsp;
+			    	<A HREF="###" onclick="goPage(this, '<c:url value="${pagingURL}"/>' + '&page=${pager.pageCount}')" >末页</A>&nbsp;
+			    </c:when>
+			    <c:otherwise>
+			    	<A>下一页</A>&nbsp;
+			    	<A>末页</A>&nbsp;
+			    </c:otherwise>
+		    </c:choose>
 		    第${pager.startRow + 1}条至第${pager.endRow}条记录，共${pager.totalRows}条记录
 	    </c:when>
 	    <c:otherwise>

@@ -1,4 +1,3 @@
-;
 (function($) {
 
     $.fn.staticPaginate = function(numPerPage) {

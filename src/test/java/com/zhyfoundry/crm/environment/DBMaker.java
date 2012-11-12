@@ -77,6 +77,12 @@ public class DBMaker {
 			sf.getCurrentSession().save(e);
 		}
 
+		for (int i = 2; i < 30; i++) {
+			country = new Country("国家" + i);
+			sf.getCurrentSession().beginTransaction();
+			sf.getCurrentSession().save(country);
+		}
+
 		sf.getCurrentSession().getTransaction().commit();
 		sf.getCurrentSession().close();
 	}

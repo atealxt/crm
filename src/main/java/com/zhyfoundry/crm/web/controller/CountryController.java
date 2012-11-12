@@ -15,20 +15,17 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import com.zhyfoundry.crm.core.ServiceException;
-import com.zhyfoundry.crm.core.dao.Pager;
 import com.zhyfoundry.crm.entity.Country;
 import com.zhyfoundry.crm.service.CountryService;
-import com.zhyfoundry.crm.web.PagingController;
+import com.zhyfoundry.crm.web.BaseController;
 
 @Controller
-public class CountryController extends PagingController {
+public class CountryController extends BaseController {
 
 	@RequestMapping(value = "/admin/country")
 	public String list(final HttpServletRequest req, final HttpServletResponse resp, final ModelMap modelMap, @ModelAttribute("condition") final Country condition)
 			throws Exception {
-		Pager pager = getPager(req);
-		modelMap.addAttribute("list", countryService.getCountries(condition, pager));
-		modelMap.addAttribute("pager", pager);
+		modelMap.addAttribute("list", countryService.getCountries(condition));
 		return "admin/country/list";
 	}
 
@@ -83,16 +80,6 @@ public class CountryController extends PagingController {
 			initResponse(resp);
 			resp.getWriter().print(e.getMessage());
 		}
-	}
-
-	@Override
-	protected int getDefaultPageSize() {
-		return 50;
-	}
-
-	@Override
-	protected int getCountLimitation() {
-		return 500;
 	}
 
 	@Autowired

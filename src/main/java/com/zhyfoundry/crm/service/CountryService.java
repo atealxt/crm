@@ -10,14 +10,13 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.zhyfoundry.crm.core.ServiceException;
 import com.zhyfoundry.crm.core.dao.BaseDao;
-import com.zhyfoundry.crm.core.dao.Pager;
-import com.zhyfoundry.crm.core.service.PaginationServiceImpl;
+import com.zhyfoundry.crm.core.service.BaseServiceImpl;
 import com.zhyfoundry.crm.dao.CountryDao;
 import com.zhyfoundry.crm.dao.EnterpriseDao;
 import com.zhyfoundry.crm.entity.Country;
 
 @Service
-public class CountryService extends PaginationServiceImpl<Country, Integer> {
+public class CountryService extends BaseServiceImpl<Country, Integer> {
 
 	@Autowired
 	private CountryDao countryDao;
@@ -34,7 +33,7 @@ public class CountryService extends PaginationServiceImpl<Country, Integer> {
 		return getDao().findByQuery("from Country t order by t.name");
 	}
 
-	public List<Country> getCountries(Country condition, final Pager pager) {
+	public List<Country> getCountries(Country condition) {
 		StringBuilder sql = new StringBuilder("from Country t where 1=1 ");
 		List<Object> params = new ArrayList<Object>();
 		if (condition.getId() != null) {
@@ -46,7 +45,7 @@ public class CountryService extends PaginationServiceImpl<Country, Integer> {
 			params.add("%" + condition.getName() + "%");
 		}
 		sql.append(" order by t.name");
-		return findByQuery(sql.toString(), pager, params.toArray());
+		return find(sql.toString(), params.toArray());
 	}
 
 	@Transactional

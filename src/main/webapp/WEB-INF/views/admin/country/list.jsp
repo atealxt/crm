@@ -7,10 +7,6 @@
   <link rel="stylesheet" href="<c:url value="/stylesheets/paging.css"/>" type="text/css" media="screen" />
 
   <form:form commandName="condition">
-  <c:set var="pagingURL" value="/admin/country" />
-  <jsp:include page="/WEB-INF/views/common/pagination_fragment.jsp">
-  	<jsp:param name="pagingURL" value="${pagingURL}"/>
-  </jsp:include>
 
   <input type="button" value="新建" onclick="createRecord('<c:url value="/admin/country/add"/>')" />
 
@@ -42,9 +38,11 @@
     <tfoot><th></th></tfoot>
   </table>
 
-  <jsp:include page="/WEB-INF/views/common/pagination_fragment.jsp">
-  	<jsp:param name="pagingURL" value="${pagingURL}"/>
-  </jsp:include>
+  <script type="text/javascript">
+      $(document).ready(function() {
+        $('table.paginated').staticPaginate(20);
+      });
+  </script>
 
   </form:form>
 

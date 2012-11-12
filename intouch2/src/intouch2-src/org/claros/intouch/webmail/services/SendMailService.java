@@ -260,8 +260,8 @@ public class SendMailService extends BaseService {
 							sendInfo.append(info).append("<br>");
 						}
 						if (hasEnterpriseSent) {
-							o.increaseMailSentCount();
-							enterpriseService.merge(o); // TODO test
+//							o.increaseMailSentCount();
+//							enterpriseService.merge(o); // TODO test 考虑排序死循环
 						}
 					}
 					pager = new Pager(i++, 20);

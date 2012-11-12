@@ -100,11 +100,39 @@ var goPage = function(e, url) {
 	$(e).closest("form").attr("action", url).submit();
 };
 
-$(document).ready(function(){
+$(document).ready(function() {
+
+	var KEY_ORDER = 'order';
+	var VALUE_ORDER_ASC = 'asc';
+	var VALUE_ORDER_DESC = 'desc';
+	var $body = $('.paginated');
+
+	var regex = /[?&]([^=#]+)=([^&#]*)/g, url = "?" + $('#order').val(), params = {}, match;
+	while (match = regex.exec(url)) {
+		params[match[1]] = match[2];
+	}
+	$body.data(KEY_ORDER, params);
+	// TODO style
+
 	$('.paginated thead th').click(function() {
 		var name = $(this).attr("name");
 		if (!name) {
 			return;
 		}
+		var order = $body.data(KEY_ORDER);
+		if (typeof order == "undefined" || order == null) {
+			order = {};
+		}
+		var orderName = order[name];
+		if (typeof orderName == "undefined") {
+			order[name] = VALUE_ORDER_ASC;
+		} else if (orderName == VALUE_ORDER_ASC) {
+			order[name] = VALUE_ORDER_DESC;
+		} else {
+			delete order[name];
+		}
+		$body.data(KEY_ORDER, order);
+		$('#order').val(decodeURIComponent($.param($body.data(KEY_ORDER))));
+		// TODO submit
 	});
 });

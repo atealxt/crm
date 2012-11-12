@@ -33,7 +33,7 @@ public class EnterpriseService extends PaginationServiceImpl<Enterprise, Integer
 	public List<Enterprise> getEnterprises(Enterprise condition, final Pager pager) {
 		StringBuilder query = new StringBuilder();
 		List<Object> params = new ArrayList<Object>();
-		geneQueryString(query, params, condition);
+		geneQueryString(query, params, condition, pager.getOrder());
 		final List<Enterprise> enterprises = findByQuery(query.toString(), pager, params.toArray());
 		for (final Enterprise f : enterprises) {
 			initialize(f.getCountry());
@@ -41,7 +41,7 @@ public class EnterpriseService extends PaginationServiceImpl<Enterprise, Integer
 		return enterprises;
 	}
 
-	private void geneQueryString(StringBuilder query, List<Object> params, Enterprise condition) {
+	private void geneQueryString(StringBuilder query, List<Object> params, Enterprise condition, String order) {
 		query.append("select t from Enterprise t left join t.country where 1=1 ");
 		if (condition.getId() != null) {
 			query.append(" and t.id = ?");
@@ -97,7 +97,7 @@ public class EnterpriseService extends PaginationServiceImpl<Enterprise, Integer
 			query.append(" and t.remark like ?");
 			params.add("%" + condition.getRemark() + "%");
 		}
-		query.append(" order by t.country.name,t.name,t.createTime");
+		query.append(order);
 	}
 
 	@Transactional
@@ -164,7 +164,7 @@ public class EnterpriseService extends PaginationServiceImpl<Enterprise, Integer
 	public long count(Enterprise condition) {
 		StringBuilder query = new StringBuilder();
 		List<Object> params = new ArrayList<Object>();
-		geneQueryString(query, params, condition);
+		geneQueryString(query, params, condition, "");
 		return getDao().count(query.toString(), params.toArray());
 	}
 }

@@ -1,5 +1,7 @@
 package com.zhyfoundry.crm.core.dao;
 
+import org.apache.commons.lang.StringUtils;
+
 public class Pager {
 
 	private int startRow;
@@ -7,12 +9,25 @@ public class Pager {
 	private final int pageNo;
 	private long totalRows = -1;
 	private int pageCount = -1;
+	private final String order;
 
 	public Pager(final int pageNo, final int recordsPerPage) {
+		this(pageNo, recordsPerPage, null);
+	}
+
+	public Pager(final int pageNo, final int recordsPerPage, final String order) {
 		super();
+		this.order = geneOrderByHQL(order);
 		this.pageNo = pageNo;
 		this.recordsPerPage = recordsPerPage;
 		this.startRow = calcStartIndex();
+	}
+
+	private String geneOrderByHQL(String order) {
+		if (StringUtils.isEmpty(order)) {
+			return "";
+		}
+		return " order by " + order.replace("=", " ").replace("&", ", ");
 	}
 
 	public int getStartRow() {
@@ -40,7 +55,7 @@ public class Pager {
 	}
 
 	public int getPageCount() {
-		if (pageCount != -1){
+		if (pageCount != -1) {
 			return pageCount;
 		}
 		return pageCount = calcPageSum();
@@ -48,6 +63,10 @@ public class Pager {
 
 	public int getPageNo() {
 		return pageNo;
+	}
+
+	public String getOrder() {
+		return order;
 	}
 
 	/** 分页：计算从第几行开始 */
@@ -59,7 +78,6 @@ public class Pager {
 		}
 	}
 
-	/** 分页：计算总页数 */
 	private int calcPageSum() {
 		if (totalRows % recordsPerPage > 0) {
 			return (int) (totalRows / recordsPerPage + 1);

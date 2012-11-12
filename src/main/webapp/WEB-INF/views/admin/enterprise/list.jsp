@@ -26,23 +26,24 @@
   	<!-- TODO <input type="button" value="给选中的企业发送邮件" onclick="sendEmail('<c:url value="/admin/enterprise/sendEmail"/>')" /> -->
   </c:if>
 
+  <input type="hidden" id="order" name="order" value="<c:out value="${param.order}"/>" />
   <table class="paginated">
     <thead>
       <th></th><%-- TODO checkbox --%>
-      <th name="keyword">关键字</th>
-      <th name="country.name">所属国家</th>
-      <th name="name">公司名称</th>
-      <th name="contact">联系人</th>
-      <th name="email">邮箱</th>
-      <th name="tel">电话</th>
-      <th name="mobileNo">手机</th>
-      <th name="faxNo">传真</th>
-      <th name="source">来源网站</th>
-      <th name="remark">备注</th>
-      <th name="createTime">创建时间</th><%-- TODO 时间控件 --%>
-      <th name="updateTime">修改时间</th>
-      <th name="countMailSent">邮件发送次数</th>
-      <th name="latestMailSent">最后发送时间</th>
+      <th name="t.keyword">关键字</th>
+      <th name="t.country.name">所属国家</th>
+      <th name="t.name">公司名称</th>
+      <th name="t.contact">联系人</th>
+      <th name="t.email">邮箱</th>
+      <th name="t.tel">电话</th>
+      <th name="t.mobileNo">手机</th>
+      <th name="t.faxNo">传真</th>
+      <th name="t.source">来源网站</th>
+      <th name="t.remark">备注</th>
+      <th name="t.createTime">创建时间</th><%-- TODO 时间控件 --%>
+      <th name="t.updateTime">修改时间</th>
+      <th name="t.countMailSent">邮件发送次数</th>
+      <th name="t.latestMailSent">最后发送时间</th>
       <th>操作</th>
     </thead>
     <tbody>

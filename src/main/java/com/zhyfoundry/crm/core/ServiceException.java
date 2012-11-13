@@ -7,15 +7,10 @@ public class ServiceException extends RuntimeException {
 
 	private static final long serialVersionUID = 3805220635264340400L;
 
-	private List<Object> reasons = new ArrayList<Object>();
+	private final List<Object> reasons = new ArrayList<Object>();
 
 	public ServiceException() {
 		super();
-	}
-
-	// TODO compile error?
-	public ServiceException(String message, Throwable cause, boolean enableSuppression, boolean writableStackTrace) {
-		super(message, cause, enableSuppression, writableStackTrace);
 	}
 
 	public ServiceException(String message, Throwable cause) {

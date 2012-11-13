@@ -107,4 +107,4 @@
 
   <script src="<c:url value="/javascripts/admin/enterprise.js"/>" type="text/javascript"></script>
 
-  <%-- TODO ！order！, data link --%>
+  <%-- TODO data link --%>

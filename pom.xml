@@ -108,7 +108,7 @@
 			<exclusions>
 				<exclusion>
 					<artifactId>commons-beanutils</artifactId>
-					<groupId>commons-beanutils</groupId><!-- TODO build double jar? -->
+					<groupId>commons-beanutils</groupId>
 				</exclusion>
 			</exclusions>
 		</dependency>

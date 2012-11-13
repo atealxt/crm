@@ -167,4 +167,9 @@ public class EnterpriseService extends PaginationServiceImpl<Enterprise, Integer
 		geneQueryString(query, params, condition, "");
 		return getDao().count(query.toString(), params.toArray());
 	}
+
+	@Transactional
+	public void increaseMailSentCount(Integer id) {
+		getDao().execute("update Enterprise set countMailSent = countMailSent + 1 where id = ?", id);
+	}
 }

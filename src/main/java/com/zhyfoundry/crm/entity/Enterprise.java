@@ -262,11 +262,6 @@ public class Enterprise implements java.io.Serializable, Recyclable {
 		return CommonUtils.brief(email, 50);
 	}
 
-	@Transient
-	public void increaseMailSentCount() {
-		this.countMailSent++;
-	}
-
 	@Override
 	public String toString() {
 		return "Enterprise [id=" + id + ", name=" + name + "]";

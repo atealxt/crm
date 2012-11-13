@@ -227,6 +227,7 @@ public class SendMailService extends BaseService {
 				Pager pager = new Pager(i++, 20);
 				EnterpriseService enterpriseService = DIManager.getBean(EnterpriseService.class);
 				List<Enterprise> enterprises = enterpriseService.getEnterprises(condition, pager);
+				List<Integer> enterprisesId = new ArrayList<Integer>();
 				while (!enterprises.isEmpty()) {
 					for (Enterprise o : enterprises) {
 						String enterpriseEmail = o.getEmail();
@@ -260,12 +261,14 @@ public class SendMailService extends BaseService {
 							sendInfo.append(info).append("<br>");
 						}
 						if (hasEnterpriseSent) {
-//							o.increaseMailSentCount();
-//							enterpriseService.merge(o); // TODO test 考虑排序死循环
+							enterprisesId.add(o.getId());
 						}
 					}
 					pager = new Pager(i++, 20);
 					enterprises = enterpriseService.getEnterprises(condition, pager);
+				}
+				for (Integer id : enterprisesId) {
+					enterpriseService.increaseMailSentCount(id); // TODO test
 				}
 				out.print(sendInfo.toString());
 			} else {

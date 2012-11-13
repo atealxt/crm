@@ -91,6 +91,7 @@
 		<url-pattern>*.gif</url-pattern>
 		<url-pattern>*.jpg</url-pattern>
 		<url-pattern>*.png</url-pattern>
+		<url-pattern>*.swf</url-pattern>
 		<url-pattern>*.html</url-pattern>
 		<url-pattern>/tinymce/*</url-pattern>
 	</servlet-mapping>

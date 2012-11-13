@@ -93,8 +93,9 @@
 		<url-pattern>*.png</url-pattern>
 		<url-pattern>*.swf</url-pattern>
 		<url-pattern>*.xml</url-pattern>
+		<url-pattern>*.txt</url-pattern>
+		<url-pattern>*.htm</url-pattern>
 		<url-pattern>*.html</url-pattern>
-		<url-pattern>/tinymce/*</url-pattern>
 	</servlet-mapping>
 
 	<!-- ehcache的GZIP Filter的实现并不是很好，这里仅测试 -->

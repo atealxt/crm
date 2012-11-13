@@ -29,7 +29,11 @@
 }
 
 .paginated .even {
-	background: #FFF5EE;
+	background: #EEEEEE;
+}
+
+.paginated .odd {
+	background: #DDDDDD;
 }
 
 .paginated thead tr th {

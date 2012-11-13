@@ -40,7 +40,7 @@ session.setAttribute("lang", lang);
 <div id="main">
 
 <!-- COMPOSE STARTS -->
-<div id="compose" style="">
+<div id="compose" style="font-size: 12px">
 	<div class="inboxholder">
 		<div class="inner">
 			<ul id="tools">
@@ -84,8 +84,11 @@ session.setAttribute("lang", lang);
 													</td>
 												</tr>
 												<tr>
-													<td width="1%" nowrap="nowrap"><strong><i18n:message key="subject"/>:</strong> </td>
-													<td width="99%" nowrap="nowrap"><input type="text" name="subject" id="subject" size="80" onkeydown="return(subjectJump(event));"/></td>
+													<td width="1%" nowrap="nowrap" valign="top"><strong><i18n:message key="subject"/>:</strong></td>
+													<td width="99%" nowrap="nowrap">
+														<input type="text" name="subject" id="subject" size="80" title="<c:out value="${subjectExample}"/>"/><br>
+														<span id="subjectExample" style="line-height:2em;"><c:out value="${subjectExample}" escapeXml="false"/></span>
+													</td>
 												</tr>
 												<tr id="messageOptions" style="display: none;">
 													<td width="1%" nowrap="nowrap">&nbsp;</td>

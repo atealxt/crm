@@ -40,6 +40,7 @@ public class EnterpriseController extends PagingController {
 			throws Exception {
 		modelMap.addAttribute("EnterpriseCount", enterpriseService.count(condition));
 		req.getSession().setAttribute(EMAIL_CONTIDION_OBJ, condition);
+		modelMap.addAttribute("subjectExample", "支持参数：${name} - 企业名称，${contact} - 联系人<br>例如：对于“Dear ${name}, how are you”，企业 MyFoundry 生成的标题为：“Dear MyFoundry, how are you”。<br>支持逻辑或关系，如对于“Dear ${contact|name}, how are you”，企业 MyFoundry 有联系人Tom时生成的标题为：“Dear Tom, how are you”，没有联系人时生成的标题为：“Dear MyFoundry, how are you”。");
 		return "admin/enterprise/compose";
 	}
 

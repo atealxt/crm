@@ -252,7 +252,8 @@ public class SendMailService extends BaseService {
 								if (sentCnt >= maxSentCnt) {
 									break;
 								}
-								statusOK = sendMail(smtp, email, auth, request, o); // TODO 可根据企业定制标题和内容 邮件标题规则
+								setSubject(subject, o, email.getBaseHeader());
+								statusOK = sendMail(smtp, email, auth, request, o);
 								if (statusOK) {
 									statusMsg = "成功";
 									hasEnterpriseSent = true;
@@ -301,6 +302,21 @@ public class SendMailService extends BaseService {
 			out.print("fail");
 			log.error(e.getMessage(), e);
 		}
+	}
+
+	private void setSubject(String subject, Enterprise o, EmailHeader header) {
+		// TODO test
+		String sj = subject, s = "";
+		if (subject.indexOf("${contact|name}") != -1) {
+			s = o.getContact() != null ? o.getContact() : o.getName();
+			sj = sj.replace("${contact|name}", s);
+		}
+		if (subject.indexOf("${name|contact}") != -1) {
+			s= o.getName() != null ? o.getName() : o.getContact();
+			sj = sj.replace("${name|contact}", s);
+		}
+		sj = sj.replace("${name}", o.getName()).replace("${contact}", o.getContact());
+		header.setSubject(sj);
 	}
 
 	private List<String> splitEmails(String enterpriseEmail) {

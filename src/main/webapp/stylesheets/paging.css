@@ -28,6 +28,10 @@
 	margin: .25em;
 }
 
+.paginated thead tr th {
+	background-color: #E5EECC;
+}
+
 .paginated .even {
 	background: #EEEEEE;
 }

@@ -3,6 +3,10 @@
 	vertical-align: top;
 }
 
+.paginated thead tr th {
+	text-align: left;
+}
+
 .paginated tfoot th {
 	text-align: right;
 	margin: 0;
@@ -42,7 +46,7 @@
 
 .paginated .order {
 	display: inline-block;
-	margin-left: 5px;
+	margin-right: 5px;
 	width: 7px;
 	height: 15px;
 	background-image: url(../images/sort-arrow.gif);

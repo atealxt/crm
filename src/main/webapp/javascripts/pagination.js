@@ -115,9 +115,9 @@ var goPage = function(e, url) {
 	$paginated.data(KEY_ORDER, params);
 	$.each(params, function(_name, _value) {
 		if (_value == VALUE_ORDER_ASC) {
-			$paginated.find('th[name="' + _name + '"]').append('<span class="order asc"/>');
+			$paginated.find('th[name="' + _name + '"]').prepend('<span class="order asc"/>');
 		} else {
-			$paginated.find('th[name="' + _name + '"]').append('<span class="order desc"/>');
+			$paginated.find('th[name="' + _name + '"]').prepend('<span class="order desc"/>');
 		}
 	});
 

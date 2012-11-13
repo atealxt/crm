@@ -77,7 +77,11 @@ session.setAttribute("lang", lang);
 											<tbody class="tableBody" >
 												<%-- TODO 模板 --%>
 												<tr>
-													<td colspan="2" nowrap="nowrap"><spring:message code="Enterprise.sendMailCount" text="Enterprise.sendMailCount" arguments="${EnterpriseCount}"/></td>
+													<td colspan="2" nowrap="nowrap">
+														<spring:message code="Enterprise.sendMailCount" text="Enterprise.sendMailCount" arguments="${EnterpriseCount}"/>
+														<spring:message code="Enterprise.sendMailCountLimitation" text="Enterprise.sendMailCountLimitation"/>
+														<input type="text" name="sendMailCountLimitation" size="5" style="width:30px;" maxlength="5" />
+													</td>
 												</tr>
 												<tr>
 													<td width="1%" nowrap="nowrap"><strong><i18n:message key="subject"/>:</strong> </td>

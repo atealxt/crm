@@ -223,7 +223,15 @@ public class SendMailService extends BaseService {
 			if (isEnterprise) {
 				StringBuilder sendInfo = new StringBuilder("<h2>发送报告</h2>");// TODO 使用模板格式化显示
 				Enterprise condition = (Enterprise) request.getSession().getAttribute(EnterpriseController.EMAIL_CONTIDION_OBJ);
-				int i = 1;
+				int i = 1, sentCnt = 0;
+				int maxSentCnt = Integer.MAX_VALUE; // TODO test
+				if (request.getParameter("sendMailCountLimitation") != null) {
+					try {
+						maxSentCnt = Integer.parseInt(request.getParameter("sendMailCountLimitation"));
+					} catch (NumberFormatException e) {
+						// TODO check input is number by using JS, and remove this catch.
+					}
+				}
 				Pager pager = new Pager(i++, 20);
 				EnterpriseService enterpriseService = DIManager.getBean(EnterpriseService.class);
 				List<Enterprise> enterprises = enterpriseService.getEnterprises(condition, pager);
@@ -241,10 +249,14 @@ public class SendMailService extends BaseService {
 							String statusMsg;
 							try {
 								setTo(s, email.getBaseHeader(), saveSentContacts, auth);
+								if (sentCnt >= maxSentCnt) {
+									break;
+								}
 								statusOK = sendMail(smtp, email, auth, request, o); // TODO 可根据企业定制标题和内容 邮件标题规则
 								if (statusOK) {
 									statusMsg = "成功";
 									hasEnterpriseSent = true;
+									sentCnt++;
 								} else {
 									statusMsg = "失败";
 								}
@@ -263,6 +275,12 @@ public class SendMailService extends BaseService {
 						if (hasEnterpriseSent) {
 							enterprisesId.add(o.getId());
 						}
+						if (sentCnt >= maxSentCnt) {
+							break;
+						}
+					}
+					if (sentCnt >= maxSentCnt) {
+						break;
 					}
 					pager = new Pager(i++, 20);
 					enterprises = enterpriseService.getEnterprises(condition, pager);

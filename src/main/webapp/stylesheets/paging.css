@@ -36,11 +36,6 @@
 	background: #DDDDDD;
 }
 
-.paginated thead tr th {
-	cursor: pointer;
-	/*border: 1px solid black;*/
-}
-
 .paginated .order {
 	display: inline-block;
 	margin-left: 5px;

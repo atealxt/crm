@@ -121,7 +121,15 @@ var goPage = function(e, url) {
 		}
 	});
 
-	$('.paginated thead th').click(function() {
+	var $th = $('.paginated thead th');
+	$th.each(function() {
+		var $this = $(this);
+		if ($this.attr("name")) {
+			$this.css("cursor", "pointer");
+		}
+	});
+
+	$th.click(function() {
 		var name = $(this).attr("name");
 		if (!name) {
 			return;

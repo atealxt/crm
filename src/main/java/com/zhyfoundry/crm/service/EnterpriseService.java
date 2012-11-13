@@ -33,7 +33,7 @@ public class EnterpriseService extends PaginationServiceImpl<Enterprise, Integer
 	public List<Enterprise> getEnterprises(Enterprise condition, final Pager pager) {
 		StringBuilder query = new StringBuilder();
 		List<Object> params = new ArrayList<Object>();
-		geneQueryString(query, params, condition, pager.getOrder());
+		geneQueryString(query, params, condition, pager.getOrder()); // TODO delete count HQL order by.
 		final List<Enterprise> enterprises = findByQuery(query.toString(), pager, params.toArray());
 		for (final Enterprise f : enterprises) {
 			initialize(f.getCountry());

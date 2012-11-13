@@ -1,40 +1,55 @@
-.paginated th,
-.paginated td {
-  padding: 3px 6px;
-  vertical-align: top;
+.paginated th,.paginated td {
+	padding: 3px 6px;
+	vertical-align: top;
 }
+
 .paginated tfoot th {
-  text-align: right;
-  margin: 0;
-  padding: 5px 0 0 0;
+	text-align: right;
+	margin: 0;
+	padding: 5px 0 0 0;
 }
-.paginated .page-number,
-.paginated .filter {
-  padding: .2em;
-  cursor: pointer;
+
+.paginated .page-number,.paginated .filter {
+	padding: .2em;
+	cursor: pointer;
 }
+
 .paginated .page-number {
-  border: 1px solid #ccc;
-  margin-right: 2px;
+	border: 1px solid #ccc;
+	margin-right: 2px;
 }
+
 .paginated .active {
-  background: #ccf;
-  border: 1px solid #006;
+	background: #ccf;
+	border: 1px solid #006;
 }
+
 .paginated .pager {
-  margin: .25em;
+	margin: .25em;
 }
+
 .paginated .even {
-  background: #FFF5EE;
+	background: #FFF5EE;
 }
-.paginated thead th {
-    cursor: pointer;
-    /*border-style: solid;
-	border-width: .5px;*/
+
+.paginated thead tr th {
+	cursor: pointer;
+	/*border: 1px solid black;*/
 }
-.paginated thead th.asc{
-	background:url(../images/sort-arrow.gif) no-repeat 0 -19px;
+
+.paginated .order {
+	display: inline-block;
+	margin-left: 5px;
+	width: 7px;
+	height: 15px;
+	background-image: url(../images/sort-arrow.gif);
+	background-repeat: no-repeat;
 }
-.paginated thead th.desc{
-	background:url(../images/sort-arrow.gif) no-repeat 0 0;
+
+.paginated .desc {
+	background-position: 0px 3px;
+}
+
+.paginated .asc {
+	background-position: 0px -21px;
 }

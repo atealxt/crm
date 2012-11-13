@@ -113,7 +113,7 @@ var goPage = function(e, url) {
 		params[match[1]] = match[2];
 	}
 	$paginated.data(KEY_ORDER, params);
-	// TODO style
+	// TODO style <span class="order asc"/> <span class="order desc"/>
 
 	$('.paginated thead th').click(function() {
 		var name = $(this).attr("name");

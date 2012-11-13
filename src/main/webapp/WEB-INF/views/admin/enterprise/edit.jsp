@@ -5,6 +5,7 @@
 
   <form:form commandName="o">
   <form:hidden path="id"/>
+  <form:hidden path="countMailSent"/>
 
   <table>
     <thead>

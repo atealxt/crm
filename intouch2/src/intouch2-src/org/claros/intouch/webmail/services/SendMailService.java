@@ -224,8 +224,8 @@ public class SendMailService extends BaseService {
 				StringBuilder sendInfo = new StringBuilder("<h2>发送报告</h2>");// TODO 使用模板格式化显示
 				Enterprise condition = (Enterprise) request.getSession().getAttribute(EnterpriseController.EMAIL_CONTIDION_OBJ);
 				int i = 1, sentCnt = 0;
-				int maxSentCnt = Integer.MAX_VALUE; // TODO test
-				if (request.getParameter("sendMailCountLimitation") != null) {
+				int maxSentCnt = Integer.MAX_VALUE;
+				if (StringUtils.isNotEmpty(request.getParameter("sendMailCountLimitation"))) {
 					try {
 						maxSentCnt = Integer.parseInt(request.getParameter("sendMailCountLimitation"));
 					} catch (NumberFormatException e) {
@@ -287,7 +287,7 @@ public class SendMailService extends BaseService {
 					enterprises = enterpriseService.getEnterprises(condition, pager);
 				}
 				for (Integer id : enterprisesId) {
-					enterpriseService.increaseMailSentCount(id); // TODO test
+					enterpriseService.increaseMailSentCount(id);
 				}
 				out.print(sendInfo.toString());
 			} else {
@@ -305,14 +305,13 @@ public class SendMailService extends BaseService {
 	}
 
 	private void setSubject(String subject, Enterprise o, EmailHeader header) {
-		// TODO test
 		String sj = subject, s = "";
 		if (subject.indexOf("${contact|name}") != -1) {
-			s = o.getContact() != null ? o.getContact() : o.getName();
+			s = StringUtils.isNotEmpty(o.getContact()) ? o.getContact() : o.getName();
 			sj = sj.replace("${contact|name}", s);
 		}
 		if (subject.indexOf("${name|contact}") != -1) {
-			s= o.getName() != null ? o.getName() : o.getContact();
+			s= StringUtils.isNotEmpty(o.getName()) ? o.getName() : o.getContact();
 			sj = sj.replace("${name|contact}", s);
 		}
 		sj = sj.replace("${name}", o.getName()).replace("${contact}", o.getContact());

@@ -5,6 +5,7 @@
 
 .paginated thead tr th {
 	text-align: left;
+	white-space: nowrap;
 }
 
 .paginated tfoot th {

@@ -221,7 +221,7 @@ public class SendMailService extends BaseService {
 			Smtp smtp = new Smtp(getConnectionProfile(request), getAuthProfile(request));
 
 			if (isEnterprise) {
-				StringBuilder sendInfo = new StringBuilder("<h2>发送报告</h2>");// TODO 使用模板格式化显示
+				StringBuilder sendInfo = new StringBuilder("<h2>发送报告</h2>");// TODO using template engine to format output
 				Enterprise condition = (Enterprise) request.getSession().getAttribute(EnterpriseController.EMAIL_CONTIDION_OBJ);
 				int i = 1, sentCnt = 0;
 				int maxSentCnt = Integer.MAX_VALUE;

@@ -125,10 +125,10 @@ public class EnterpriseService extends PaginationServiceImpl<Enterprise, Integer
 
 	private Country initCountry(Enterprise enterprise) {
 		Country country;
-		if (enterprise.getCountry().getId() != null) {
-			country = countryDao.findById(enterprise.getCountry().getId());
-		} else if (StringUtils.isNotBlank(enterprise.getCountry().getName())) {
+		if (StringUtils.isNotBlank(enterprise.getCountry().getName())) {
 			country = countryDao.findByName(enterprise.getCountry().getName());
+		} else if (enterprise.getCountry().getId() != null) {
+			country = countryDao.findById(enterprise.getCountry().getId());
 		} else {
 			return null;
 		}

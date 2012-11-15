@@ -10,7 +10,7 @@
       <td>所属国家</td>
       <td><form:select path="country.id"><form:option value="" label="--- Select ---"/><form:options items="${countries}" itemValue="id" itemLabel="name"/></form:select>
       <a href="###" id="newCountry">新添</a>
-      <span id="spanNewCountry" style="display:none;"><form:input path="country.name"/></span>
+      <span id="spanNewCountry" style="display:none;"><input name="country.name"/></span>
       </td>
     </tr>
     <tr>

@@ -7,7 +7,7 @@ public class MsgDbObject {
 	private Long id;
 	private String username;
 	private Long folderId;
-	private Integer enterpriseId;
+	private Integer enterpriseId = Integer.valueOf(-1);
 	private String uniqueId;
 	private String messageId;
 	private Boolean unread;

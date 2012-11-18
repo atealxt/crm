@@ -6,6 +6,13 @@ import java.security.NoSuchAlgorithmException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.claros.commons.auth.MailAuth;
+import org.claros.commons.auth.exception.LoginInvalidException;
+import org.claros.commons.auth.models.AuthProfile;
+import org.claros.commons.exception.SystemException;
+import org.claros.commons.mail.exception.ServerDownException;
+import org.claros.commons.mail.models.ConnectionMetaHandler;
+import org.claros.intouch.profiling.services.LoginService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Controller;
@@ -41,7 +48,7 @@ public class AdminController extends BaseController {
 
 	@RequestMapping(value = { "/admin" }, method = RequestMethod.POST)
 	public String login(@ModelAttribute("admin") final Administrator admin, final BindingResult result, final HttpServletRequest req, final HttpServletResponse resp)
-			throws IOException, NoSuchAlgorithmException {
+			throws IOException, NoSuchAlgorithmException, SystemException {
 
 		validator.validate(admin, result);
 		if (result.hasErrors()) {
@@ -53,11 +60,20 @@ public class AdminController extends BaseController {
 			resp.sendError(HttpServletResponse.SC_FORBIDDEN);
 			return null;
 		}
-		init(req, adminFromDb);
+
+		// login to Mail Server
+		boolean loginToMailServer = LoginService.login(admin.getUsername(), admin.getPassword(), req);
+		if (!loginToMailServer) {
+			resp.sendError(HttpServletResponse.SC_FORBIDDEN);
+			return null;
+		}
+
+		initLogin(req, adminFromDb);
+
 		return ADMIN_INDEX;
 	}
 
-	public static void init(HttpServletRequest req, Administrator admin) {
+	public static void initLogin(HttpServletRequest req, Administrator admin) {
 		req.getSession().setAttribute(LOGGEDIN, OK);
 	}
 

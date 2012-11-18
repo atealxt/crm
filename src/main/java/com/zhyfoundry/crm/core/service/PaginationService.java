@@ -8,4 +8,6 @@ import com.zhyfoundry.crm.core.dao.Pager;
 public interface PaginationService<T, PK extends Serializable> extends BaseService<T, PK> {
 
 	List<T> findByQuery(final String query, final Pager pager, final Object... values);
+
+	List<T> findByQuery(final String countQuery, final String query, final Pager pager, final Object... values);
 }

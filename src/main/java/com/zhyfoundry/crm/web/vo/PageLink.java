@@ -5,6 +5,7 @@ public class PageLink {
     private String title;
     private String link;
     private String msgShow;
+    private String target = "main";
 
     public String getTitle() {
         return title;
@@ -30,9 +31,16 @@ public class PageLink {
         this.msgShow = msgShow;
     }
 
+    public String getTarget() {
+        return target;
+    }
+
+    public void setTarget(String target) {
+        this.target = target;
+    }
+
     @Override
     public String toString() {
         return "PageLink [link=" + link + ", msgShow=" + msgShow + ", title=" + title + "]";
     }
-
 }

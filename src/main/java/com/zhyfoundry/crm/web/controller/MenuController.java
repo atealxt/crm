@@ -48,16 +48,22 @@ public class MenuController extends BaseController {
 		link.setMsgShow("Enterprise.recycle");
 		links.add(link);
 
-		mapLink.put("Enterprise", links);
-
-		links = new ArrayList<PageLink>();
-
 		link = new PageLink();
 		link.setLink("/admin/country");
 		link.setMsgShow("Country.management");
 		links.add(link);
 
-		mapLink.put("Country", links);
+		mapLink.put("Enterprise", links);
+
+		links = new ArrayList<PageLink>();
+
+		link = new PageLink();
+		link.setLink("/intouch.jsp");
+		link.setMsgShow("foreground.mail");
+		link.setTarget("_blank");
+		links.add(link);
+
+		mapLink.put("foreground", links);
 
 		return mapLink;
 	}

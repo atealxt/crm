@@ -10,7 +10,12 @@ public abstract class PaginationServiceImpl<T, PK extends Serializable> extends 
 
 	@Override
 	public List<T> findByQuery(String query, Pager pager, Object... values) {
-		pager.setTotalRows(getDao().count(query, values));
+		return findByQuery(query, query, pager, values);
+	}
+
+	@Override
+	public List<T> findByQuery(final String countQuery, String query, Pager pager, Object... values) {
+		pager.setTotalRows(getDao().count(countQuery, values));
 		if (pager.getTotalRows() == 0) {
 			return Collections.emptyList();
 		}

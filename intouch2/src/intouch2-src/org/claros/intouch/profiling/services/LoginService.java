@@ -2,6 +2,7 @@ package org.claros.intouch.profiling.services;
 
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.security.NoSuchAlgorithmException;
 import java.util.HashMap;
 import java.util.Set;
 
@@ -54,6 +55,23 @@ public class LoginService extends HttpServlet {
 
 		PrintWriter out = response.getWriter();
 
+		String username = request.getParameter("username");
+		String password = request.getParameter("password");
+		boolean login = login(username, password, request);
+		if (!login) {
+			out.print("no");
+			return;
+		}
+		login = loginToCRM(username, password, request);
+		if (!login) {
+			out.print("no");
+			return;
+		}
+		log.debug("Everything was fine. Sending an OK signal to the UI");
+		out.print("ok");
+	}
+
+	public static boolean login(String username, String password, HttpServletRequest request) throws SystemException {
 		log.debug("Fetching the server profile from the config.xml file");
 
 		try {
@@ -76,33 +94,17 @@ public class LoginService extends HttpServlet {
 				}
 				log.debug("I've got the mail server profile. Keep on... " + profile.toString());
 
-				String username = request.getParameter("username");
-				String password = request.getParameter("password");
-
 				if (username != null && password != null) {
 					AuthProfile auth = new AuthProfile();
 					auth.setUsername(username);
 					auth.setPassword(password);
-					ConnectionMetaHandler handler = (ConnectionMetaHandler)request.getSession().getAttribute("handler");
+					ConnectionMetaHandler handler = null;
 					log.debug("Starting authentication");
 
 					try {
 						handler = MailAuth.authenticate(profile, auth, handler);
 						if (handler != null) {
 							log.debug("Authentication was successful... :) Good news!");
-
-							// login to CRM
-							auth.setPassword(CommonUtils.md5Hex(password));
-							Administrator admin = DIManager.getBean(AdminService.class).loginFromMail(auth);
-							if (admin == null) {
-								log.debug("Can't authenticate. username and password is most probably wrong.1");
-								out.print("no");
-								auth.setPassword(password);
-								return;
-							} else {
-								AdminController.init(request, admin);
-								auth.setPassword(password);
-							}
 
 							request.getSession().setAttribute("handler", handler);
 							request.getSession().setAttribute("auth", auth);
@@ -119,32 +121,47 @@ public class LoginService extends HttpServlet {
 								log.error("unable to create default folders!!!! It will probably fail but giving a try", e);
 							}
 
-							log.debug("Everything was fine. Sending an OK signal to the UI");
-							out.print("ok");
+							return true;
 						} else {
 							log.debug("Can't authenticate. username and password is most probably wrong.1");
-							out.print("no");
+							return false;
 						}
 					} catch (LoginInvalidException e) {
 						log.debug("Can't authenticate. username and password is most probably wrong.3");
-						out.print("no");
+						return false;
 					} catch (ServerDownException e) {
 						log.error("Can't reach the server. Please make sure everything is fine at config.xml file and server is up and running.");
-						out.print("system");
+						return false;
 					}
 				} else {
 					log.debug("Can't authenticate. username and password is most probably wrong.2");
-					out.print("no");
+					return false;
 				}
 			} else {
 				throw new SystemException();
 			}
 		} catch (SystemException e) {
 			log.error("Can't get mail server list. Please make sure everything is fine at config.xml file.", e);
-			out.print("system");
+			return false;
 		} catch (Throwable e) {
 			log.error("Unknown error. Please check logs for more information. ", e);
-			out.print("system");
+			return false;
 		}
+	}
+
+	private boolean loginToCRM(String username, String password, HttpServletRequest request) {
+		Administrator admin = null;
+		try {
+			admin = DIManager.getBean(AdminService.class).loginFromMail(username, CommonUtils.md5Hex(password));
+		} catch (NoSuchAlgorithmException e) {
+			log.error(e.getMessage(), e);
+		}
+		if (admin == null) {
+			log.debug("Can't authenticate. username and password is most probably wrong.1");
+			return false;
+		} else {
+			AdminController.initLogin(request, admin);
+		}
+		return true;
 	}
 }

@@ -36,10 +36,10 @@ public class AdminService extends BaseServiceImpl<Administrator, Integer> {
 	}
 
 	@Transactional
-	public Administrator loginFromMail(AuthProfile auth) {
-		if (adminDao.exist(auth.getUsername())) {
-			return find(auth.getUsername(), auth.getPassword());
+	public Administrator loginFromMail(String username, String password) {
+		if (adminDao.exist(username)) {
+			return find(username, password);
 		}
-		return save(new Administrator(auth.getUsername(), auth.getPassword()));
+		return save(new Administrator(username, password));
 	}
 }

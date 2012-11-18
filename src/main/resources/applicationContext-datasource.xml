@@ -13,6 +13,7 @@
 		<property name="maxIdle" value="${dbpool.maxIdle}" />
 		<property name="minIdle" value="${dbpool.minIdle}" />
 		<property name="initialSize" value="${dbpool.initialSize}" />
+		<property name="validationQuery" value="select 1 from dual" />
 	</bean>
 	<bean id="DSMySQL" parent="parentDataSource">
 		<property name="driverClassName" value="${jdbc.driverClassName}" />

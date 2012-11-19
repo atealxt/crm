@@ -7,11 +7,13 @@ import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.ObjectOutputStream;
 import java.io.PrintWriter;
+import java.io.StringReader;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
+import java.util.Map;
 
 import javax.activation.DataHandler;
 import javax.activation.DataSource;
@@ -45,12 +47,15 @@ import org.claros.intouch.webmail.factory.FolderControllerFactory;
 import org.claros.intouch.webmail.factory.MailControllerFactory;
 import org.claros.intouch.webmail.models.FolderDbObject;
 import org.claros.intouch.webmail.models.MsgDbObject;
+import org.springframework.web.servlet.view.freemarker.FreeMarkerConfigurer;
 
 import com.zhyfoundry.crm.core.DIManager;
 import com.zhyfoundry.crm.core.dao.Pager;
 import com.zhyfoundry.crm.entity.Enterprise;
 import com.zhyfoundry.crm.service.EnterpriseService;
 import com.zhyfoundry.crm.web.controller.EnterpriseController;
+
+import freemarker.template.Template;
 
 public class SendMailService extends BaseService {
 
@@ -221,7 +226,7 @@ public class SendMailService extends BaseService {
 			Smtp smtp = new Smtp(getConnectionProfile(request), getAuthProfile(request));
 
 			if (isEnterprise) {
-				StringBuilder sendInfo = new StringBuilder("<h2>发送报告</h2>");// TODO using template engine to format output
+				List<MailSentInfo> mailSentInfos = new ArrayList<MailSentInfo>();
 				Enterprise condition = (Enterprise) request.getSession().getAttribute(EnterpriseController.EMAIL_CONTIDION_OBJ);
 				int i = 1, sentCnt = 0;
 				int maxSentCnt = Integer.MAX_VALUE;
@@ -266,12 +271,7 @@ public class SendMailService extends BaseService {
 								statusOK = false;
 								statusMsg = "失败(" + e.getMessage() + ")";
 							}
-							StringBuilder info = new StringBuilder();
-							info.append("企业名：").append(o.getName());
-							info.append(" 邮箱：").append(s);
-							info.append(" 状态：").append(statusMsg);
-							log.info("发送邮件 " + info.toString());
-							sendInfo.append(info).append("<br>");
+							mailSentInfos.add(new MailSentInfo(o.getName(), s, statusMsg));
 						}
 						if (hasEnterpriseSent) {
 							enterprisesId.add(o.getId());
@@ -289,7 +289,8 @@ public class SendMailService extends BaseService {
 				for (Integer id : enterprisesId) {
 					enterpriseService.increaseMailSentCount(id);
 				}
-				out.print(sendInfo.toString());
+
+				outputReport(mailSentInfos, out);
 			} else {
 				boolean statusOK = sendMail(smtp, email, auth, request, null);
 				if (statusOK) {
@@ -300,6 +301,19 @@ public class SendMailService extends BaseService {
 			}
 		} catch (Exception e) {
 			out.print("fail");
+			log.error(e.getMessage(), e);
+		}
+	}
+
+	// TODO test
+	private void outputReport(List<MailSentInfo> mailSentInfos, PrintWriter out) {
+		FreeMarkerConfigurer config = DIManager.getBean(FreeMarkerConfigurer.class);
+		Map<String, Object> model = new HashMap<String, Object>();
+		model.put("mailSentInfo", mailSentInfos);
+		try {
+			Template t = new Template("", new StringReader("<#import \"macro/reportMailSent.ftl\" as report><@report.page />"), config.getConfiguration());
+			t.process(model, out);
+		} catch (Exception e) {
 			log.error(e.getMessage(), e);
 		}
 	}
@@ -425,5 +439,35 @@ public class SendMailService extends BaseService {
 		MailControllerFactory mailFact = new MailControllerFactory(auth, profile, handler, fItem.getFolderName());
 		MailController mailCont = mailFact.getMailController(); // TODO if is IMAP, also save to DB.
 		mailCont.appendEmail(item);
+	}
+
+	class MailSentInfo {
+		private String name;
+		private String mail;
+		private String status;
+		public MailSentInfo(String name, String mail, String status) {
+			super();
+			this.name = name;
+			this.mail = mail;
+			this.status = status;
+		}
+		public String getName() {
+			return name;
+		}
+		public void setName(String name) {
+			this.name = name;
+		}
+		public String getMail() {
+			return mail;
+		}
+		public void setMail(String mail) {
+			this.mail = mail;
+		}
+		public String getStatus() {
+			return status;
+		}
+		public void setStatus(String status) {
+			this.status = status;
+		}
 	}
 }

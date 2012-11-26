@@ -258,7 +258,8 @@ public class SendMailService extends BaseService {
                                 if (sentCnt >= maxSentCnt) {
                                     break;
                                 }
-                                setSubject(subject, o, email.getBaseHeader());
+                                email.getBaseHeader().setSubject(o.processDSL(subject));
+                                ((EmailPart)email.getParts().get(0)).setContent(o.processDSL(body));
                                 statusOK = sendMail(smtp, email, auth, request, o);
                                 if (statusOK) {
                                     statusMsg = "成功";
@@ -316,20 +317,6 @@ public class SendMailService extends BaseService {
         } catch (Exception e) {
             log.error(e.getMessage(), e);
         }
-    }
-
-    private void setSubject(String subject, Enterprise o, EmailHeader header) {
-        String sj = subject, s = "";
-        if (subject.indexOf("${contact|name}") != -1) {
-            s = StringUtils.isNotEmpty(o.getContact()) ? o.getContact() : o.getName();
-            sj = sj.replace("${contact|name}", s);
-        }
-        if (subject.indexOf("${name|contact}") != -1) {
-            s= StringUtils.isNotEmpty(o.getName()) ? o.getName() : o.getContact();
-            sj = sj.replace("${name|contact}", s);
-        }
-        sj = sj.replace("${name}", o.getName()).replace("${contact}", o.getContact());
-        header.setSubject(sj);
     }
 
     private List<String> splitEmails(String enterpriseEmail) {

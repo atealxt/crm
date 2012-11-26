@@ -1,6 +1,8 @@
 package com.zhyfoundry.crm.entity;
 
 import java.util.Date;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -15,6 +17,7 @@ import javax.persistence.TemporalType;
 import javax.persistence.Transient;
 import javax.persistence.UniqueConstraint;
 
+import org.apache.commons.lang.StringUtils;
 import org.springmodules.validation.bean.conf.loader.annotation.handler.Length;
 import org.springmodules.validation.bean.conf.loader.annotation.handler.NotBlank;
 
@@ -63,7 +66,7 @@ public class Enterprise implements java.io.Serializable, Recyclable {
 	@Length(max = MAX_LEN_SOURCE)
 	private String source;// 来源网站
 	@Length(max = MAX_LEN_REMARK)
-	private String remark;// 备注
+	private String remark;// 备注 TODO 增加一对多备注关联
 
 	private Integer countMailSent = 0;// 总计邮件发送次数
 	private Date latestMailSent;// 最后一次发送邮件的时间
@@ -257,13 +260,53 @@ public class Enterprise implements java.io.Serializable, Recyclable {
 		this.status = STATUS_NORMAL;
 	}
 
-	@Transient
-	public String getEmailBrief() {
-		return CommonUtils.brief(email, 50);
-	}
-
 	@Override
 	public String toString() {
 		return "Enterprise [id=" + id + ", name=" + name + "]";
+	}
+
+	@Transient
+	public String getEmailBrief() {
+		return CommonUtils.brief(getEmail(), 50);
+	}
+
+	private final static Pattern PATTERN_DSL = Pattern.compile("(\\$\\{contact\\})|(\\$\\{name\\})|(\\$\\{contact\\|name\\})|(\\$\\{contact\\:\\:.*\\})|(\\$\\{name\\:\\:.*\\})");
+
+	public String processDSL(String source) { // TODO WebTEST
+		Matcher matcher = PATTERN_DSL.matcher(source);
+		StringBuilder dest = new StringBuilder();
+		int i = 0;
+		while (matcher.find()) {
+			dest.append(source.substring(i, matcher.start()));
+			String s = matcher.group();
+			String replace = "";
+			if (s.equals("${contact}") && getContact() != null) {
+				replace = getContact();
+			} else if (s.equals("${name}") && getName() != null) {
+				replace = getName();
+			} else if (s.equals("${contact|name}")) {
+				if (StringUtils.isNotEmpty(getContact())) {
+					replace = getContact();
+				} else if (getName() != null) {
+					replace = getName();
+				}
+			} else if (s.startsWith("${contact::")) {
+				if (StringUtils.isNotEmpty(getContact())) {
+					replace = getContact();
+				} else {
+					replace = s.substring("${contact::".length(), s.length() - 1);
+				}
+			} else if (s.startsWith("${name::")) {
+				if (StringUtils.isNotEmpty(getName())) {
+					replace = getName();
+				} else {
+					replace = s.substring("${name::".length(), s.length() - 1);
+				}
+			}
+			dest.append(replace);
+			i = matcher.end();
+		}
+		dest.append(source.substring(i));
+		return dest.toString();
 	}
 }

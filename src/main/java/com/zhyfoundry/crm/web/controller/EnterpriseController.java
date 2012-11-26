@@ -1,5 +1,10 @@
 package com.zhyfoundry.crm.web.controller;
 
+import java.io.IOException;
+import java.io.StringReader;
+import java.io.StringWriter;
+import java.util.HashMap;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -14,6 +19,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.servlet.view.freemarker.FreeMarkerConfigurer;
 
 import com.zhyfoundry.crm.core.ServiceException;
 import com.zhyfoundry.crm.core.dao.Pager;
@@ -21,6 +27,9 @@ import com.zhyfoundry.crm.entity.Enterprise;
 import com.zhyfoundry.crm.service.CountryService;
 import com.zhyfoundry.crm.service.EnterpriseService;
 import com.zhyfoundry.crm.web.PagingController;
+
+import freemarker.template.Template;
+import freemarker.template.TemplateException;
 
 @Controller
 public class EnterpriseController extends PagingController {
@@ -40,8 +49,15 @@ public class EnterpriseController extends PagingController {
 			throws Exception {
 		modelMap.addAttribute("EnterpriseCount", enterpriseService.count(condition));
 		req.getSession().setAttribute(EMAIL_CONTIDION_OBJ, condition);
-		modelMap.addAttribute("subjectExample", "支持参数：${name} - 企业名称，${contact} - 联系人<br>例如：对于“Dear ${name}, how are you”，企业 MyFoundry 生成的标题为：“Dear MyFoundry, how are you”。<br>支持逻辑或关系，如对于“Dear ${contact|name}, how are you”，企业 MyFoundry 有联系人Tom时生成的标题为：“Dear Tom, how are you”，没有联系人时生成的标题为：“Dear MyFoundry, how are you”。");
+		modelMap.addAttribute("subjectExample", getSubjectExample());
 		return "admin/enterprise/compose";
+	}
+
+	private String getSubjectExample() throws TemplateException, IOException {
+		StringWriter out = new StringWriter();
+        Template t = new Template("", new StringReader("<#import \"macro/sampleOfMailVariable.ftl\" as sample><@sample.page />"), config.getConfiguration());
+        t.process(new HashMap<String, Object>(), out);
+		return out.toString();
 	}
 
 	@RequestMapping(value = "/admin/enterprise/add", method = RequestMethod.GET)
@@ -133,4 +149,6 @@ public class EnterpriseController extends PagingController {
 	@Autowired
 	private Validator validator;
 	public static final String EMAIL_CONTIDION_OBJ = "EMAIL_CONTIDION_OBJ";
+	@Autowired
+	private FreeMarkerConfigurer config;
 }

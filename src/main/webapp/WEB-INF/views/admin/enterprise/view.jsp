@@ -74,7 +74,7 @@
 </table>
 
 <hr>
-<h4>企业备忘录（<a href="###">添加</a>）</h4><%-- TODO 添加 删除 样式 等 --%>
+<h4>企业备忘录（<a href="###">添加</a>）</h4><%-- TODO 排序 添加 删除 样式 等 --%>
 <c:if test="${fn:length(o.memos) > 0}">
     <c:forEach items="${o.memos}" var="memo" varStatus="loopStatus">
         <table>

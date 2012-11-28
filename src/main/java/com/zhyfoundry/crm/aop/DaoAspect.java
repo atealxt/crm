@@ -13,7 +13,7 @@ public class DaoAspect {
 
     private static Log logger = LogFactory.getLog(DaoAspect.class);
 
-    @Around("execution(* com.zhyfoundry.crm.core.dao.*.find*(..))")
+//    @Around("execution(* com.zhyfoundry.crm.core.dao.*.find*(..))")
     public Object pointcutFind(final ProceedingJoinPoint point) throws Throwable {
         logger.debug(point.toLongString());
         return point.proceed(point.getArgs());

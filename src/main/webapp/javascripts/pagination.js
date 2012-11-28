@@ -97,57 +97,70 @@
 //////////////////////////
 
 var goPage = function(e, url) {
-	$(e).closest("form").attr("action", url).submit();
+    $(e).closest("form").attr("action", url).submit();
 };
 
 (function($) {
 
-	var KEY_ORDER = 'order';
-	var VALUE_ORDER_ASC = 'asc';
-	var VALUE_ORDER_DESC = 'desc';
-	var $paginated = $('.paginated');
-	var $order = $('#order');
+    var KEY_ORDER = 'order';
+    var VALUE_ORDER_ASC = 'asc';
+    var VALUE_ORDER_DESC = 'desc';
+    var $paginated = $('.paginated');
+    var $order = $('#order');
 
-	var regex = /[?&]([^=#]+)=([^&#]*)/g, url = "?" + $order.val(), params = {}, match;
-	while (match = regex.exec(url)) {
-		params[match[1]] = match[2];
-	}
-	$paginated.data(KEY_ORDER, params);
-	$.each(params, function(_name, _value) {
-		if (_value == VALUE_ORDER_ASC) {
-			$paginated.find('th[name="' + _name + '"]').prepend('<span class="order asc"/>');
-		} else {
-			$paginated.find('th[name="' + _name + '"]').prepend('<span class="order desc"/>');
-		}
-	});
+    var regex = /[?&]([^=#]+)=([^&#]*)/g, url = "?" + $order.val(), params = {}, match;
+    while (match = regex.exec(url)) {
+        params[match[1]] = match[2];
+    }
+    $paginated.data(KEY_ORDER, params);
+    $.each(params, function(_name, _value) {
+        if (_value == VALUE_ORDER_ASC) {
+            $paginated.find('th[name="' + _name + '"]').prepend('<span class="order asc"/>');
+        } else {
+            $paginated.find('th[name="' + _name + '"]').prepend('<span class="order desc"/>');
+        }
+    });
 
-	var $th = $('.paginated thead th');
-	$th.each(function() {
-		var $this = $(this);
-		if ($this.attr("name")) {
-			$this.css("cursor", "pointer");
-		}
-	});
+    var $th = $('.paginated thead th');
+    $th.each(function() {
+        var $this = $(this);
+        if ($this.attr("name")) {
+            $this.css("cursor", "pointer");
+        }
+    });
 
-	$th.click(function() {
-		var name = $(this).attr("name");
-		if (!name) {
-			return;
-		}
-		var order = $paginated.data(KEY_ORDER);
-		if (typeof order == "undefined" || order == null) {
-			order = {};
-		}
-		var orderName = order[name];
-		if (typeof orderName == "undefined") {
-			order[name] = VALUE_ORDER_ASC;
-		} else if (orderName == VALUE_ORDER_ASC) {
-			order[name] = VALUE_ORDER_DESC;
-		} else {
-			delete order[name];
-		}
-		$paginated.data(KEY_ORDER, order);
-		$order.val(decodeURIComponent($.param($paginated.data(KEY_ORDER))));
-		$paginated.closest("form").submit();
-	});
+    $th.click(function() {
+        var name = $(this).attr("name");
+        if (!name) {
+            return;
+        }
+        var order = $paginated.data(KEY_ORDER);
+        if (typeof order == "undefined" || order == null) {
+            order = {};
+        }
+        var orderName = order[name];
+        if (typeof orderName == "undefined") {
+            order[name] = VALUE_ORDER_ASC;
+        } else if (orderName == VALUE_ORDER_ASC) {
+            order[name] = VALUE_ORDER_DESC;
+        } else {
+            delete order[name];
+        }
+        $paginated.data(KEY_ORDER, order);
+        $order.val(decodeURIComponent($.param($paginated.data(KEY_ORDER))));
+        $paginated.closest("form").submit();
+    });
+
+    var $tr = $('table[class*="paginated"] tr:gt(2)');
+    $tr.mouseover(function() {
+        $(this).children().addClass("elementFocus");
+    }).mouseout(function() {
+        $(this).children().removeClass("elementFocus");
+    });
+//	$tr.toggle(function() {
+//		$(this).children().addClass("elementSelect");
+//	}, function() {
+//		$(this).children().removeClass("elementSelect");
+//	});
+
 })(jQuery);

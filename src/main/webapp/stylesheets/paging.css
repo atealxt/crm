@@ -1,63 +1,52 @@
 .paginated th,.paginated td {
-	padding: 3px 6px;
-	vertical-align: top;
+    padding: 3px 6px;
+    vertical-align: top;
 }
 
 .paginated thead tr th {
-	text-align: left;
-	white-space: nowrap;
+    text-align: left;
+    white-space: nowrap;
+    background-color: #E5EECC;
 }
 
 .paginated tfoot th {
-	text-align: right;
-	margin: 0;
-	padding: 5px 0 0 0;
+    text-align: right;
+    margin: 0;
+    padding: 5px 0 0 0;
 }
 
 .paginated .page-number,.paginated .filter {
-	padding: .2em;
-	cursor: pointer;
+    padding: .2em;
+    cursor: pointer;
 }
 
 .paginated .page-number {
-	border: 1px solid #ccc;
-	margin-right: 2px;
+    border: 1px solid #ccc;
+    margin-right: 2px;
 }
 
 .paginated .active {
-	background: #ccf;
-	border: 1px solid #006;
+    background: #ccf;
+    border: 1px solid #006;
 }
 
 .paginated .pager {
-	margin: .25em;
-}
-
-.paginated thead tr th {
-	background-color: #E5EECC;
-}
-
-.paginated .even {
-	background: #EEEEEE;
-}
-
-.paginated .odd {
-	background: #DDDDDD;
+    margin: .25em;
 }
 
 .paginated .order {
-	display: inline-block;
-	margin-right: 5px;
-	width: 7px;
-	height: 15px;
-	background-image: url(../images/sort-arrow.gif);
-	background-repeat: no-repeat;
+    display: inline-block;
+    margin-right: 5px;
+    width: 7px;
+    height: 15px;
+    background-image: url(../images/sort-arrow.gif);
+    background-repeat: no-repeat;
 }
 
 .paginated .desc {
-	background-position: 0px 3px;
+    background-position: 0px 3px;
 }
 
 .paginated .asc {
-	background-position: 0px -21px;
+    background-position: 0px -21px;
 }

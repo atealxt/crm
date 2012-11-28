@@ -1,9 +1,12 @@
 package com.zhyfoundry.crm.entity;
 
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -11,6 +14,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
@@ -66,7 +70,8 @@ public class Enterprise implements java.io.Serializable, Recyclable {
     @Length(max = MAX_LEN_SOURCE)
     private String source;// 来源网站
     @Length(max = MAX_LEN_REMARK)
-    private String remark;// 备注 TODO 增加一对多备注关联
+    private String remark;// 备注
+    private List<Memorandum> memos = new ArrayList<Memorandum>(0);
 
     private Integer countMailSent = 0;// 总计邮件发送次数
     private Date latestMailSent;// 最后一次发送邮件的时间
@@ -195,6 +200,24 @@ public class Enterprise implements java.io.Serializable, Recyclable {
 
     public void setRemark(String remark) {
         this.remark = remark;
+    }
+
+    @OneToMany(cascade = CascadeType.ALL)
+    @JoinColumn(name="ENTERPRISE_ID")
+    public List<Memorandum> getMemos() {
+        return memos;
+    }
+
+    public void setMemos(List<Memorandum> memos) {
+        this.memos = memos;
+    }
+
+    public void addMemo(Memorandum memo) {
+        this.memos.add(memo);
+    }
+
+    public void addMemo(String memo) {
+        this.memos.add(new Memorandum(memo));
     }
 
     @Column(name = "CREATE_TIME", insertable = false, updatable = false, columnDefinition = "TIMESTAMP NULL default CURRENT_TIMESTAMP")

@@ -1,51 +1,59 @@
 #sidebar ul li{
-	margin: 5px 0;
-	padding-top: 3px;
-	font-size: 14px;
+    margin: 5px 0;
+    padding-top: 3px;
+    font-size: 14px;
 }
 
 .form-item {
-	margin: 20px 0;
+    margin: 20px 0;
 }
 
 .form-label {
-	font-weight: bold;
+    font-weight: bold;
 }
 
 .form-error-field {
-	background-color: red;
+    background-color: red;
 }
 
 .form-error-message {
-	font-weight: bold;
-	color: #900;
+    font-weight: bold;
+    color: #900;
 }
 
 .elementFocus {
-	background: #E9EEFE;
+    background: #E9EEFE;
 }
 
 .elementSelect {
-	background: #FFFF99;
+    background: #FFFF99;
 }
 
 #dynamicErrorMessage {
-	font-weight: bold;
-	color: #900;
-	background-color: red;
-	font-size: 12px;
+    font-weight: bold;
+    color: #900;
+    background-color: red;
+    font-size: 12px;
 }
 
 #dynamicWarnMessage {
-	font-weight: bold;
-	color: #F8F8FF;
-	background-color: #FFD700;
-	font-size: 12px;
+    font-weight: bold;
+    color: #F8F8FF;
+    background-color: #FFD700;
+    font-size: 12px;
 }
 
 #dynamicInfoMessage {
-	font-weight: bold;
-	color: #F8F8FF;
-	background-color: #228B22;
-	font-size: 12px;
+    font-weight: bold;
+    color: #F8F8FF;
+    background-color: #228B22;
+    font-size: 12px;
+}
+
+.even {
+    background: #EEEEEE;
+}
+
+.odd {
+    background: #DDDDDD;
 }

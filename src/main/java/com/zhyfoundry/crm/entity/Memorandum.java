@@ -7,6 +7,8 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
@@ -24,6 +26,7 @@ public class Memorandum implements java.io.Serializable {
     @Length(max = MAX_LEN_CONTENT)
     private String content;
     private Date createTime;
+    private Enterprise enterprise;
 
     public Memorandum() {
         super();
@@ -61,5 +64,15 @@ public class Memorandum implements java.io.Serializable {
 
     public void setCreateTime(Date createTime) {
         this.createTime = createTime;
+    }
+
+    @ManyToOne
+    @JoinColumn(name = "ENTERPRISE_ID")
+    public Enterprise getEnterprise() {
+        return enterprise;
+    }
+
+    public void setEnterprise(Enterprise enterprise) {
+        this.enterprise = enterprise;
     }
 }

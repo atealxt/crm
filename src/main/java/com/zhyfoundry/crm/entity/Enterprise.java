@@ -15,6 +15,7 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
+import javax.persistence.OrderBy;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
@@ -202,8 +203,8 @@ public class Enterprise implements java.io.Serializable, Recyclable {
         this.remark = remark;
     }
 
-    @OneToMany(cascade = CascadeType.ALL)
-    @JoinColumn(name="ENTERPRISE_ID")
+    @OneToMany(mappedBy = "enterprise", cascade = CascadeType.ALL)
+    @OrderBy("createTime desc")
     public List<Memorandum> getMemos() {
         return memos;
     }

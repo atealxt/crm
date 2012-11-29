@@ -34,121 +34,141 @@ import freemarker.template.TemplateException;
 @Controller
 public class EnterpriseController extends PagingController {
 
-	@RequestMapping(value = "/admin/enterprise")
-	public String list(final HttpServletRequest req, final HttpServletResponse resp, final ModelMap modelMap, @ModelAttribute("condition") final Enterprise condition)
-			throws Exception {
-		Pager pager = getPager(req);
-		modelMap.addAttribute("list", enterpriseService.getEnterprises(condition, pager));
-		modelMap.addAttribute("pager", pager);
-		modelMap.addAttribute("countries", eountryService.getAllCountries());
-		return "admin/enterprise/list";
-	}
+    @RequestMapping(value = "/admin/enterprise")
+    public String list(final HttpServletRequest req, final HttpServletResponse resp, final ModelMap modelMap, @ModelAttribute("condition") final Enterprise condition)
+            throws Exception {
+        Pager pager = getPager(req);
+        modelMap.addAttribute("list", enterpriseService.getEnterprises(condition, pager));
+        modelMap.addAttribute("pager", pager);
+        modelMap.addAttribute("countries", eountryService.getAllCountries());
+        return "admin/enterprise/list";
+    }
 
-	@RequestMapping(value = "/admin/enterprise/sendEmail", method = RequestMethod.POST)
-	public String sendEmail(final HttpServletRequest req, final HttpServletResponse resp, final ModelMap modelMap, @ModelAttribute("condition") final Enterprise condition)
-			throws Exception {
-		modelMap.addAttribute("EnterpriseCount", enterpriseService.count(condition));
-		req.getSession().setAttribute(EMAIL_CONTIDION_OBJ, condition);
-		modelMap.addAttribute("subjectExample", getSubjectExample());
-		return "admin/enterprise/compose";
-	}
+    @RequestMapping(value = "/admin/enterprise/sendEmail", method = RequestMethod.POST)
+    public String sendEmail(final HttpServletRequest req, final HttpServletResponse resp, final ModelMap modelMap, @ModelAttribute("condition") final Enterprise condition)
+            throws Exception {
+        modelMap.addAttribute("EnterpriseCount", enterpriseService.count(condition));
+        req.getSession().setAttribute(EMAIL_CONTIDION_OBJ, condition);
+        modelMap.addAttribute("subjectExample", getSubjectExample());
+        return "admin/enterprise/compose";
+    }
 
-	private String getSubjectExample() throws TemplateException, IOException {
-		StringWriter out = new StringWriter();
+    private String getSubjectExample() throws TemplateException, IOException {
+        StringWriter out = new StringWriter();
         Template t = new Template("", new StringReader("<#import \"macro/sampleOfMailVariable.ftl\" as sample><@sample.page />"), config.getConfiguration());
         t.process(new HashMap<String, Object>(), out);
-		return out.toString();
-	}
+        return out.toString();
+    }
 
-	@RequestMapping(value = "/admin/enterprise/add", method = RequestMethod.GET)
-	public String preAdd(final HttpServletRequest req, final HttpServletResponse resp, final ModelMap modelMap) throws Exception {
-		modelMap.addAttribute("o", new Enterprise());
-		modelMap.addAttribute("countries", eountryService.getAllCountries());
-		return "admin/enterprise/add";
-	}
+    @RequestMapping(value = "/admin/enterprise/add", method = RequestMethod.GET)
+    public String preAdd(final HttpServletRequest req, final HttpServletResponse resp, final ModelMap modelMap) throws Exception {
+        modelMap.addAttribute("o", new Enterprise());
+        modelMap.addAttribute("countries", eountryService.getAllCountries());
+        return "admin/enterprise/add";
+    }
 
-	@RequestMapping(value = "/admin/enterprise/add", method = RequestMethod.POST)
-	public String add(@ModelAttribute("o") final Enterprise enterprise,
-			final BindingResult result,
-			final HttpServletRequest req,
-			final HttpServletResponse resp,
-			final ModelMap modelMap) throws Exception {
-		return addOrEdit(enterprise, result, req, null, resp, modelMap);
-	}
+    @RequestMapping(value = "/admin/enterprise/add", method = RequestMethod.POST)
+    public String add(@ModelAttribute("o") final Enterprise enterprise,
+            final BindingResult result,
+            final HttpServletRequest req,
+            final HttpServletResponse resp,
+            final ModelMap modelMap) throws Exception {
+        return addOrEdit(enterprise, result, req, null, resp, modelMap);
+    }
 
-	@RequestMapping(value = "/admin/enterprise/{id}", method = RequestMethod.GET)
-	public String view(@PathVariable final Integer id, final HttpServletRequest req, final HttpServletResponse resp, final ModelMap modelMap,
-			@RequestParam(value = "edit", required = false) final boolean edit) throws Exception {
-		Enterprise o = enterpriseService.get(id);
-		modelMap.addAttribute("o", o);
-		if (edit) {
-			modelMap.addAttribute("countries", eountryService.getAllCountries());
-			return "admin/enterprise/edit";
-		}
-		return "admin/enterprise/view";
-	}
+    @RequestMapping(value = "/admin/enterprise/addMemo", method = RequestMethod.POST)
+    public String addMemo(@RequestParam(value = "eId") final Integer enterpriseId,
+            @RequestParam(value = "content") final String content,
+            final HttpServletRequest req,
+            final HttpServletResponse resp,
+            final ModelMap modelMap) throws Exception {
+        enterpriseService.addMemo(enterpriseId, content);
+        return "redirect:/admin/enterprise/" + enterpriseId;
+    }
 
-	@RequestMapping(value = "/admin/enterprise/{id}", method = RequestMethod.POST)
-	public String addOrEdit(@ModelAttribute("o") final Enterprise enterprise,
-			final BindingResult result,
-			final HttpServletRequest req,
-			@PathVariable final Integer id,
-			final HttpServletResponse resp,
-			final ModelMap modelMap) throws Exception {
-		validator.validate(enterprise, result);
-		if (enterprise.getCountry() != null && StringUtils.isNotEmpty(enterprise.getCountry().getName())) {
-			validator.validate(enterprise.getCountry(), result);
-		}
-		if (result.hasErrors()) {
-			if (id == null) {
-				return "admin/enterprise/add";
-			}
-			return "admin/enterprise/edit";
-		}
-		if (id == null) {
-			Enterprise addedEnterprise;
-			try {
-				addedEnterprise = enterpriseService.checkAndModify(enterprise);
-			} catch (ServiceException e) {
-				appendError(req, e);
-				return "admin/enterprise/add";
-			}
-			appendInfo(req, "Enterprise.new.success", addedEnterprise.getId(), addedEnterprise.getName());
-			return preAdd(req, resp, modelMap);
-		} else {
-			enterpriseService.modify(enterprise);
-			return "redirect:/admin/enterprise";
-		}
-	}
+    @RequestMapping(value = "/admin/enterprise/{id}", method = RequestMethod.GET)
+    public String view(@PathVariable final Integer id, final HttpServletRequest req, final HttpServletResponse resp, final ModelMap modelMap,
+            @RequestParam(value = "edit", required = false) final boolean edit) throws Exception {
+        Enterprise o = enterpriseService.get(id);
+        modelMap.addAttribute("o", o);
+        if (edit) {
+            modelMap.addAttribute("countries", eountryService.getAllCountries());
+            return "admin/enterprise/edit";
+        }
+        return "admin/enterprise/view";
+    }
 
-	@RequestMapping(value = "/admin/enterprise/{id}", method = RequestMethod.DELETE)
-	public void delete(@PathVariable final Integer id, final HttpServletRequest req, final HttpServletResponse resp, final ModelMap modelMap) throws Exception {
-		enterpriseService.removeById(id);
-	}
+    @RequestMapping(value = "/admin/enterprise/{id}", method = RequestMethod.POST)
+    public String addOrEdit(@ModelAttribute("o") final Enterprise enterprise,
+            final BindingResult result,
+            final HttpServletRequest req,
+            @PathVariable final Integer id,
+            final HttpServletResponse resp,
+            final ModelMap modelMap) throws Exception {
+        validator.validate(enterprise, result);
+        if (enterprise.getCountry() != null && StringUtils.isNotEmpty(enterprise.getCountry().getName())) {
+            validator.validate(enterprise.getCountry(), result);
+        }
+        if (result.hasErrors()) {
+            if (id == null) {
+                return "admin/enterprise/add";
+            }
+            return "admin/enterprise/edit";
+        }
+        if (id == null) {
+            Enterprise addedEnterprise;
+            try {
+                addedEnterprise = enterpriseService.checkAndModify(enterprise);
+            } catch (ServiceException e) {
+                appendError(req, e);
+                return "admin/enterprise/add";
+            }
+            appendInfo(req, "Enterprise.new.success", addedEnterprise.getId(), addedEnterprise.getName());
+            return preAdd(req, resp, modelMap);
+        } else {
+            enterpriseService.modify(enterprise);
+            return "redirect:/admin/enterprise";
+        }
+    }
 
-	@RequestMapping(value = "/admin/enterprise/{id}/restore", method = RequestMethod.POST)
-	public String restore(@PathVariable final Integer id, final HttpServletRequest req, final HttpServletResponse resp, final ModelMap modelMap) throws Exception {
-		enterpriseService.restore(id);
-		return "redirect:/admin/enterprise?status=-1";
-	}
+    @RequestMapping(value = "/admin/enterprise/{id}", method = RequestMethod.DELETE)
+    public void delete(@PathVariable final Integer id, final HttpServletRequest req, final HttpServletResponse resp, final ModelMap modelMap) throws Exception {
+        enterpriseService.removeById(id);
+    }
 
-	@Override
-	protected int getDefaultPageSize() {
-		return 50;
-	}
+    @RequestMapping(value = "/admin/enterprise/deleteMemo", method = RequestMethod.POST)
+    public String deleteMemo(@RequestParam(value = "eId") final Integer enterpriseId,
+            @RequestParam(value = "memoId") final Integer memoId,
+            final HttpServletRequest req,
+            final HttpServletResponse resp,
+            final ModelMap modelMap) throws Exception {
+        enterpriseService.deleteMemo(memoId);
+        return "redirect:/admin/enterprise/" + enterpriseId;
+    }
 
-	@Override
-	protected int getCountLimitation() {
-		return 500;
-	}
+    @RequestMapping(value = "/admin/enterprise/{id}/restore", method = RequestMethod.POST)
+    public String restore(@PathVariable final Integer id, final HttpServletRequest req, final HttpServletResponse resp, final ModelMap modelMap) throws Exception {
+        enterpriseService.restore(id);
+        return "redirect:/admin/enterprise?status=-1";
+    }
 
-	@Autowired
-	private EnterpriseService enterpriseService;
-	@Autowired
-	private CountryService eountryService;
-	@Autowired
-	private Validator validator;
-	public static final String EMAIL_CONTIDION_OBJ = "EMAIL_CONTIDION_OBJ";
-	@Autowired
-	private FreeMarkerConfigurer config;
+    @Override
+    protected int getDefaultPageSize() {
+        return 50;
+    }
+
+    @Override
+    protected int getCountLimitation() {
+        return 500;
+    }
+
+    @Autowired
+    private EnterpriseService enterpriseService;
+    @Autowired
+    private CountryService eountryService;
+    @Autowired
+    private Validator validator;
+    public static final String EMAIL_CONTIDION_OBJ = "EMAIL_CONTIDION_OBJ";
+    @Autowired
+    private FreeMarkerConfigurer config;
 }

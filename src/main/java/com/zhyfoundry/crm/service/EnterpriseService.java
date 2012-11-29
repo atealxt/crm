@@ -14,8 +14,10 @@ import com.zhyfoundry.crm.core.dao.Pager;
 import com.zhyfoundry.crm.core.service.PaginationServiceImpl;
 import com.zhyfoundry.crm.dao.CountryDao;
 import com.zhyfoundry.crm.dao.EnterpriseDao;
+import com.zhyfoundry.crm.dao.GeneralDao;
 import com.zhyfoundry.crm.entity.Country;
 import com.zhyfoundry.crm.entity.Enterprise;
+import com.zhyfoundry.crm.entity.Memorandum;
 
 @Service
 public class EnterpriseService extends PaginationServiceImpl<Enterprise, Integer> {
@@ -24,6 +26,8 @@ public class EnterpriseService extends PaginationServiceImpl<Enterprise, Integer
     private EnterpriseDao enterpriseDao;
     @Autowired
     private CountryDao countryDao;
+    @Autowired
+    private GeneralDao generalDao;
 
     @Override
     protected BaseDao<Enterprise, Integer> getDao() {
@@ -182,4 +186,15 @@ public class EnterpriseService extends PaginationServiceImpl<Enterprise, Integer
         return e;
     }
 
+    @Transactional
+    public void addMemo(Integer enterpriseId, String content) {
+        Memorandum memo = new Memorandum(content);
+        memo.setEnterprise(super.get(enterpriseId));
+        generalDao.save(memo);
+    }
+
+    @Transactional
+    public void deleteMemo(Integer memoId) {
+        getDao().execute("delete Memorandum where id = ?", memoId);
+    }
 }

@@ -74,15 +74,53 @@
 </table>
 
 <hr>
-<h4>企业备忘录（<a href="###">添加</a>）</h4><%-- TODO 排序 添加 删除 样式 等 --%>
+<h4>企业备忘录（<a id="aAddMemo" href="###">添加</a>）</h4>
+
+<script type="text/javascript" src="<c:url value="/javascripts/admin/enterprise.js"/>"></script>
+<style>
+#divNewMemo{ width: 60%; display:none; }
+#divNewMemo input{ margin-top: 5px; margin-bottom: 30px; }
+</style>
+<div id="divNewMemo">
+    <script type="text/javascript" src="<c:url value="/tinymce/tiny_mce.js"/>"></script>
+    <form action="<c:url value="/admin/enterprise/addMemo"/>" method="post">
+        <input type="hidden" name="eId" value="<c:out value="${o.id}"/>"/>
+        <script>
+            tinyMCE.init({
+                mode : "exact",
+                theme : "advanced",
+                elements: "content",
+                plugins : "iespell",
+                theme_advanced_toolbar_location : "top",
+                theme_advanced_toolbar_align : "left",
+                theme_advanced_buttons1 : "separator, newdocument, bold, italic, underline, strikethrough, fontsizeselect, separator, justifyleft, justifycenter, justifyright, justifyfull, separator, bullist, numlist, separator, outdent, indent, separator, link, image, forecolor, backcolor, charmap, separator, iespell, code",
+                theme_advanced_buttons2 : "",
+                theme_advanced_buttons3 : "",
+                content_css : "<c:url value='/css/editor.css'/>",
+                language : 'en',
+                force_p_newlines: false,
+                force_br_newlines: true,
+                auto_resize : false,
+                verify_html : "false"
+            });
+
+        </script>
+        <textarea id="content" rows="15" cols="20" style="width:20%;" name="content"></textarea>
+        <input type="submit" value="添加">
+    </form>
+</div>
+
 <c:if test="${fn:length(o.memos) > 0}">
+    <form id="formMemo" action="<c:url value="/admin/enterprise/deleteMemo"/>" method="post">
+    <input type="hidden" name="eId" value="<c:out value="${o.id}"/>"/>
+    <input type="hidden" name="memoId" id="memoId" />
     <c:forEach items="${o.memos}" var="memo" varStatus="loopStatus">
         <table>
             <thead>
             </thead>
             <tr>
                 <td name="t.createTime">创建时间：<fmt:formatDate value="${memo.createTime}" pattern="yyyy-MM-dd HH:mm"/></td>
-                <td align="right"><input type="button" value="删除"/></td>
+                <td align="right"><input type="button" value="删除" onclick="deleteMemo(<c:out value="${memo.id}"/>)"/></td>
             </tr>
             <tr>
                 <td colspan="2">
@@ -92,4 +130,5 @@
         </table>
         <br>
     </c:forEach>
+    </form>
 </c:if>

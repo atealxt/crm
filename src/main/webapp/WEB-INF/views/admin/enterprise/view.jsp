@@ -110,25 +110,32 @@
     </form>
 </div>
 
-<c:if test="${fn:length(o.memos) > 0}">
-    <form id="formMemo" action="<c:url value="/admin/enterprise/deleteMemo"/>" method="post">
-    <input type="hidden" name="eId" value="<c:out value="${o.id}"/>"/>
-    <input type="hidden" name="memoId" id="memoId" />
-    <c:forEach items="${o.memos}" var="memo" varStatus="loopStatus">
-        <table>
-            <thead>
-            </thead>
-            <tr>
-                <td name="t.createTime">创建时间：<fmt:formatDate value="${memo.createTime}" pattern="yyyy-MM-dd HH:mm"/></td>
-                <td align="right"><input type="button" value="删除" onclick="deleteMemo(<c:out value="${memo.id}"/>)"/></td>
-            </tr>
-            <tr>
-                <td colspan="2">
-                    <c:out value="${memo.content}" escapeXml="false"/>
-                </td>
-            </tr>
-        </table>
-        <br>
-    </c:forEach>
-    </form>
-</c:if>
+<c:choose>
+    <c:when test="${fn:length(o.memos) > 0}">
+
+        <form id="formMemo" action="<c:url value="/admin/enterprise/deleteMemo"/>" method="post">
+        <input type="hidden" name="eId" value="<c:out value="${o.id}"/>"/>
+        <input type="hidden" name="memoId" id="memoId" />
+        <c:forEach items="${o.memos}" var="memo" varStatus="loopStatus">
+            <table>
+                <thead>
+                </thead>
+                <tr>
+                    <td name="t.createTime">创建时间：<fmt:formatDate value="${memo.createTime}" pattern="yyyy-MM-dd HH:mm"/></td>
+                    <td align="right"><input type="button" value="删除" onclick="deleteMemo(<c:out value="${memo.id}"/>)"/></td>
+                </tr>
+                <tr>
+                    <td colspan="2">
+                        <c:out value="${memo.content}" escapeXml="false"/>
+                    </td>
+                </tr>
+            </table>
+            <br>
+        </c:forEach>
+        </form>
+
+    </c:when>
+    <c:otherwise>
+        无
+    </c:otherwise>
+</c:choose>

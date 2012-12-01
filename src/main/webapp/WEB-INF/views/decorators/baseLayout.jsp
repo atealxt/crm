@@ -9,7 +9,8 @@
     <title>CRM Administrator</title>
     <META HTTP-EQUIV="CONTENT-TYPE" CONTENT="TEXT/HTML; CHARSET=UTF-8">
     <link rel="stylesheet" href="<c:url value="/stylesheets/common.css"/>" type="text/css" media="screen" />
-  	<script src="<c:url value="/javascripts/jquery.min.js"/>" type="text/javascript"></script>
+      <script src="<c:url value="/javascripts/jquery.min.js"/>" type="text/javascript"></script>
+      <script type="text/javascript">var contextPath = "<%=request.getContextPath()%>";</script>
 </head>
 <body>
 

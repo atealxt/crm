@@ -6,12 +6,7 @@ import java.security.NoSuchAlgorithmException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import org.claros.commons.auth.MailAuth;
-import org.claros.commons.auth.exception.LoginInvalidException;
-import org.claros.commons.auth.models.AuthProfile;
 import org.claros.commons.exception.SystemException;
-import org.claros.commons.mail.exception.ServerDownException;
-import org.claros.commons.mail.models.ConnectionMetaHandler;
 import org.claros.intouch.profiling.services.LoginService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -32,55 +27,57 @@ import com.zhyfoundry.crm.web.BaseController;
 @Controller
 public class AdminController extends BaseController {
 
-	public static final String ADMIN_INDEX = "admin/index";
-	public static final String ADMIN_LOGIN = "admin/login";
-	public static final String LOGGEDIN = "LOGGEDIN";
-	public static final String OK = "OK";
+    public static final String ADMIN_INDEX = "admin/index";
+    public static final String ADMIN_LOGIN = "admin/login";
+    public static final String LOGGEDIN = "LOGGEDIN";
+    public static final String OK = "OK";
 
-	@RequestMapping(value = { "/admin" }, method = RequestMethod.GET)
-	public ModelAndView admin(final HttpServletRequest req, final HttpServletResponse resp, final ModelMap model) throws IOException {
-		if (OK.equals(req.getSession().getAttribute(LOGGEDIN))) {
-			return new ModelAndView(ADMIN_INDEX, null);
-		}
-		ModelMap modelMap = new ModelMap("admin", new Administrator());
-		return new ModelAndView(ADMIN_LOGIN, modelMap);
-	}
+    @RequestMapping(value = { "/admin" }, method = RequestMethod.GET)
+    public ModelAndView admin(final HttpServletRequest req, final HttpServletResponse resp, final ModelMap model) throws IOException {
+        if (OK.equals(req.getSession().getAttribute(LOGGEDIN))) {
+            return new ModelAndView(ADMIN_INDEX, null);
+        }
+        ModelMap modelMap = new ModelMap("admin", new Administrator());
+        return new ModelAndView(ADMIN_LOGIN, modelMap);
+    }
 
-	@RequestMapping(value = { "/admin" }, method = RequestMethod.POST)
-	public String login(@ModelAttribute("admin") final Administrator admin, final BindingResult result, final HttpServletRequest req, final HttpServletResponse resp)
-			throws IOException, NoSuchAlgorithmException, SystemException {
+    @RequestMapping(value = { "/admin" }, method = RequestMethod.POST)
+    public String login(@ModelAttribute("admin") final Administrator admin, final BindingResult result, final HttpServletRequest req, final HttpServletResponse resp)
+            throws IOException, NoSuchAlgorithmException, SystemException {
 
-		validator.validate(admin, result);
-		if (result.hasErrors()) {
-			return ADMIN_LOGIN;
-		}
+        validator.validate(admin, result);
+        if (result.hasErrors()) {
+            return ADMIN_LOGIN;
+        }
 
-		Administrator adminFromDb = adminService.find(admin.getUsername(), CommonUtils.md5Hex(admin.getPassword()));
-		if (adminFromDb == null) {
-			resp.sendError(HttpServletResponse.SC_FORBIDDEN);
-			return null;
-		}
+        // TODO white list
 
-		// login to Mail Server
-		boolean loginToMailServer = LoginService.login(admin.getUsername(), admin.getPassword(), req);
-		if (!loginToMailServer) {
-			resp.sendError(HttpServletResponse.SC_FORBIDDEN);
-			return null;
-		}
+        Administrator adminFromDb = adminService.find(admin.getUsername(), CommonUtils.md5Hex(admin.getPassword()));
+        if (adminFromDb == null) {
+            resp.sendError(HttpServletResponse.SC_FORBIDDEN);
+            return null;
+        }
 
-		initLogin(req, adminFromDb);
+        // login to Mail Server
+        boolean loginToMailServer = LoginService.login(admin.getUsername(), admin.getPassword(), req);
+        if (!loginToMailServer) {
+            resp.sendError(HttpServletResponse.SC_FORBIDDEN);
+            return null;
+        }
 
-		return ADMIN_INDEX;
-	}
+        initLogin(req, adminFromDb);
 
-	public static void initLogin(HttpServletRequest req, Administrator admin) {
-		req.getSession().setAttribute(LOGGEDIN, OK);
-	}
+        return ADMIN_INDEX;
+    }
 
-	@Autowired
-	AdminService adminService;
+    public static void initLogin(HttpServletRequest req, Administrator admin) {
+        req.getSession().setAttribute(LOGGEDIN, OK);
+    }
 
-	@Autowired
-	@Qualifier("validator")
-	private Validator validator;
+    @Autowired
+    AdminService adminService;
+
+    @Autowired
+    @Qualifier("validator")
+    private Validator validator;
 }

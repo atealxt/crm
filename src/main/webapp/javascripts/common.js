@@ -39,3 +39,16 @@ var restoreRecord = function(e, url) {
         $(e).closest("form").attr("action", url).submit();
     }
 };
+
+var sessionTimeOut = function() {
+    alert("系统超时，将跳转至登录页面");
+    if (typeof window.parent != undefined && window.parent != window) {
+        window.parent.location.href = contextPath + "/admin/";
+    } else {
+        window.location.href = contextPath + "/admin/";
+    }
+};
+
+if (typeof contextPath != undefined) {
+    setTimeout('sessionTimeOut()', 2 * 60 * 60 * 1000);
+}

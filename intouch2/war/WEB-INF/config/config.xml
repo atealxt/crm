@@ -34,11 +34,10 @@
     </chat>
 
     <!-- MAIL SERVER SETUP -->
-    <!-- TODO multiple -->
     <servers>
         <server>
             <!-- give any name you desire -->
-            <shortname>localhost</shortname>
+            <shortname>qq.com</shortname>
             <!-- your imap/pop3 server ip/dns -->
             <fetch-server>pop.qq.com</fetch-server>
             <!-- port you are running the pop3/imap server -->
@@ -52,6 +51,16 @@
             <!-- does your smtp server need authentication? -->
             <smtp-authenticated>true</smtp-authenticated>
             <!-- IMAP only: if you use courier or cyrus you'll need to set the following to "INBOX." (with the dot(.) but omit the quotes) -->
+            <folder-namespace></folder-namespace>
+        </server>
+        <server>
+            <shortname>gmail.com</shortname>
+            <fetch-server>imap.gmail.com</fetch-server>
+            <fetch-server-port>993</fetch-server-port>
+            <fetch-protocol>imap</fetch-protocol>
+            <smtp-server>smtp.gmail.com</smtp-server>
+            <smtp-server-port>465</smtp-server-port>
+            <smtp-authenticated>true</smtp-authenticated>
             <folder-namespace></folder-namespace>
         </server>
     </servers>

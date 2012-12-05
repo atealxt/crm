@@ -242,6 +242,7 @@ public class SendMailService extends BaseService {
                 EnterpriseService enterpriseService = DIManager.getBean(EnterpriseService.class);
                 List<Enterprise> enterprises = enterpriseService.getEnterprises(condition, pager);
                 List<Integer> enterprisesId = new ArrayList<Integer>();
+                // TODO send time limit(minute, hour, day)
                 while (!enterprises.isEmpty()) {
                     for (Enterprise o : enterprises) {
                         String enterpriseEmail = o.getEmail();

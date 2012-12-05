@@ -243,6 +243,8 @@ public class SendMailService extends BaseService {
                 List<Enterprise> enterprises = enterpriseService.getEnterprises(condition, pager);
                 List<Integer> enterprisesId = new ArrayList<Integer>();
                 // TODO send time limit(minute, hour, day)
+                // TODO websocket or async
+                // TODO basic statistic(total XXX, sucess XXX)
                 while (!enterprises.isEmpty()) {
                     for (Enterprise o : enterprises) {
                         String enterpriseEmail = o.getEmail();

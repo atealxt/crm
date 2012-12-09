@@ -30,10 +30,6 @@
     <td><c:out value="${o.contact}"/></td>
   </tr>
   <tr>
-    <td>邮箱</td>
-    <td><c:out value="${o.email}"/></td>
-  </tr>
-  <tr>
     <td>电话</td>
     <td><c:out value="${o.tel}"/></td>
   </tr>
@@ -44,6 +40,10 @@
   <tr>
     <td>传真</td>
     <td><c:out value="${o.faxNo}"/></td>
+  </tr>
+  <tr>
+    <td>邮箱</td>
+    <td><c:out value="${o.email}"/></td>
   </tr>
   <tr>
     <td>来源网站</td>

@@ -23,10 +23,6 @@
       <td><form:input path="contact"/></td>
     </tr>
     <tr>
-      <td>邮箱</td>
-      <td><form:input path="email"/></td>
-    </tr>
-    <tr>
       <td>电话</td>
       <td><form:input path="tel"/></td>
     </tr>
@@ -39,12 +35,16 @@
       <td><form:input path="faxNo"/></td>
     </tr>
     <tr>
+      <td>邮箱</td>
+      <td><form:input path="email" cssClass="longInput"/></td>
+    </tr>
+    <tr>
       <td>来源网站</td>
-      <td><form:input path="source"/></td>
+      <td><form:input path="source" cssClass="longInput"/></td>
     </tr>
     <tr>
       <td>备注</td>
-      <td><form:input path="remark"/></td>
+      <td><form:input path="remark" cssClass="longInput"/></td>
     </tr>
 
     <script src="<c:url value="/javascripts/admin/enterprise.js"/>" type="text/javascript"></script>

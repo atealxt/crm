@@ -57,3 +57,7 @@
 .odd {
     background: #DDDDDD;
 }
+
+.longInput {
+    width: 700px;
+}

@@ -49,6 +49,7 @@ public class EnterpriseController extends PagingController {
             throws Exception {
         modelMap.addAttribute("EnterpriseCount", enterpriseService.count(condition));
         req.getSession().setAttribute(EMAIL_CONTIDION_OBJ, condition);
+        req.getSession().setAttribute(EMAIL_CONTIDION_ORDER, getOrder(req));
         modelMap.addAttribute("subjectExample", getSubjectExample());
         return "admin/enterprise/compose";
     }
@@ -169,6 +170,7 @@ public class EnterpriseController extends PagingController {
     @Autowired
     private Validator validator;
     public static final String EMAIL_CONTIDION_OBJ = "EMAIL_CONTIDION_OBJ";
+    public static final String EMAIL_CONTIDION_ORDER = "EMAIL_CONTIDION_ORDER";
     @Autowired
     private FreeMarkerConfigurer config;
 }

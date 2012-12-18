@@ -238,7 +238,7 @@ public class SendMailService extends BaseService {
                         // TODO check input is number by using JS, and remove this catch.
                     }
                 }
-                Pager pager = new Pager(i++, 20);
+                Pager pager = new Pager(i++, 20, (String) request.getSession().getAttribute(EnterpriseController.EMAIL_CONTIDION_ORDER));
                 EnterpriseService enterpriseService = DIManager.getBean(EnterpriseService.class);
                 List<Enterprise> enterprises = enterpriseService.getEnterprises(condition, pager);
                 List<Integer> enterprisesId = new ArrayList<Integer>();
@@ -288,7 +288,7 @@ public class SendMailService extends BaseService {
                     if (sentCnt >= maxSentCnt) {
                         break;
                     }
-                    pager = new Pager(i++, 20);
+                    pager = new Pager(i++, 20, (String) request.getSession().getAttribute(EnterpriseController.EMAIL_CONTIDION_ORDER));
                     enterprises = enterpriseService.getEnterprises(condition, pager);
                 }
                 for (Integer id : enterprisesId) {

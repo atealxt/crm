@@ -238,6 +238,14 @@ public class SendMailService extends BaseService {
                         // TODO check input is number by using JS, and remove this catch.
                     }
                 }
+                int secondsToWaitingForMailSendFail = -1;
+                if (StringUtils.isNotEmpty(request.getParameter("secondsToWaitingForMailSendFail"))) {
+                    try {
+                        secondsToWaitingForMailSendFail = Integer.parseInt(request.getParameter("secondsToWaitingForMailSendFail"));
+                    } catch (NumberFormatException e) {
+                        // TODO check input is number by using JS, and remove this catch.
+                    }
+                }
                 Pager pager = new Pager(i++, 20, (String) request.getSession().getAttribute(EnterpriseController.EMAIL_CONTIDION_ORDER));
                 EnterpriseService enterpriseService = DIManager.getBean(EnterpriseService.class);
                 List<Enterprise> enterprises = enterpriseService.getEnterprises(condition, pager);
@@ -253,11 +261,11 @@ public class SendMailService extends BaseService {
                         }
                         boolean hasEnterpriseSent = false;
                         List<String> enterpriseEmails = splitEmails(enterpriseEmail);
-                        for (String s : enterpriseEmails) {
+                        for (String eml : enterpriseEmails) {
                             boolean statusOK;
                             String statusMsg;
                             try {
-                                setTo(s, email.getBaseHeader(), saveSentContacts, auth);
+                                setTo(eml, email.getBaseHeader(), saveSentContacts, auth);
                                 if (sentCnt >= maxSentCnt) {
                                     break;
                                 }
@@ -274,9 +282,13 @@ public class SendMailService extends BaseService {
                             } catch (Exception e) {
                                 log.error(e.getMessage(), e);
                                 statusOK = false;
-                                statusMsg = "失败(" + e.getMessage() + ")";
+                                statusMsg = "失败(" + e + ")";
                             }
-                            mailSentInfos.add(new MailSentInfo(o.getName(), s, statusMsg));
+                            mailSentInfos.add(new MailSentInfo(o.getName(), eml, statusMsg));
+                            if (!statusOK && secondsToWaitingForMailSendFail > 0) {
+                                log.debug(eml + " 发送失败，休眠" + secondsToWaitingForMailSendFail + "秒");
+                                Thread.sleep(secondsToWaitingForMailSendFail * 1000);
+                            }
                         }
                         if (hasEnterpriseSent) {
                             enterprisesId.add(o.getId());

@@ -131,6 +131,14 @@ session.setAttribute("lang", lang);
                                                         </div>
                                                     </td>
                                                 </tr>
+                                                <tr>
+                                                    <td colspan="2" nowrap="nowrap">
+                                                        <spring:message code="Enterprise.secondsToWaitingForMailSendFail" text="Enterprise.secondsToWaitingForMailSendFail"/>
+                                                        <input type="text" name="secondsToWaitingForMailSendFail" value="10" size="4" style="width:30px;" maxlength="4" title="<spring:message code="Enterprise.secondsToWaitingForMailSendFail.title" text="Enterprise.secondsToWaitingForMailSendFail.title"/>" />
+                                                        <spring:message code="Enterprise.secondsToWaitingForMailSendFail.unit" text="Enterprise.secondsToWaitingForMailSendFail.unit"/>
+                                                        <%-- TODO retry? --%>
+                                                    </td>
+                                                </tr>
                                             </tbody>
                                         </table>
                                         <br/>

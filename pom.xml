@@ -541,6 +541,12 @@
       <scope>system</scope>
       <systemPath>${project.basedir}/intouch2/war/WEB-INF/lib/taglibs-i18n.jar</systemPath>
     </dependency>
+    <!-- <dependency>
+      <groupId>org.apache.tomcat</groupId>
+      <artifactId>tomcat-api</artifactId>
+      <version>7.0.27</version>
+      <scope>provided</scope>
+    </dependency> -->
   </dependencies>
 
   <repositories>

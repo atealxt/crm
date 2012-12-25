@@ -42,6 +42,8 @@ pagination test<br>
 <hr>
 <a href="test-form.action">test form submit</a>
 <hr>
+<a href="test-websocket.jsp">test WebSocket</a>
+<hr>
 
 </body>
 </html>

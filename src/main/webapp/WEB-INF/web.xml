@@ -109,6 +109,15 @@
         <url-pattern>/response.action</url-pattern>
     </filter-mapping>
 
+	<servlet>
+		<servlet-name>testWebSocketServlet</servlet-name>
+		<servlet-class>com.zhyfoundry.crm.web.controller.TestWebSocketServlet</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>testWebSocketServlet</servlet-name>
+		<url-pattern>/websocket/test</url-pattern>
+	</servlet-mapping>
+
     <!-- itouch start -->
 
     <filter>
@@ -116,27 +125,6 @@
         <filter-class>org.claros.intouch.common.filters.GZIPFilter
         </filter-class>
     </filter>
-
-    <!-- <filter-mapping>
-        <filter-name>Compress</filter-name>
-        <url-pattern>*.jsp</url-pattern>
-    </filter-mapping>
-    <filter-mapping>
-        <filter-name>Compress</filter-name>
-        <url-pattern>*.html</url-pattern>
-    </filter-mapping>
-    <filter-mapping>
-        <filter-name>Compress</filter-name>
-        <url-pattern>*.css</url-pattern>
-    </filter-mapping>
-    <filter-mapping>
-        <filter-name>Compress</filter-name>
-        <url-pattern>*.js</url-pattern>
-    </filter-mapping>
-    <filter-mapping>
-        <filter-name>Compress</filter-name>
-        <url-pattern>*.cl</url-pattern>
-    </filter-mapping> -->
 
     <listener>
         <listener-class>org.claros.intouch.common.filters.SessionListener

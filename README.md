@@ -16,7 +16,7 @@
 $ mvn install -Dmaven.test.skip=true
 ```
 
-* Make sure your Web container support UTF-8.
+* Make sure your web container support UTF-8.
 * Make sure your database Charset is UTF-8:
 
 ```

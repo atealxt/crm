@@ -4,7 +4,7 @@
 
 * Java 1.6 or higher.
 * MySQL 5 or higher.
-* Web container like Tomcat.
+* Web container like Tomcat. (If you want to use Websocket, using Tomcat 7 instead.)
 * Maven 3 or higher.
 * JUnit 4 or higher.
 
@@ -16,6 +16,7 @@
 $ mvn install -Dmaven.test.skip=true
 ```
 
+* Make sure your Web container support UTF-8.
 * Make sure your database Charset is UTF-8:
 
 ```
@@ -53,7 +54,7 @@ mysql> show variables like 'collation_%';
 
   `intouch2/war/WEB-INF/config/config.xml`
 * Run `/src/test/java/com/zhyfoundry/crm/environment/DBMaker.java` by using JUnit.
-* Execute script files which in folder `/script`
+* Execute script files which in folder `/script` .
 * Setting mail configuration(edit `/intouch2/war/WEB-INF/config/config.xml`, and create a tmp directory as well. You can see the detail in `/intouch2/INSTALL.txt`).
 * Now you can package it to a war file and run it:
 

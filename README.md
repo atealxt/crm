@@ -4,7 +4,7 @@
 
 * Java 1.6 or higher.
 * MySQL 5 or higher.
-* Web container like Tomcat. (If you want to use Websocket, using Tomcat 7 instead.)
+* Web container like Tomcat. (If you want to use Websocket, using Tomcat 7.0.34 or higher instead.)
 * Maven 3 or higher.
 * JUnit 4 or higher.
 

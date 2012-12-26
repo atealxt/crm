@@ -11,25 +11,25 @@
 <script type="text/javascript">
 
 $(document).ready(function() {
-	if (window.WebSocket) {
-		var connection = new WebSocket('ws://<%=request.getServerName()%>:<%=request.getServerPort()%><%=request.getContextPath()%>/websocket/test');
-		connection.onopen = function(evt) { console.log("CONNECTED"); };
-		connection.onclose = function(evt) { console.log("DISCONNECTED"); };
-	    connection.onerror = function(evt) { alert("ERROR: " + evt);console.log(evt); };
-		connection.onmessage = function(e) {
-			console.log(e.data);
-		};
-		$('#btnWS').click(function() {
-			var message = {
-				'name': 'bill murray',
-				'comment': 'No one will ever believe you'
-			};
-			connection.send(JSON.stringify(message));
-			connection.send($('#form1').serialize());
-		});
-	} else {
-		/*WebSockets are not supported. Try a fallback method like long-polling etc*/
-	}
+    if (window.WebSocket) {
+        var connection = new WebSocket('ws://<%=request.getServerName()%>:<%=request.getServerPort()%><%=request.getContextPath()%>/websocket/test');
+        connection.onopen = function(evt) { console.log("CONNECTED"); };
+        connection.onclose = function(evt) { console.log("DISCONNECTED"); };
+        connection.onerror = function(evt) { alert("ERROR: " + evt);console.log(evt); };
+        connection.onmessage = function(e) {
+            console.log(e.data);
+        };
+        $('#btnWS').click(function() {
+            var message = {
+                'name': 'Hello',
+                'comment': 'World'
+            };
+            connection.send(JSON.stringify(message));
+            connection.send($('#form1').serialize());
+        });
+    } else {
+        /*WebSockets are not supported. Try a fallback method like long-polling etc*/
+    }
 });
 
 </script>
@@ -38,9 +38,9 @@ $(document).ready(function() {
 <body>
 
 <form id="form1">
-	<input name="t1"><br>
-	<textarea name="t2"></textarea><br>
-	<input id="btnWS" type="button" value="click"/>
+    <input name="t1"><br>
+    <textarea name="t2"></textarea><br>
+    <input id="btnWS" type="button" value="click"/>
 </form>
 
 </body>

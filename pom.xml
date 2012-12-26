@@ -544,19 +544,19 @@
     </dependency>
 
     <!--
-    	Because of the bug of eclipse Juno maven plugin, if you want to run project in wtp, add `<Loader delegate="true" />` to tomcat context.xml.
-    	Please see detail in http://blog.sina.com.cn/s/blog_724487850101c5gz.html
+        Because of the bug of eclipse Juno maven plugin in some platform, if you want to run project in wtp, maybe you have to add `<Loader delegate="true" />` to tomcat context.xml.
+        Please see detail in http://blog.sina.com.cn/s/blog_724487850101c5gz.html
     -->
     <dependency>
       <groupId>org.apache.tomcat</groupId>
       <artifactId>tomcat-catalina</artifactId>
-      <version>7.0.27</version>
+      <version>7.0.34</version>
       <scope>provided</scope>
     </dependency>
     <dependency>
       <groupId>org.apache.tomcat</groupId>
       <artifactId>tomcat-coyote</artifactId>
-      <version>7.0.27</version>
+      <version>7.0.34</version>
       <scope>provided</scope>
     </dependency>
 

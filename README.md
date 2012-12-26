@@ -17,7 +17,7 @@ $ mvn install -Dmaven.test.skip=true
 ```
 
 * Make sure your web container support UTF-8.
-* Make sure your database Charset is UTF-8:
+* Make sure your database charset is UTF-8:
 
 ```
 mysql> show variables like 'character_set_%';

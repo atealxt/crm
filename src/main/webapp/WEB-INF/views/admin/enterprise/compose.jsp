@@ -108,6 +108,10 @@ session.setAttribute("lang", lang);
                                                         </select>&nbsp;&nbsp;&nbsp;&nbsp;
                                                         <strong><i18n:message key="request.read.receipt"/>:</strong>
                                                         <input name="requestReceiptNotification" id="requestReceiptNotification" type="checkbox" value="1" style="border: 1px solid #999999;font-size: 9px;width:15px;">
+                                                        <br>
+                                                        <strong><spring:message code="Enterprise.secondsToWaitingForMailSendFail" text="Enterprise.secondsToWaitingForMailSendFail"/></strong>
+                                                        <input type="text" name="secondsToWaitingForMailSendFail" size="4" style="width:30px;" maxlength="4" title="<spring:message code="Enterprise.secondsToWaitingForMailSendFail.title" text="Enterprise.secondsToWaitingForMailSendFail.title"/>" />
+                                                        <spring:message code="Enterprise.secondsToWaitingForMailSendFail.unit" text="Enterprise.secondsToWaitingForMailSendFail.unit"/>
                                                     </td>
                                                 </tr>
                                                 <tr id="attachmentstr" style="display:none;background-color: #F6F6F6;">
@@ -129,14 +133,6 @@ session.setAttribute("lang", lang);
                                                                 </tr>
                                                             </table>
                                                         </div>
-                                                    </td>
-                                                </tr>
-                                                <tr>
-                                                    <td colspan="2" nowrap="nowrap">
-                                                        <spring:message code="Enterprise.secondsToWaitingForMailSendFail" text="Enterprise.secondsToWaitingForMailSendFail"/>
-                                                        <input type="text" name="secondsToWaitingForMailSendFail" value="10" size="4" style="width:30px;" maxlength="4" title="<spring:message code="Enterprise.secondsToWaitingForMailSendFail.title" text="Enterprise.secondsToWaitingForMailSendFail.title"/>" />
-                                                        <spring:message code="Enterprise.secondsToWaitingForMailSendFail.unit" text="Enterprise.secondsToWaitingForMailSendFail.unit"/>
-                                                        <%-- TODO retry? --%>
                                                     </td>
                                                 </tr>
                                             </tbody>

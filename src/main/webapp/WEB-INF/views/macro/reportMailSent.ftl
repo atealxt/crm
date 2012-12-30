@@ -3,6 +3,10 @@
 <#if mailSentInfo?size != 0>
 
     <h2>发送报告</h2>
+    <p>
+        <div>总发送数：<span id="spanTotal">${total}</span></div>
+        <div>成功数：<span id="spanSuccess">${success}</span></div>
+    </p>
     <table>
         <thead>
           <th>企业名</th>

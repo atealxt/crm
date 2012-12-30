@@ -6,8 +6,9 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.ObjectOutputStream;
-import java.io.PrintWriter;
 import java.io.StringReader;
+import java.io.StringWriter;
+import java.io.Writer;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
@@ -47,6 +48,7 @@ import org.claros.intouch.webmail.factory.FolderControllerFactory;
 import org.claros.intouch.webmail.factory.MailControllerFactory;
 import org.claros.intouch.webmail.models.FolderDbObject;
 import org.claros.intouch.webmail.models.MsgDbObject;
+import org.claros.intouch.webmail.models.SendMailInfo;
 import org.springframework.web.servlet.view.freemarker.FreeMarkerConfigurer;
 
 import com.zhyfoundry.crm.core.DIManager;
@@ -54,7 +56,6 @@ import com.zhyfoundry.crm.core.dao.Pager;
 import com.zhyfoundry.crm.entity.Enterprise;
 import com.zhyfoundry.crm.entity.MailSentInfo;
 import com.zhyfoundry.crm.service.EnterpriseService;
-import com.zhyfoundry.crm.web.controller.EnterpriseController;
 
 import freemarker.template.Template;
 
@@ -83,13 +84,15 @@ public class SendMailService extends BaseService {
      */
     @Override
     public void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-
         response.setHeader("Expires", "-1");
         response.setHeader("Pragma", "no-cache");
         response.setHeader("Cache-control", "no-cache");
         response.setHeader("Content-Type", "text/html; charset=utf-8");
+        String output = executeSendMail(new SendMailInfo(request));
+        response.getWriter().print(output);
+    }
 
-        PrintWriter out = response.getWriter();
+    public static String executeSendMail(SendMailInfo sendMailInfo) {
 
         try {
             /*
@@ -108,30 +111,27 @@ public class SendMailService extends BaseService {
              * "utf-8"); String body= new
              * String(request.getParameter("body").getBytes(charset), "utf-8");
              */
-            String from = request.getParameter("from");
-            String to = request.getParameter("to");
-            String cc = request.getParameter("cc");
-            String bcc = request.getParameter("bcc");
-            String subject = request.getParameter("subject");
-            String body = request.getParameter("body");
-            String requestReceiptNotification = request.getParameter("requestReceiptNotification");
-            String priority = request.getParameter("priority");
-            String sensitivity = request.getParameter("sensitivity");
+            String from = sendMailInfo.getFrom();
+            String to = sendMailInfo.getTo();
+            String cc = sendMailInfo.getCc();
+            String bcc = sendMailInfo.getBcc();
+            String subject = sendMailInfo.getSubject();
+            String body = sendMailInfo.getBody();
+            String requestReceiptNotification = sendMailInfo.getRequestReceiptNotification();
+            String priority = sendMailInfo.getPriority();
+            String sensitivity = sendMailInfo.getSensitivity();
 
             // learn the global charset setting.
 
             // learn user preferences from the DB.
-            AuthProfile auth = getAuthProfile(request);
+            AuthProfile auth = sendMailInfo.getAuthProfile();
 
             String saveSentContacts = UserPrefsController.getUserSetting(auth, "saveSentContacts");
             if (saveSentContacts == null) {
                 saveSentContacts = "yes";
             }
 
-            boolean isEnterprise = request.getParameter("enterprise") != null;
-            if (isEnterprise) {
-                body = request.getParameter("composeBody");
-            }
+            boolean isEnterprise = sendMailInfo.isEnterprise();
 
             // now create a new email object.
             Email email = new Email();
@@ -191,7 +191,7 @@ public class SendMailService extends BaseService {
             parts.add(0, bodyPart);
 
             // attach some files...
-            ArrayList attachments = (ArrayList) request.getSession().getAttribute("attachments");
+            ArrayList attachments = sendMailInfo.getAttachments();
             if (attachments != null) {
                 List newLst = new ArrayList();
                 EmailPart tmp = null;
@@ -224,36 +224,23 @@ public class SendMailService extends BaseService {
             email.setParts(parts);
 
             // it is time to send the email object message
-            Smtp smtp = new Smtp(getConnectionProfile(request), getAuthProfile(request));
+            Smtp smtp = new Smtp(sendMailInfo.getConnectionProfile(), sendMailInfo.getAuthProfile());
 
             if (isEnterprise) {
                 List<MailSentInfo> mailSentInfos = new ArrayList<MailSentInfo>();
-                Enterprise condition = (Enterprise) request.getSession().getAttribute(EnterpriseController.EMAIL_CONTIDION_OBJ);
+                Enterprise condition = sendMailInfo.getCondition();
                 int i = 1, sentCnt = 0;
-                int maxSentCnt = Integer.MAX_VALUE;
-                if (StringUtils.isNotEmpty(request.getParameter("sendMailCountLimitation"))) {
-                    try {
-                        maxSentCnt = Integer.parseInt(request.getParameter("sendMailCountLimitation"));
-                    } catch (NumberFormatException e) {
-                        // TODO check input is number by using JS, and remove this catch.
-                    }
-                }
-                int secondsToWaitingForMailSendFail = -1;
-                if (StringUtils.isNotEmpty(request.getParameter("secondsToWaitingForMailSendFail"))) {
-                    try {
-                        secondsToWaitingForMailSendFail = Integer.parseInt(request.getParameter("secondsToWaitingForMailSendFail"));
-                    } catch (NumberFormatException e) {
-                        // TODO check input is number by using JS, and remove this catch.
-                    }
-                }
-                Pager pager = new Pager(i++, 20, (String) request.getSession().getAttribute(EnterpriseController.EMAIL_CONTIDION_ORDER));
+                int maxSentCnt = sendMailInfo.getMaxSentCnt();
+                int secondsToWaitingForMailSendFail = sendMailInfo.getSecondsToWaitingForMailSendFail();
+                Pager pager = new Pager(i++, 20, sendMailInfo.getConditionOrder());
                 EnterpriseService enterpriseService = DIManager.getBean(EnterpriseService.class);
                 List<Enterprise> enterprises = enterpriseService.getEnterprises(condition, pager);
                 List<Integer> enterprisesId = new ArrayList<Integer>();
                 // TODO send time limit(minute, hour, day)
-                // TODO websocket or async
-                // TODO basic statistic(total XXX, sucess XXX)
+                // TODO basic statistic(total XXX, success XXX)
+                int total = 0;
                 while (!enterprises.isEmpty()) {
+                    total += enterprises.size();
                     for (Enterprise o : enterprises) {
                         String enterpriseEmail = o.getEmail();
                         if (StringUtils.isBlank(enterpriseEmail)) {
@@ -271,7 +258,7 @@ public class SendMailService extends BaseService {
                                 }
                                 email.getBaseHeader().setSubject(o.processDSL(subject));
                                 ((EmailPart)email.getParts().get(0)).setContent(o.processDSL(body));
-                                statusOK = sendMail(smtp, email, auth, request, o);
+                                statusOK = sendMail(smtp, email, auth, sendMailInfo.getConnectionMetaHandler(), sendMailInfo.getConnectionProfile(), o);
                                 if (statusOK) {
                                     statusMsg = "成功";
                                     hasEnterpriseSent = true;
@@ -300,32 +287,36 @@ public class SendMailService extends BaseService {
                     if (sentCnt >= maxSentCnt) {
                         break;
                     }
-                    pager = new Pager(i++, 20, (String) request.getSession().getAttribute(EnterpriseController.EMAIL_CONTIDION_ORDER));
+                    pager = new Pager(i++, 20, sendMailInfo.getConditionOrder());
                     enterprises = enterpriseService.getEnterprises(condition, pager);
                 }
+                int success = enterprisesId.size();
                 for (Integer id : enterprisesId) {
                     enterpriseService.increaseMailSentCount(id);
                 }
-
-                outputReport(mailSentInfos, out);
+                StringWriter sw = new StringWriter();
+                outputReport(mailSentInfos, sw, total, success);
+                return sw.toString();
             } else {
-                boolean statusOK = sendMail(smtp, email, auth, request, null);
+                boolean statusOK = sendMail(smtp, email, auth, sendMailInfo.getConnectionMetaHandler(), sendMailInfo.getConnectionProfile(), null);
                 if (statusOK) {
-                    out.print("ok");
+                    return "ok";
                 } else {
-                    out.print("fail");
+                    return "fail";
                 }
             }
         } catch (Exception e) {
-            out.print("fail");
             log.error(e.getMessage(), e);
+            return "fail";
         }
     }
 
-    private void outputReport(List<MailSentInfo> mailSentInfos, PrintWriter out) {
+    private static void outputReport(List<MailSentInfo> mailSentInfos, Writer out, int total, int success) {
         FreeMarkerConfigurer config = DIManager.getBean(FreeMarkerConfigurer.class);
         Map<String, Object> model = new HashMap<String, Object>();
         model.put("mailSentInfo", mailSentInfos);
+        model.put("total", total);
+        model.put("success", success);
         try {
             Template t = new Template("", new StringReader("<#import \"macro/reportMailSent.ftl\" as report><@report.page />"), config.getConfiguration());
             t.process(model, out);
@@ -334,7 +325,7 @@ public class SendMailService extends BaseService {
         }
     }
 
-    private List<String> splitEmails(String enterpriseEmail) {
+    private static List<String> splitEmails(String enterpriseEmail) {
         List<String> emails = new ArrayList<String>();
         String[] arr = enterpriseEmail.split(",|;|\\|");
         for (String s : arr) {
@@ -345,7 +336,7 @@ public class SendMailService extends BaseService {
         return emails;
     }
 
-    private void setTo(String to, EmailHeader header, Object saveSentContacts, AuthProfile auth) throws Exception {
+    private static void setTo(String to, EmailHeader header, Object saveSentContacts, AuthProfile auth) throws Exception {
         Address tos[] = Utility.stringToAddressArray(to);
         header.setTo(tos);
         if (saveSentContacts != null && saveSentContacts.equals("yes")) {
@@ -353,7 +344,7 @@ public class SendMailService extends BaseService {
         }
     }
 
-    private boolean sendMail(Smtp smtp, Email email, AuthProfile auth, HttpServletRequest request, Enterprise enterprise) throws Exception {
+    private static boolean sendMail(Smtp smtp, Email email, AuthProfile auth, ConnectionMetaHandler handler, ConnectionProfile profile, Enterprise enterprise) throws Exception {
         HashMap sendRes = smtp.send(email, false);
         MimeMessage msg = (MimeMessage) sendRes.get("msg");
 
@@ -372,7 +363,7 @@ public class SendMailService extends BaseService {
                 saveEnabled = "yes";
             }
             if (saveEnabled == null || saveEnabled.equals("yes")) {
-                saveSentMail(auth, msg, request, enterprise);
+                saveSentMail(auth, msg, handler, profile, enterprise);
             }
             return true;
         }
@@ -383,7 +374,7 @@ public class SendMailService extends BaseService {
      * @param auth
      * @param adrs
      */
-    private void saveContacts(AuthProfile auth, Address[] adrs) {
+    private static void saveContacts(AuthProfile auth, Address[] adrs) {
         try {
             if (adrs != null) {
                 InternetAddress adr = null;
@@ -406,7 +397,7 @@ public class SendMailService extends BaseService {
      * @param enterprise
      * @throws Exception
      */
-    private void saveSentMail(AuthProfile auth, MimeMessage msg, HttpServletRequest request, Enterprise enterprise) throws Exception {
+    private static void saveSentMail(AuthProfile auth, MimeMessage msg, ConnectionMetaHandler handler, ConnectionProfile profile, Enterprise enterprise) throws Exception {
         ByteArrayOutputStream bos = new ByteArrayOutputStream();
         msg.writeTo(bos);
         byte bMsg[] = bos.toByteArray();
@@ -419,9 +410,6 @@ public class SendMailService extends BaseService {
         MsgDbObject item = new MsgDbObject();
         item.setEmail(bMsg);
         String md5Header = new String(MD5.getHashString(bMsg)).toUpperCase(new Locale("en", "US"));
-
-        ConnectionMetaHandler handler = getConnectionHandler(request);
-        ConnectionProfile profile = getConnectionProfile(request);
 
         FolderControllerFactory factory = new FolderControllerFactory(auth, profile, handler);
         FolderController foldCont = factory.getFolderController();

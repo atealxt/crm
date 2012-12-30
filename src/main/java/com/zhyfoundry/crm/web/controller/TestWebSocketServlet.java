@@ -48,10 +48,5 @@ public class TestWebSocketServlet extends WebSocketServlet {
                 logger.error(e.getMessage(), e);
             }
         }
-
-        @Override
-        public int getReadTimeout() {
-            return -1;
-        }
     }
 }

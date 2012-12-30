@@ -21,132 +21,132 @@ import org.claros.intouch.common.utility.Utility;
 import com.jenkov.mrpersister.itf.IGenericDao;
 
 public class BaseService extends HttpServlet {
-	private static final long serialVersionUID = -2549828936277983597L;
-	private static HashMap configs = new HashMap();
+    private static final long serialVersionUID = -2549828936277983597L;
+    private static HashMap configs = new HashMap();
 
-	/**
-	 * Searches for the variable in various places and returns it.
-	 * @param request
-	 * @param name
-	 * @return Object
-	 */
-	public Object getVariable(HttpServletRequest request, String name) {
-		Object obj = request.getParameter(name);
-		if (obj == null) {
-			obj = request.getAttribute(name);
-			if (obj == null) {
-			    obj = request.getSession().getAttribute(name);
-			    if (obj == null) {
-			        obj = getCookie(request, name);
-			        if (obj == null) {
-				        obj = getServletContext().getAttribute(name);
-			        }
-			    }
-			}
-		}
-		return obj;
-	}
+    /**
+     * Searches for the variable in various places and returns it.
+     * @param request
+     * @param name
+     * @return Object
+     */
+    public Object getVariable(HttpServletRequest request, String name) {
+        Object obj = request.getParameter(name);
+        if (obj == null) {
+            obj = request.getAttribute(name);
+            if (obj == null) {
+                obj = request.getSession().getAttribute(name);
+                if (obj == null) {
+                    obj = getCookie(request, name);
+                    if (obj == null) {
+                        obj = getServletContext().getAttribute(name);
+                    }
+                }
+            }
+        }
+        return obj;
+    }
 
-	/**
-	 * 
-	 * @param request
-	 * @param name
-	 * @return
-	 */
-	public String getCookie(HttpServletRequest request, String name) {
-		Cookie cookies[] = request.getCookies();
-		Cookie cookie = null;
-		if (cookies != null) {
-			for (int i = 0; i < cookies.length; i++) {
-				cookie = cookies[i];
-				if (cookie.getName().equals(name)) {
-					return cookie.getValue();
-				}
-			}
-		}
-		return null;
-	}
+    /**
+     *
+     * @param request
+     * @param name
+     * @return
+     */
+    public String getCookie(HttpServletRequest request, String name) {
+        Cookie cookies[] = request.getCookies();
+        Cookie cookie = null;
+        if (cookies != null) {
+            for (int i = 0; i < cookies.length; i++) {
+                cookie = cookies[i];
+                if (cookie.getName().equals(name)) {
+                    return cookie.getValue();
+                }
+            }
+        }
+        return null;
+    }
 
-	/**
-	 * 
-	 * @param request
-	 * @return
-	 */
-	public ConnectionProfile getConnectionProfile(HttpServletRequest request) {
-		return (ConnectionProfile)request.getSession().getAttribute("profile");
-	}
+    /**
+     *
+     * @param request
+     * @return
+     */
+    public static ConnectionProfile getConnectionProfile(HttpServletRequest request) {
+        return (ConnectionProfile)request.getSession().getAttribute("profile");
+    }
 
-	/**
-	 * 
-	 * @param request
-	 * @return
-	 */
-	public ConnectionMetaHandler getConnectionHandler(HttpServletRequest request) {
-		return (ConnectionMetaHandler)request.getSession().getAttribute("handler");
-	}
+    /**
+     *
+     * @param request
+     * @return
+     */
+    public static ConnectionMetaHandler getConnectionHandler(HttpServletRequest request) {
+        return (ConnectionMetaHandler)request.getSession().getAttribute("handler");
+    }
 
-	/**
-	 * 
-	 * @return
-	 * @throws Exception
-	 */
-	public IGenericDao getDbConnection() throws Exception {
-		return Utility.getDbConnection("file");
-	}
+    /**
+     *
+     * @return
+     * @throws Exception
+     */
+    public IGenericDao getDbConnection() throws Exception {
+        return Utility.getDbConnection("file");
+    }
 
-	/**
-	 * 
-	 * @param name
-	 * @return
-	 * @throws Exception
-	 */
-	public IGenericDao getDbConnection(String name) throws Exception {
-		return Utility.getDbConnection(name);
-	}
+    /**
+     *
+     * @param name
+     * @return
+     * @throws Exception
+     */
+    public IGenericDao getDbConnection(String name) throws Exception {
+        return Utility.getDbConnection(name);
+    }
 
-	/**
-	 * 
-	 * @param request
-	 * @return
-	 */
-	public AuthProfile getAuthProfile(HttpServletRequest request) {
-		return (AuthProfile)request.getSession().getAttribute("auth");
-	}
+    /**
+     *
+     * @param request
+     * @return
+     */
+    public static AuthProfile getAuthProfile(HttpServletRequest request) {
+        return (AuthProfile)request.getSession().getAttribute("auth");
+    }
 
-	/**
-	 * 
-	 * @param request
-	 * @return
-	 */
-	public ArrayList getUserSettings(HttpServletRequest request) {
-		return (ArrayList)request.getSession().getAttribute("prefs");
-	}
+    /**
+     *
+     * @param request
+     * @return
+     */
+    public ArrayList getUserSettings(HttpServletRequest request) {
+        return (ArrayList)request.getSession().getAttribute("prefs");
+    }
 
-	/**
-	 * 
-	 * @param req
-	 * @param key
-	 * @return
-	 */
-	public String getText(HttpServletRequest req, String key) {
-		try {
-			String lang = (String)getVariable(req, "lang");
-			if (lang == null) lang = "en";
-			Locale loc = new Locale("en");
-			try {
-				loc = new Locale(lang);
-			} catch (Exception e) {}
-			
-			String clsPath = Paths.getClsFolder();
-			
-			Configuration config = (Configuration)configs.get(lang);
-			if (config == null) {
-				config = new PropertiesConfiguration(new File(clsPath + "/org/claros/intouch/i18n/lang_" + loc + ".properties"));
-				configs.put(lang, config);
-			}
-			return config.getString(key);
-		} catch (ConfigurationException e) {
-			return null;
-		}
-	}
+    /**
+     *
+     * @param req
+     * @param key
+     * @return
+     */
+    public String getText(HttpServletRequest req, String key) {
+        try {
+            String lang = (String)getVariable(req, "lang");
+            if (lang == null) lang = "en";
+            Locale loc = new Locale("en");
+            try {
+                loc = new Locale(lang);
+            } catch (Exception e) {}
+
+            String clsPath = Paths.getClsFolder();
+
+            Configuration config = (Configuration)configs.get(lang);
+            if (config == null) {
+                config = new PropertiesConfiguration(new File(clsPath + "/org/claros/intouch/i18n/lang_" + loc + ".properties"));
+                configs.put(lang, config);
+            }
+            return config.getString(key);
+        } catch (ConfigurationException e) {
+            return null;
+        }
+    }
 }

@@ -109,14 +109,14 @@
         <url-pattern>/response.action</url-pattern>
     </filter-mapping>
 
-	<servlet>
-		<servlet-name>testWebSocketServlet</servlet-name>
-		<servlet-class>com.zhyfoundry.crm.web.controller.TestWebSocketServlet</servlet-class>
-	</servlet>
-	<servlet-mapping>
-		<servlet-name>testWebSocketServlet</servlet-name>
-		<url-pattern>/websocket/test</url-pattern>
-	</servlet-mapping>
+    <servlet>
+        <servlet-name>testWebSocketServlet</servlet-name>
+        <servlet-class>com.zhyfoundry.crm.web.controller.TestWebSocketServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>testWebSocketServlet</servlet-name>
+        <url-pattern>/websocket/test</url-pattern>
+    </servlet-mapping>
 
     <!-- itouch start -->
 
@@ -196,6 +196,11 @@
     <servlet>
         <servlet-name>SendMailService</servlet-name>
         <servlet-class>org.claros.intouch.webmail.services.SendMailService
+        </servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>SendMailWebSocketService</servlet-name>
+        <servlet-class>org.claros.intouch.webmail.services.SendMailWebSocketService
         </servlet-class>
     </servlet>
     <servlet>
@@ -501,6 +506,10 @@
     <servlet-mapping>
         <servlet-name>SendMailService</servlet-name>
         <url-pattern>/webmail/sendMail.cl</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>SendMailWebSocketService</servlet-name>
+        <url-pattern>/webmail/sendMailWebSocket.cl</url-pattern>
     </servlet-mapping>
     <servlet-mapping>
         <servlet-name>SendReadReceiptMailService</servlet-name>

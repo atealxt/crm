@@ -4,10 +4,18 @@
 
     <h2>发送报告</h2>
     <p>
-        <div>总发送数：<span id="spanTotal">${total}</span></div>
-        <div>成功数：<span id="spanSuccess">${success}</span></div>
+        <table id="tableStat">
+            <tr>
+                <td>总发送数</td>
+                <td>${total}</td>
+            </tr>
+            <tr>
+                <td>发送成功</td>
+                <td>${success}</td>
+            </tr>
+        </table>
     </p>
-    <table>
+    <table id="tableDetail">
         <thead>
           <th>企业名</th>
           <th>邮箱</th>

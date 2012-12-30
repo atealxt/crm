@@ -237,7 +237,6 @@ public class SendMailService extends BaseService {
                 List<Enterprise> enterprises = enterpriseService.getEnterprises(condition, pager);
                 List<Integer> enterprisesId = new ArrayList<Integer>();
                 // TODO send time limit(minute, hour, day)
-                // TODO basic statistic(total XXX, success XXX)
                 int total = 0;
                 while (!enterprises.isEmpty()) {
                     total += enterprises.size();

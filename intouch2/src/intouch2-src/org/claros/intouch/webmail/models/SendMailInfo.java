@@ -1,6 +1,10 @@
 package org.claros.intouch.webmail.models;
 
+import java.io.UnsupportedEncodingException;
+import java.net.URLDecoder;
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -19,7 +23,6 @@ public class SendMailInfo {
 
     protected Log logger = LogFactory.getLog(getClass());
 
-    private final HttpServletRequest request;
     private final String from;
     private final String to;
     private final String cc;
@@ -39,8 +42,65 @@ public class SendMailInfo {
     private int secondsToWaitingForMailSendFail = -1;
     private final ConnectionMetaHandler connectionMetaHandler;
 
+    public SendMailInfo(String form, AuthProfile authProfile, ArrayList attachments, ConnectionProfile connectionProfile, Enterprise condition, String conditionOrder, ConnectionMetaHandler connectionMetaHandler) {
+        logger.debug(form);
+        String[] parameters = form.split("&");
+        Map<String, String> map = new HashMap<String, String>();
+        for (String s : parameters) {
+            int idxEq = s.indexOf("=");
+            if (idxEq == -1) {
+                continue;
+            }
+            if (idxEq == s.length() - 1) {
+                try {
+                    map.put(URLDecoder.decode(s.substring(0, idxEq), "utf-8"), "");
+                } catch (UnsupportedEncodingException e) {
+                    logger.error(e.getMessage(), e);
+                }
+            } else {
+                try {
+                    map.put(URLDecoder.decode(s.substring(0, idxEq), "utf-8"), URLDecoder.decode(s.substring(idxEq + 1), "utf-8"));
+                } catch (UnsupportedEncodingException e) {
+                    logger.error(e.getMessage(), e);
+                }
+            }
+        }
+        from = map.get("from");
+        to = map.get("to");
+        cc = map.get("cc");
+        bcc = map.get("bcc");
+        subject = map.get("subject");
+        body = map.get("body");
+        requestReceiptNotification = map.get("requestReceiptNotification");
+        priority = map.get("priority");
+        sensitivity = map.get("sensitivity");
+        isEnterprise = map.get("enterprise") != null;
+        if (isEnterprise) {
+            body = map.get("composeBody");
+        }
+        if (StringUtils.isNotEmpty(map.get("sendMailCountLimitation"))) {
+            try {
+                maxSentCnt = Integer.parseInt(map.get("sendMailCountLimitation"));
+            } catch (NumberFormatException e) {
+                logger.error(e.getMessage(), e);
+            }
+        }
+        if (StringUtils.isNotEmpty(map.get("secondsToWaitingForMailSendFail"))) {
+            try {
+                secondsToWaitingForMailSendFail = Integer.parseInt(map.get("secondsToWaitingForMailSendFail"));
+            } catch (NumberFormatException e) {
+                logger.error(e.getMessage(), e);
+            }
+        }
+        this.authProfile = authProfile;
+        this.attachments = attachments;
+        this.connectionProfile = connectionProfile;
+        this.condition = condition;
+        this.conditionOrder = conditionOrder;
+        this.connectionMetaHandler = connectionMetaHandler;
+    }
+
     public SendMailInfo(HttpServletRequest request) {
-        this.request = request;
         from = request.getParameter("from");
         to = request.getParameter("to");
         cc = request.getParameter("cc");
@@ -68,7 +128,8 @@ public class SendMailInfo {
         }
         if (StringUtils.isNotEmpty(request.getParameter("secondsToWaitingForMailSendFail"))) {
             try {
-                secondsToWaitingForMailSendFail = Integer.parseInt(request.getParameter("secondsToWaitingForMailSendFail"));
+                secondsToWaitingForMailSendFail = Integer.parseInt(request
+                        .getParameter("secondsToWaitingForMailSendFail"));
             } catch (NumberFormatException e) {
                 logger.error(e.getMessage(), e);
             }
@@ -142,10 +203,6 @@ public class SendMailInfo {
 
     public int getSecondsToWaitingForMailSendFail() {
         return secondsToWaitingForMailSendFail;
-    }
-
-    public HttpServletRequest getRequest() {
-        return request;
     }
 
     public ConnectionMetaHandler getConnectionMetaHandler() {

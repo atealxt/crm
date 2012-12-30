@@ -22,6 +22,7 @@ try {
 session.setAttribute("lang", lang);
 %>
 
+<div id="divMail">
 <script>var title = '<%=PropertyFile.getConfiguration("/config/config.xml").getString("common-params.title")%>';</script>
 <i18n:bundle baseName="org.claros.intouch.i18n.lang" locale="<%= loc %>"/>
 
@@ -188,4 +189,6 @@ var uploadAttachment = "<c:url value="/webmail/uploadAttachment.cl"/>";
 var deleteAttachment = "<c:url value="/webmail/deleteAttachment.cl"/>";
 var txtRemove = "<i18n:message key="remove"/>";
 </script>
+
+</div>
 <script type="text/javascript" src="<c:url value="/javascripts/admin/mail.js"/>"></script>

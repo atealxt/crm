@@ -92,7 +92,7 @@ public class SendMailService extends BaseService {
         response.getWriter().print(output);
     }
 
-    public static String executeSendMail(SendMailInfo sendMailInfo) {
+    private String executeSendMail(SendMailInfo sendMailInfo) {
 
         try {
             /*
@@ -236,7 +236,6 @@ public class SendMailService extends BaseService {
                 EnterpriseService enterpriseService = DIManager.getBean(EnterpriseService.class);
                 List<Enterprise> enterprises = enterpriseService.getEnterprises(condition, pager);
                 List<Integer> enterprisesId = new ArrayList<Integer>();
-                // TODO send time limit(minute, hour, day)
                 int total = 0;
                 while (!enterprises.isEmpty()) {
                     total += enterprises.size();
@@ -258,10 +257,10 @@ public class SendMailService extends BaseService {
                                 email.getBaseHeader().setSubject(o.processDSL(subject));
                                 ((EmailPart)email.getParts().get(0)).setContent(o.processDSL(body));
                                 statusOK = sendMail(smtp, email, auth, sendMailInfo.getConnectionMetaHandler(), sendMailInfo.getConnectionProfile(), o);
+                                sentCnt++;
                                 if (statusOK) {
                                     statusMsg = "成功";
                                     hasEnterpriseSent = true;
-                                    sentCnt++;
                                 } else {
                                     statusMsg = "失败";
                                 }
@@ -324,7 +323,7 @@ public class SendMailService extends BaseService {
         }
     }
 
-    private static List<String> splitEmails(String enterpriseEmail) {
+    static List<String> splitEmails(String enterpriseEmail) {
         List<String> emails = new ArrayList<String>();
         String[] arr = enterpriseEmail.split(",|;|\\|");
         for (String s : arr) {
@@ -335,7 +334,7 @@ public class SendMailService extends BaseService {
         return emails;
     }
 
-    private static void setTo(String to, EmailHeader header, Object saveSentContacts, AuthProfile auth) throws Exception {
+    static void setTo(String to, EmailHeader header, Object saveSentContacts, AuthProfile auth) throws Exception {
         Address tos[] = Utility.stringToAddressArray(to);
         header.setTo(tos);
         if (saveSentContacts != null && saveSentContacts.equals("yes")) {
@@ -343,7 +342,7 @@ public class SendMailService extends BaseService {
         }
     }
 
-    private static boolean sendMail(Smtp smtp, Email email, AuthProfile auth, ConnectionMetaHandler handler, ConnectionProfile profile, Enterprise enterprise) throws Exception {
+    static boolean sendMail(Smtp smtp, Email email, AuthProfile auth, ConnectionMetaHandler handler, ConnectionProfile profile, Enterprise enterprise) throws Exception {
         HashMap sendRes = smtp.send(email, false);
         MimeMessage msg = (MimeMessage) sendRes.get("msg");
 
@@ -373,7 +372,7 @@ public class SendMailService extends BaseService {
      * @param auth
      * @param adrs
      */
-    private static void saveContacts(AuthProfile auth, Address[] adrs) {
+    static void saveContacts(AuthProfile auth, Address[] adrs) {
         try {
             if (adrs != null) {
                 InternetAddress adr = null;

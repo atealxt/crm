@@ -1,15 +1,36 @@
 var connection;
 $(document).ready(function() {
     if (window.WebSocket) {
+        if (typeof String.prototype.startsWith != 'function') {
+            String.prototype.startsWith = function (str){
+                return this.indexOf(str) == 0;
+            };
+        }
+        var sent = 0;
+        var success = 0;
         connection = new WebSocket(baseWebSocketPath + '/webmail/sendMailWebSocket.cl');
         connection.onopen = function(evt) {};
         connection.onclose = function(evt) {};
         connection.onerror = function(evt) { alert("ERROR: " + evt);console.log(evt); };
         connection.onmessage = function(e) {
-            // TODO render
-            $('#divMail').html(e.data);
-            connection.close();
-            $('#dynamicInfoMessage').text('');
+            if (e.data == 'success') {
+                connection.close();
+                $('#dynamicInfoMessage').text('');
+                return;
+            } else if (e.data.indexOf('System Error') == 0) {
+                connection.close();
+                $('#dynamicInfoMessage').text('');
+                $('#dynamicErrorMessage').text(e.data);
+                return;
+            }
+            var data = JSON.parse(e.data);
+            $('#tbodyMailSentInfo').append('<tr><td>' + data['name'] + '</td><td>' + data['mail'] + '</td><td>' + data['status'] + '</td></tr>');
+            sent++;
+            if (data['success']) {
+                success++;
+            }
+            $('#tdSent').text(sent);
+            $('#tdSuccess').text(success);
         };
     }
 });
@@ -34,16 +55,16 @@ function sendMail(e) {
     $('#aSendMail').attr('href', '###');
 
     if (window.WebSocket) {
-        var formVal = $('#composeForm').serialize()
         var eid = tinyMCE.getEditorId('composeBody');
         var te = document.getElementById(eid);
         var mybody = te.contentWindow.document.body.innerHTML;
         $('#composeBody').text(mybody);
+        var formVal = $('#composeForm').serialize();
         var html = '<h2>发送报告</h2>';
         html += '<p><table id="tableStat">';
-        html += '<tr><td>总发送数</td><td id="tdTotal"></td></tr>';
+        html += '<tr><td>总发送数</td><td id="tdTotal">' + getSendMailCount() + '</td></tr>';
         html += '<tr><td>已发送数</td><td id="tdSent">0</td></tr>';
-        html += '<tr><td>发送成功</td><td id="tdSuccess"></td></tr>';
+        html += '<tr><td>发送成功</td><td id="tdSuccess">0</td></tr>';
         html += '</table></p><table id="tableDetail"><thead><th>企业名</th><th>邮箱</th><th>状态</th></thead>';
         html += '<tbody id="tbodyMailSentInfo"></tbody></table>';
         $('#divMail').html(html);
@@ -51,6 +72,14 @@ function sendMail(e) {
     } else {
         $("#composeForm").submit();
     }
+}
+
+function getSendMailCount() {
+    var sendMailCountLimitation = $('#sendMailCountLimitation').val();
+    if (sendMailCountLimitation != '') {
+        return Math.min(parseInt(sendMailCountLimitation, 10), parseInt($('#spanSendMailCount').text(), 10));
+    }
+    return $('#spanSendMailCount').text();
 }
 
 var uploadIframeCount = 0;

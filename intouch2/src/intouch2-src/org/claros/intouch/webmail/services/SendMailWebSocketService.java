@@ -8,7 +8,9 @@ import java.nio.ByteBuffer;
 import java.nio.CharBuffer;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.LinkedList;
 import java.util.List;
+import java.util.Queue;
 
 import javax.activation.DataHandler;
 import javax.activation.DataSource;
@@ -204,12 +206,12 @@ public class SendMailWebSocketService extends WebSocketServlet {
                 Enterprise condition = sendMailInfo.getCondition();
                 int i = 1, sentCnt = 0;
                 int maxSentCnt = sendMailInfo.getMaxSentCnt();
-                int secondsToWaitingForMailSendFail = sendMailInfo.getSecondsToWaitingForMailSendFail();
                 Pager pager = new Pager(i++, 20, sendMailInfo.getConditionOrder());
                 EnterpriseService enterpriseService = DIManager.getBean(EnterpriseService.class);
                 List<Enterprise> enterprises = enterpriseService.getEnterprises(condition, pager);
                 List<Integer> enterprisesId = new ArrayList<Integer>();
-                // TODO send time limit(minute, hour, day)
+                Queue<Long> sendLimitMinute = new LinkedList<Long>();
+                Queue<Long> sendLimitHour = new LinkedList<Long>();
                 while (!enterprises.isEmpty()) {
                     for (Enterprise o : enterprises) {
                         String enterpriseEmail = o.getEmail();
@@ -219,6 +221,18 @@ public class SendMailWebSocketService extends WebSocketServlet {
                         boolean hasEnterpriseSent = false;
                         List<String> enterpriseEmails = SendMailService.splitEmails(enterpriseEmail);
                         for (String eml : enterpriseEmails) {
+                            long timeToSleep = checkSendLimit(sendLimitMinute, 60 * 1000, sendMailInfo.getSendLimitMinute());
+                            if (timeToSleep != -1) {
+                                log.debug("已达每分钟邮件发送最大数量限制，休眠" + timeToSleep + "毫秒");
+                                output("log:已达每分钟邮件发送最大数量限制，休眠" + timeToSleep + "毫秒");
+                                Thread.sleep(timeToSleep);
+                            }
+                            timeToSleep = checkSendLimit(sendLimitHour, 60 * 60 * 1000, sendMailInfo.getSendLimitHour());
+                            if (timeToSleep != -1) {
+                                log.debug("已达每小时邮件发送最大数量限制，休眠" + timeToSleep + "毫秒");
+                                output("log:已达每小时邮件发送最大数量限制，休眠" + timeToSleep + "毫秒");
+                                Thread.sleep(timeToSleep);
+                            }
                             boolean statusOK;
                             String statusMsg;
                             try {
@@ -242,9 +256,15 @@ public class SendMailWebSocketService extends WebSocketServlet {
                                 statusMsg = "失败(" + (e.getMessage() != null ? e.getMessage() : e.toString()) + ")";
                             }
                             output(JSONObject.fromObject(new MailSentInfo(o.getName(), eml,statusOK, statusMsg)).toString());
-                            if (!statusOK && secondsToWaitingForMailSendFail > 0) {
-                                log.debug(eml + " 发送失败，休眠" + secondsToWaitingForMailSendFail + "秒");
-                                Thread.sleep(secondsToWaitingForMailSendFail * 1000);
+                            if (!statusOK && sendMailInfo.getSecondsToWaitingForMailSendFail() > 0) {
+                                log.debug(eml + " 发送失败，休眠" + sendMailInfo.getSecondsToWaitingForMailSendFail() + "秒");
+                                output("log:" + eml + " 发送失败，休眠" + sendMailInfo.getSecondsToWaitingForMailSendFail() + "秒");
+                                Thread.sleep(sendMailInfo.getSecondsToWaitingForMailSendFail() * 1000);
+                            }
+                            if (sendMailInfo.getSecondsToWaitingForMailSend() > 0) {
+                                log.debug(eml + " 发送完毕，休眠" + sendMailInfo.getSecondsToWaitingForMailSend() + "秒");
+                                output("log:" + eml + " 发送完毕，休眠" + sendMailInfo.getSecondsToWaitingForMailSend() + "秒");
+                                Thread.sleep(sendMailInfo.getSecondsToWaitingForMailSend() * 1000);
                             }
                         }
                         if (hasEnterpriseSent) {
@@ -268,6 +288,30 @@ public class SendMailWebSocketService extends WebSocketServlet {
                 log.error(e.getMessage(), e);
                 output("System Error (" + (e.getMessage() != null ? e.getMessage() : e.toString()) + ")");
             }
+        }
+
+        private long checkSendLimit(Queue<Long> timestamps, int during, int sendLimit) {
+            if (sendLimit == -1) {
+                return -1;
+            }
+            long now = System.currentTimeMillis();
+            if (timestamps.size() == 0) {
+                timestamps.add(now);
+                return -1;
+            }
+            long first = timestamps.peek();
+            if ((now - first) >= during) {
+                timestamps.poll();
+                timestamps.add(now);
+                return -1;
+            }
+            if (timestamps.size() < sendLimit) {
+                timestamps.add(now);
+                return -1;
+            }
+            timestamps.poll();
+            timestamps.add(now);
+            return during - (now - first);
         }
 
         private void output(String message) {

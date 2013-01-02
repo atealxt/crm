@@ -39,10 +39,15 @@ public class SendMailInfo {
     private final Enterprise condition;
     private final String conditionOrder;
     private int maxSentCnt = Integer.MAX_VALUE;
+    private int sendLimitMinute = -1;
+    private int sendLimitHour = -1;
+    private int secondsToWaitingForMailSend = -1;
     private int secondsToWaitingForMailSendFail = -1;
     private final ConnectionMetaHandler connectionMetaHandler;
 
-    public SendMailInfo(String form, AuthProfile authProfile, ArrayList attachments, ConnectionProfile connectionProfile, Enterprise condition, String conditionOrder, ConnectionMetaHandler connectionMetaHandler) {
+    public SendMailInfo(String form, AuthProfile authProfile, ArrayList attachments,
+            ConnectionProfile connectionProfile, Enterprise condition, String conditionOrder,
+            ConnectionMetaHandler connectionMetaHandler) {
         logger.debug(form);
         String[] parameters = form.split("&");
         Map<String, String> map = new HashMap<String, String>();
@@ -59,7 +64,8 @@ public class SendMailInfo {
                 }
             } else {
                 try {
-                    map.put(URLDecoder.decode(s.substring(0, idxEq), "utf-8"), URLDecoder.decode(s.substring(idxEq + 1), "utf-8"));
+                    map.put(URLDecoder.decode(s.substring(0, idxEq), "utf-8"),
+                            URLDecoder.decode(s.substring(idxEq + 1), "utf-8"));
                 } catch (UnsupportedEncodingException e) {
                     logger.error(e.getMessage(), e);
                 }
@@ -85,9 +91,30 @@ public class SendMailInfo {
                 logger.error(e.getMessage(), e);
             }
         }
+        if (StringUtils.isNotEmpty(map.get("secondsToWaitingForMailSend"))) {
+            try {
+                secondsToWaitingForMailSend = Integer.parseInt(map.get("secondsToWaitingForMailSend"));
+            } catch (NumberFormatException e) {
+                logger.error(e.getMessage(), e);
+            }
+        }
         if (StringUtils.isNotEmpty(map.get("secondsToWaitingForMailSendFail"))) {
             try {
                 secondsToWaitingForMailSendFail = Integer.parseInt(map.get("secondsToWaitingForMailSendFail"));
+            } catch (NumberFormatException e) {
+                logger.error(e.getMessage(), e);
+            }
+        }
+        if (StringUtils.isNotEmpty(map.get("sendLimitMinute"))) {
+            try {
+                sendLimitMinute = Integer.parseInt(map.get("sendLimitMinute"));
+            } catch (NumberFormatException e) {
+                logger.error(e.getMessage(), e);
+            }
+        }
+        if (StringUtils.isNotEmpty(map.get("sendLimitHour"))) {
+            try {
+                sendLimitHour = Integer.parseInt(map.get("sendLimitHour"));
             } catch (NumberFormatException e) {
                 logger.error(e.getMessage(), e);
             }
@@ -126,10 +153,31 @@ public class SendMailInfo {
                 logger.error(e.getMessage(), e);
             }
         }
+        if (StringUtils.isNotEmpty(request.getParameter("secondsToWaitingForMailSend"))) {
+            try {
+                secondsToWaitingForMailSend = Integer.parseInt(request.getParameter("secondsToWaitingForMailSend"));
+            } catch (NumberFormatException e) {
+                logger.error(e.getMessage(), e);
+            }
+        }
         if (StringUtils.isNotEmpty(request.getParameter("secondsToWaitingForMailSendFail"))) {
             try {
                 secondsToWaitingForMailSendFail = Integer.parseInt(request
                         .getParameter("secondsToWaitingForMailSendFail"));
+            } catch (NumberFormatException e) {
+                logger.error(e.getMessage(), e);
+            }
+        }
+        if (StringUtils.isNotEmpty(request.getParameter("sendLimitMinute"))) {
+            try {
+                sendLimitMinute = Integer.parseInt(request.getParameter("sendLimitMinute"));
+            } catch (NumberFormatException e) {
+                logger.error(e.getMessage(), e);
+            }
+        }
+        if (StringUtils.isNotEmpty(request.getParameter("sendLimitHour"))) {
+            try {
+                sendLimitHour = Integer.parseInt(request.getParameter("sendLimitHour"));
             } catch (NumberFormatException e) {
                 logger.error(e.getMessage(), e);
             }
@@ -207,5 +255,17 @@ public class SendMailInfo {
 
     public ConnectionMetaHandler getConnectionMetaHandler() {
         return connectionMetaHandler;
+    }
+
+    public int getSendLimitMinute() {
+        return sendLimitMinute;
+    }
+
+    public int getSendLimitHour() {
+        return sendLimitHour;
+    }
+
+    public int getSecondsToWaitingForMailSend() {
+        return secondsToWaitingForMailSend;
     }
 }

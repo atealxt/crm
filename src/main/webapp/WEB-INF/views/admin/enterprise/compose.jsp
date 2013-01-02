@@ -93,7 +93,19 @@ session.setAttribute("lang", lang);
                                                 </tr>
                                                 <tr id="messageOptions" style="display: none;">
                                                     <td width="1%" nowrap="nowrap">&nbsp;</td>
-                                                    <td width="99%" nowrap="nowrap">
+                                                    <td width="99%" nowrap="nowrap" style="line-height:25px;">
+                                                        <spring:message code="Enterprise.sendLimitMinute" text="Enterprise.sendLimitMinute"/>
+                                                        <input type="text" name="sendLimitMinute" size="4" style="width:30px;" maxlength="4" />&nbsp;&nbsp;&nbsp;&nbsp;
+                                                        <spring:message code="Enterprise.sendLimitHour" text="Enterprise.sendLimitHour"/>
+                                                        <input type="text" name="sendLimitHour" size="4" style="width:30px;" maxlength="4" />
+                                                        <br>
+                                                        <spring:message code="Enterprise.secondsToWaitingForMailSend" text="Enterprise.secondsToWaitingForMailSend"/>
+                                                        <input type="text" name="secondsToWaitingForMailSend" size="4" style="width:30px;" maxlength="4" title="<spring:message code="Enterprise.secondsToWaitingForMailSend.title" text="Enterprise.secondsToWaitingForMailSend.title"/>" />
+                                                        <spring:message code="Unit.second" text="Unit.second"/>&nbsp;&nbsp;&nbsp;&nbsp;
+                                                        <spring:message code="Enterprise.secondsToWaitingForMailSendFail" text="Enterprise.secondsToWaitingForMailSendFail"/>
+                                                        <input type="text" name="secondsToWaitingForMailSendFail" size="4" style="width:30px;" maxlength="4" title="<spring:message code="Enterprise.secondsToWaitingForMailSendFail.title" text="Enterprise.secondsToWaitingForMailSendFail.title"/>" />
+                                                        <spring:message code="Unit.second" text="Unit.second"/>
+                                                        <br>
                                                         <strong><i18n:message key="priority"/>:</strong>
                                                         <select name="priority" id="priority" style="border: 1px solid #999999;font-size: 9px;" nohide="true">
                                                           <option value="5"><i18n:message key="priority.low"/></option>
@@ -109,10 +121,6 @@ session.setAttribute("lang", lang);
                                                         </select>&nbsp;&nbsp;&nbsp;&nbsp;
                                                         <strong><i18n:message key="request.read.receipt"/>:</strong>
                                                         <input name="requestReceiptNotification" id="requestReceiptNotification" type="checkbox" value="1" style="border: 1px solid #999999;font-size: 9px;width:15px;">
-                                                        <br>
-                                                        <strong><spring:message code="Enterprise.secondsToWaitingForMailSendFail" text="Enterprise.secondsToWaitingForMailSendFail"/></strong>
-                                                        <input type="text" name="secondsToWaitingForMailSendFail" size="4" style="width:30px;" maxlength="4" title="<spring:message code="Enterprise.secondsToWaitingForMailSendFail.title" text="Enterprise.secondsToWaitingForMailSendFail.title"/>" />
-                                                        <spring:message code="Enterprise.secondsToWaitingForMailSendFail.unit" text="Enterprise.secondsToWaitingForMailSendFail.unit"/>
                                                     </td>
                                                 </tr>
                                                 <tr id="attachmentstr" style="display:none;background-color: #F6F6F6;">

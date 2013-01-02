@@ -22,6 +22,9 @@ $(document).ready(function() {
                 $('#dynamicInfoMessage').text('');
                 $('#dynamicErrorMessage').text(e.data);
                 return;
+            } else if (e.data.indexOf('log:') == 0) {
+                $('#tbodyMailLog').append('<tr><td>' + e.data.substring(4) + '</td></tr>');
+                return;
             }
             var data = JSON.parse(e.data);
             $('#tbodyMailSentInfo').append('<tr><td>' + data['name'] + '</td><td>' + data['mail'] + '</td><td>' + data['status'] + '</td></tr>');
@@ -65,8 +68,9 @@ function sendMail(e) {
         html += '<tr><td>总发送数</td><td id="tdTotal">' + getSendMailCount() + '</td></tr>';
         html += '<tr><td>已发送数</td><td id="tdSent">0</td></tr>';
         html += '<tr><td>发送成功</td><td id="tdSuccess">0</td></tr>';
-        html += '</table></p><table id="tableDetail"><thead><th>企业名</th><th>邮箱</th><th>状态</th></thead>';
-        html += '<tbody id="tbodyMailSentInfo"></tbody></table>';
+        html += '</table></p><p><table id="tableDetail"><thead><th>企业名</th><th>邮箱</th><th>状态</th></thead>';
+        html += '<tbody id="tbodyMailSentInfo"></tbody></table></p>';
+        html += '<p><table><thead><th align="left">系统日志</th></thead><tbody id="tbodyMailLog"></tbody></table></p>';
         $('#divMail').html(html);
         connection.send(formVal);
     } else {

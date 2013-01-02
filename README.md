@@ -62,6 +62,10 @@ mysql> show variables like 'collation_%';
 $ mvn clean install
 ```
 
+## How to close debug log in production
+* log4j.xml
+* hibernate.cfg.xml
+
 ## Step to import history data
 * Name the data excel file `ImportData.xlsx`, and put it to `/src/test/java/com/zhyfoundry/crm/environment/` (Cover the old file).
 * Run `/src/test/java/com/zhyfoundry/crm/environment/ExcelDataImporter.java` by using JUnit.

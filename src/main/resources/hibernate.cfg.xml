@@ -19,5 +19,6 @@
         <mapping class="com.zhyfoundry.crm.entity.Enterprise" />
         <mapping class="com.zhyfoundry.crm.entity.Memorandum" />
         <mapping class="com.zhyfoundry.crm.entity.Administrator" />
+        <mapping class="com.zhyfoundry.crm.entity.AdministratorWhiteList" />
     </session-factory>
 </hibernate-configuration>

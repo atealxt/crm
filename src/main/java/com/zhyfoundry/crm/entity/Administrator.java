@@ -15,7 +15,7 @@ import org.springmodules.validation.bean.conf.loader.annotation.handler.NotBlank
 /** 管理员 */
 public class Administrator implements java.io.Serializable {
 
-	private static final int MAX_LEN = 32;
+	static final int MAX_LEN = 32;
 	private static final long serialVersionUID = 6160107519679158630L;
 	private Integer id;
 	@NotBlank

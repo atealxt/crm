@@ -58,12 +58,12 @@ public class LoginService extends HttpServlet {
 
         String username = request.getParameter("username");
         String password = request.getParameter("password");
-        boolean login = login(username, password, request);
-        if (!login) {
-            out.print("no");
-            return;
+        boolean loginToCRM = loginToCRM(username, password, request);
+        if (!loginToCRM) {
+        	out.print("no");
+        	return;
         }
-        login = loginToCRM(username, password, request);
+        boolean login = login(username, password, request);
         if (!login) {
             out.print("no");
             return;

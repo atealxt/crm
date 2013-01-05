@@ -50,7 +50,10 @@ public class AdminController extends BaseController {
             return ADMIN_LOGIN;
         }
 
-        // TODO white list
+        if (adminService.notInWhiteList(admin.getUsername())) {
+        	resp.sendError(HttpServletResponse.SC_FORBIDDEN);
+        	return null;
+        }
 
         Administrator adminFromDb = adminService.find(admin.getUsername(), CommonUtils.md5Hex(admin.getPassword()));
         if (adminFromDb == null) {
@@ -70,7 +73,7 @@ public class AdminController extends BaseController {
         return ADMIN_INDEX;
     }
 
-    public static void initLogin(HttpServletRequest req, Administrator admin) {
+	public static void initLogin(HttpServletRequest req, Administrator admin) {
         req.getSession().setAttribute(LOGGEDIN, OK);
     }
 

@@ -212,6 +212,7 @@ public class SendMailWebSocketService extends WebSocketServlet {
                 List<Integer> enterprisesId = new ArrayList<Integer>();
                 Queue<Long> sendLimitMinute = new LinkedList<Long>();
                 Queue<Long> sendLimitHour = new LinkedList<Long>();
+                output("log: 邮件发送 开始");
                 while (!enterprises.isEmpty()) {
                     for (Enterprise o : enterprises) {
                         String enterpriseEmail = o.getEmail();
@@ -283,6 +284,7 @@ public class SendMailWebSocketService extends WebSocketServlet {
                 for (Integer id : enterprisesId) {
                     enterpriseService.increaseMailSentCount(id);
                 }
+                output("log: 邮件发送 结束");
                 output("success");
             } catch (Exception e) {
                 log.error(e.getMessage(), e);

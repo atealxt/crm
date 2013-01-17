@@ -55,6 +55,7 @@ mysql> show variables like 'collation_%';
   `intouch2/war/WEB-INF/config/config.xml`
 * Run `/src/test/java/com/zhyfoundry/crm/environment/DBMaker.java` by using JUnit.
 * Execute script files which in folder `/script` .
+* Manual add your account to database table `ADMINISTRATOR_WHITELIST` for login.
 * Setting mail configuration(edit `/intouch2/war/WEB-INF/config/config.xml`, and create a tmp directory as well. You can see the detail in `/intouch2/INSTALL.txt`).
 * Now you can package it to a war file and run it:
 

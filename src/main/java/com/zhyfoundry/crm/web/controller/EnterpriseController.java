@@ -3,11 +3,17 @@ package com.zhyfoundry.crm.web.controller;
 import java.io.IOException;
 import java.io.StringReader;
 import java.io.StringWriter;
+import java.io.UnsupportedEncodingException;
+import java.net.URLEncoder;
 import java.util.HashMap;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.apache.commons.beanutils.BeanUtils;
+import org.apache.commons.beanutils.ConvertUtils;
+import org.apache.commons.beanutils.converters.DateConverter;
+import org.apache.commons.beanutils.converters.IntegerConverter;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -34,17 +40,53 @@ import freemarker.template.TemplateException;
 @Controller
 public class EnterpriseController extends PagingController {
 
-    @RequestMapping(value = "/admin/enterprise")
-    public String list(final HttpServletRequest req, final HttpServletResponse resp, final ModelMap modelMap, @ModelAttribute("condition") final Enterprise condition)
+	@RequestMapping(value = "/admin/enterprise")
+    public String list(final HttpServletRequest req, final HttpServletResponse resp, final ModelMap modelMap, @ModelAttribute("condition") Enterprise condition)
             throws Exception {
-        Pager pager = getPager(req);
+		Pager pager;
+    	if (usePreviousList(req)) {
+    		Enterprise e = getPreviousListCondition(req);
+    		if (e != null) {
+    			ConvertUtils.register(new DateConverter(null), java.util.Date.class);
+    			ConvertUtils.register(new IntegerConverter(null), Integer.class);
+    			BeanUtils.copyProperties(condition, e);
+    		}
+    		Pager p = getPreviousListPager(req);
+    		if (p != null) {
+    			pager = p;
+    		} else {
+    			pager = getPager(req);
+    		}
+    	}
+    	else {
+    		pager = getPager(req);
+    	}
+    	saveListStatus(req, condition, pager);
         modelMap.addAttribute("list", enterpriseService.getEnterprises(condition, pager));
         modelMap.addAttribute("pager", pager);
         modelMap.addAttribute("countries", eountryService.getAllCountries());
         return "admin/enterprise/list";
     }
 
-    @RequestMapping(value = "/admin/enterprise/sendEmail", method = RequestMethod.POST)
+    private void saveListStatus(HttpServletRequest req, Enterprise condition, Pager pager) {
+    	req.getSession().setAttribute(PREVIOUS_LIST_CONDITION, condition);
+    	req.getSession().setAttribute(PREVIOUS_LIST_PAGER, pager);
+    	req.getSession().setAttribute(EMAIL_CONTIDION_ORDER, getOrder(req));
+	}
+
+	private Pager getPreviousListPager(HttpServletRequest req) {
+		return (Pager) req.getSession().getAttribute(PREVIOUS_LIST_PAGER);
+	}
+
+	private Enterprise getPreviousListCondition(HttpServletRequest req) {
+		return (Enterprise) req.getSession().getAttribute(PREVIOUS_LIST_CONDITION);
+	}
+
+	private boolean usePreviousList(HttpServletRequest req) {
+		return PARAM_USE_PREVIOUS_LIST_TRUE.equals(req.getParameter(PARAM_USE_PREVIOUS_LIST));
+	}
+
+	@RequestMapping(value = "/admin/enterprise/sendEmail", method = RequestMethod.POST)
     public String sendEmail(final HttpServletRequest req, final HttpServletResponse resp, final ModelMap modelMap, @ModelAttribute("condition") final Enterprise condition)
             throws Exception {
         modelMap.addAttribute("EnterpriseCount", enterpriseService.count(condition));
@@ -128,11 +170,24 @@ public class EnterpriseController extends PagingController {
             return preAdd(req, resp, modelMap);
         } else {
             enterpriseService.modify(enterprise);
-            return "redirect:/admin/enterprise";
+            if (PARAM_USE_PREVIOUS_LIST_TRUE.equals(req.getParameter("returnToList"))) {
+            	return "forward:/admin/enterprise" + "?" + PARAM_USE_PREVIOUS_LIST + "=" + PARAM_USE_PREVIOUS_LIST_TRUE + "&"+ getOrderParam(req);
+            } else {
+            	return "redirect:/admin/enterprise/" + id;
+            }
         }
     }
 
-    @RequestMapping(value = "/admin/enterprise/{id}", method = RequestMethod.DELETE)
+	private String getOrderParam(HttpServletRequest req) {
+		String order = (String) req.getSession().getAttribute(EMAIL_CONTIDION_ORDER);
+		try {
+			return PARAM_ORDER + "=" + URLEncoder.encode(order, "utf-8") ;
+		} catch (UnsupportedEncodingException e) {
+			return "";
+		}
+	}
+
+	@RequestMapping(value = "/admin/enterprise/{id}", method = RequestMethod.DELETE)
     public void delete(@PathVariable final Integer id, final HttpServletRequest req, final HttpServletResponse resp, final ModelMap modelMap) throws Exception {
         enterpriseService.removeById(id);
     }
@@ -173,4 +228,8 @@ public class EnterpriseController extends PagingController {
     public static final String EMAIL_CONTIDION_ORDER = "EMAIL_CONTIDION_ORDER";
     @Autowired
     private FreeMarkerConfigurer config;
+    private static final String PARAM_USE_PREVIOUS_LIST = "usePreviousList";
+    private static final String PARAM_USE_PREVIOUS_LIST_TRUE = "true";
+	private static final String PREVIOUS_LIST_PAGER = "PreviousListPager";
+	private static final String PREVIOUS_LIST_CONDITION = "PreviousListCondition";
 }

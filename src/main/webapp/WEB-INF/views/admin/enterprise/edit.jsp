@@ -6,6 +6,7 @@
   <form:form commandName="o">
   <form:hidden path="id"/>
   <form:hidden path="countMailSent"/>
+  <input type="hidden" id="returnToList" name="returnToList"/>
 
   <table>
     <thead>
@@ -18,7 +19,11 @@
     </tr>
     <jsp:include page="/WEB-INF/views/admin/enterprise/common/obj_fragment.jsp"></jsp:include>
     <tr>
-      <td colspan="2"><input type="submit" value="提交" /> <input type="reset"/></td>
+      <td colspan="2">
+        <input type="submit" value="保存" title="保存并返回企业详细信息页面" />
+        <input type="button" id="submitReturnToList" value="保存并返回列表" title="保存并返回企业列表页面" />
+        <input type="reset"/>
+      </td>
     </tr>
     </tbody>
     <tfoot><th></th></tfoot>

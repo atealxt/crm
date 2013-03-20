@@ -7,6 +7,8 @@ import com.zhyfoundry.crm.utils.CommonUtils;
 
 public abstract class PagingController extends BaseController {
 
+	protected static final String PARAM_ORDER = "order";
+
 	/** 默认分页大小(也可以全局固定成一个数) */
 	protected abstract int getDefaultPageSize();
 
@@ -24,7 +26,7 @@ public abstract class PagingController extends BaseController {
 
 	/** 排序条件 */
 	protected String getOrder(final HttpServletRequest req) {
-		return req.getParameter("order");
+		return req.getParameter(PARAM_ORDER);
 	}
 
 	/** 每页返回多少行数据 */

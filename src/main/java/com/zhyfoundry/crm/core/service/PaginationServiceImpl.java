@@ -19,6 +19,7 @@ public abstract class PaginationServiceImpl<T, PK extends Serializable> extends 
 		if (pager.getTotalRows() == 0) {
 			return Collections.emptyList();
 		}
+		// TODO if the page is too large to get items, decrease the page before fetch items.
 		return getDao().findByQuery(query, pager, values);
 	}
 }

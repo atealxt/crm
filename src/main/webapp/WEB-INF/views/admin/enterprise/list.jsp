@@ -9,21 +9,20 @@
   <form:form commandName="condition">
   <c:set var="recycle" value="${param.status == '-1'}" />
   <c:choose>
-	  <c:when test="${!recycle}">
-	  	<c:set var="pagingURL" value="/admin/enterprise" />
-	  </c:when>
-	  <c:otherwise>
-	  	<c:set var="pagingURL" value="/admin/enterprise?status=-1" />
-	  </c:otherwise>
+      <c:when test="${!recycle}">
+          <c:set var="pagingURL" value="/admin/enterprise" />
+      </c:when>
+      <c:otherwise>
+          <c:set var="pagingURL" value="/admin/enterprise?status=-1" />
+      </c:otherwise>
   </c:choose>
   <jsp:include page="/WEB-INF/views/common/pagination_fragment.jsp">
-  	<jsp:param name="pagingURL" value="${pagingURL}"/>
+      <jsp:param name="pagingURL" value="${pagingURL}"/>
   </jsp:include>
 
   <c:if test="${!recycle}">
-  	<input type="button" value="新建" onclick="createRecord('<c:url value="/admin/enterprise/add"/>')" />
-  	<input type="button" value="给匹配的企业发送邮件" onclick="sendEmail(this, '<c:url value="/admin/enterprise/sendEmail"/>')" />
-  	<!-- TODO <input type="button" value="给选中的企业发送邮件" onclick="sendEmail('<c:url value="/admin/enterprise/sendEmail"/>')" /> -->
+      <input type="button" value="新建" onclick="createRecord('<c:url value="/admin/enterprise/add"/>')" />
+      <input type="button" value="给匹配的企业发送邮件" onclick="sendEmail(this, '<c:url value="/admin/enterprise/sendEmail"/>')" />
   </c:if>
 
   <c:set var="order" value="<%= session.getAttribute(com.zhyfoundry.crm.web.controller.EnterpriseController.EMAIL_CONTIDION_ORDER) %>" />
@@ -102,7 +101,7 @@
   </table>
 
   <jsp:include page="/WEB-INF/views/common/pagination_fragment.jsp">
-  	<jsp:param name="pagingURL" value="${pagingURL}"/>
+      <jsp:param name="pagingURL" value="${pagingURL}"/>
   </jsp:include>
 
   </form:form>

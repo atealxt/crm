@@ -38,190 +38,196 @@ import freemarker.template.TemplateException;
 @Controller
 public class EnterpriseController extends PagingController {
 
-	@RequestMapping(value = "/admin/enterprise")
-	public String list(final HttpServletRequest req, final HttpServletResponse resp, final ModelMap modelMap, @ModelAttribute("condition") Enterprise condition) throws Exception {
-		Pager pager;
-		if (isUsePreviousList(req)) {
-			Enterprise e = getPreviousListCondition(req);
-			if (e != null) {
-				ConvertUtils.register(new DateConverter(null), java.util.Date.class);
-				ConvertUtils.register(new IntegerConverter(null), Integer.class);
-				BeanUtils.copyProperties(condition, e);
-			}
-			Pager p = getPreviousListPager(req);
-			if (p != null) {
-				pager = p;
-			} else {
-				pager = getPager(req);
-			}
-		} else {
-			pager = getPager(req);
-		}
-		saveListStatus(req, condition, pager);
-		modelMap.addAttribute("list", enterpriseService.getEnterprises(condition, pager));
-		modelMap.addAttribute("pager", pager);
-		modelMap.addAttribute("countries", eountryService.getAllCountries());
-		return "admin/enterprise/list";
-	}
+    @RequestMapping(value = "/admin/enterprise")
+    public String list(final HttpServletRequest req, final HttpServletResponse resp, final ModelMap modelMap, @ModelAttribute("condition") Enterprise condition) throws Exception {
+        Pager pager;
+        if (isUsePreviousList(req)) {
+            Enterprise e = getPreviousListCondition(req);
+            if (e != null) {
+                ConvertUtils.register(new DateConverter(null), java.util.Date.class);
+                ConvertUtils.register(new IntegerConverter(null), Integer.class);
+                BeanUtils.copyProperties(condition, e);
+            }
+            Pager p = getPreviousListPager(req);
+            if (p != null) {
+                pager = p;
+            } else {
+                pager = getPager(req);
+            }
+        } else {
+            pager = getPager(req);
+            req.getSession().setAttribute(EMAIL_CONTIDION_ORDER, getOrder(req));
+        }
+        saveListStatus(req, condition, pager);
+        modelMap.addAttribute("list", enterpriseService.getEnterprises(condition, pager));
+        modelMap.addAttribute("pager", pager);
+        modelMap.addAttribute("countries", eountryService.getAllCountries());
+        return "admin/enterprise/list";
+    }
 
-	private void saveListStatus(HttpServletRequest req, Enterprise condition, Pager pager) {
-		req.getSession().setAttribute(PREVIOUS_LIST_CONDITION, condition);
-		req.getSession().setAttribute(PREVIOUS_LIST_PAGER, pager);
-		req.getSession().setAttribute(EMAIL_CONTIDION_ORDER, getOrder(req));
-	}
+    private void saveListStatus(HttpServletRequest req, Enterprise condition, Pager pager) {
+        req.getSession().setAttribute(PREVIOUS_LIST_CONDITION, condition);
+        req.getSession().setAttribute(PREVIOUS_LIST_PAGER, pager);
+    }
 
-	private Pager getPreviousListPager(HttpServletRequest req) {
-		return (Pager) req.getSession().getAttribute(PREVIOUS_LIST_PAGER);
-	}
+    private Pager getPreviousListPager(HttpServletRequest req) {
+        return (Pager) req.getSession().getAttribute(PREVIOUS_LIST_PAGER);
+    }
 
-	private Enterprise getPreviousListCondition(HttpServletRequest req) {
-		return (Enterprise) req.getSession().getAttribute(PREVIOUS_LIST_CONDITION);
-	}
+    private Enterprise getPreviousListCondition(HttpServletRequest req) {
+        return (Enterprise) req.getSession().getAttribute(PREVIOUS_LIST_CONDITION);
+    }
 
-	private boolean isUsePreviousList(HttpServletRequest req) {
-		if (req.getParameter(PARAM_USE_PREVIOUS_LIST) != null) {
-			return PARAM_USE_PREVIOUS_LIST_TRUE.equals(req.getParameter(PARAM_USE_PREVIOUS_LIST));
-		}
-		return PARAM_USE_PREVIOUS_LIST_TRUE.equals(req.getSession().getAttribute(PARAM_USE_PREVIOUS_LIST));
-	}
+    private boolean isUsePreviousList(HttpServletRequest req) {
+        boolean usePreviousList;
+        if (req.getParameter(PARAM_USE_PREVIOUS_LIST) != null) {
+            usePreviousList = PARAM_USE_PREVIOUS_LIST_TRUE.equals(req.getParameter(PARAM_USE_PREVIOUS_LIST));
+            return usePreviousList;
+        }
+        usePreviousList = PARAM_USE_PREVIOUS_LIST_TRUE.equals(req.getSession().getAttribute(PARAM_USE_PREVIOUS_LIST));
+        doNotUsePreviousList(req);
+        return usePreviousList;
+    }
 
-	private void usePreviousList(HttpServletRequest req) {
-		req.getSession().setAttribute(PARAM_USE_PREVIOUS_LIST, PARAM_USE_PREVIOUS_LIST_TRUE);
-	}
+    private void usePreviousList(HttpServletRequest req) {
+        req.getSession().setAttribute(PARAM_USE_PREVIOUS_LIST, PARAM_USE_PREVIOUS_LIST_TRUE);
+    }
 
-	private void doNotUsePreviousList(HttpServletRequest req) {
-		req.getSession().removeAttribute(PARAM_USE_PREVIOUS_LIST);
-	}
+    private void doNotUsePreviousList(HttpServletRequest req) {
+        req.getSession().removeAttribute(PARAM_USE_PREVIOUS_LIST);
+    }
 
-	@RequestMapping(value = "/admin/enterprise/sendEmail", method = RequestMethod.POST)
-	public String sendEmail(final HttpServletRequest req, final HttpServletResponse resp, final ModelMap modelMap, @ModelAttribute("condition") final Enterprise condition)
-			throws Exception {
-		modelMap.addAttribute("EnterpriseCount", enterpriseService.count(condition));
-		req.getSession().setAttribute(EMAIL_CONTIDION_OBJ, condition);
-		req.getSession().setAttribute(EMAIL_CONTIDION_ORDER, getOrder(req));
-		modelMap.addAttribute("subjectExample", getSubjectExample());
-		return "admin/enterprise/compose";
-	}
+    @RequestMapping(value = "/admin/enterprise/sendEmail", method = RequestMethod.POST)
+    public String sendEmail(final HttpServletRequest req, final HttpServletResponse resp, final ModelMap modelMap, @ModelAttribute("condition") final Enterprise condition)
+            throws Exception {
+        modelMap.addAttribute("EnterpriseCount", enterpriseService.count(condition));
+        req.getSession().setAttribute(EMAIL_CONTIDION_OBJ, condition);
+        req.getSession().setAttribute(EMAIL_CONTIDION_ORDER, getOrder(req));
+        modelMap.addAttribute("subjectExample", getSubjectExample());
+        return "admin/enterprise/compose";
+    }
 
-	private String getSubjectExample() throws TemplateException, IOException {
-		StringWriter out = new StringWriter();
-		Template t = new Template("", new StringReader("<#import \"macro/sampleOfMailVariable.ftl\" as sample><@sample.page />"), config.getConfiguration());
-		t.process(new HashMap<String, Object>(), out);
-		return out.toString();
-	}
+    private String getSubjectExample() throws TemplateException, IOException {
+        StringWriter out = new StringWriter();
+        Template t = new Template("", new StringReader("<#import \"macro/sampleOfMailVariable.ftl\" as sample><@sample.page />"), config.getConfiguration());
+        t.process(new HashMap<String, Object>(), out);
+        return out.toString();
+    }
 
-	@RequestMapping(value = "/admin/enterprise/add", method = RequestMethod.GET)
-	public String preAdd(final HttpServletRequest req, final HttpServletResponse resp, final ModelMap modelMap) throws Exception {
-		modelMap.addAttribute("o", new Enterprise());
-		modelMap.addAttribute("countries", eountryService.getAllCountries());
-		return "admin/enterprise/add";
-	}
+    @RequestMapping(value = "/admin/enterprise/add", method = RequestMethod.GET)
+    public String preAdd(final HttpServletRequest req, final HttpServletResponse resp, final ModelMap modelMap) throws Exception {
+        modelMap.addAttribute("o", new Enterprise());
+        modelMap.addAttribute("countries", eountryService.getAllCountries());
+        return "admin/enterprise/add";
+    }
 
-	@RequestMapping(value = "/admin/enterprise/add", method = RequestMethod.POST)
-	public String add(@ModelAttribute("o") final Enterprise enterprise, final BindingResult result, final HttpServletRequest req, final HttpServletResponse resp,
-			final ModelMap modelMap) throws Exception {
-		return addOrEdit(enterprise, result, req, null, resp, modelMap);
-	}
+    @RequestMapping(value = "/admin/enterprise/add", method = RequestMethod.POST)
+    public String add(@ModelAttribute("o") final Enterprise enterprise, final BindingResult result, final HttpServletRequest req, final HttpServletResponse resp,
+            final ModelMap modelMap) throws Exception {
+        return addOrEdit(enterprise, result, req, null, resp, modelMap);
+    }
 
-	@RequestMapping(value = "/admin/enterprise/addMemo", method = RequestMethod.POST)
-	public String addMemo(@RequestParam(value = "eId") final Integer enterpriseId, @RequestParam(value = "content") final String content, final HttpServletRequest req,
-			final HttpServletResponse resp, final ModelMap modelMap) throws Exception {
-		enterpriseService.addMemo(enterpriseId, content);
-		return "redirect:/admin/enterprise/" + enterpriseId;
-	}
+    @RequestMapping(value = "/admin/enterprise/addMemo", method = RequestMethod.POST)
+    public String addMemo(@RequestParam(value = "eId") final Integer enterpriseId, @RequestParam(value = "content") final String content, final HttpServletRequest req,
+            final HttpServletResponse resp, final ModelMap modelMap) throws Exception {
+        enterpriseService.addMemo(enterpriseId, content);
+        return "redirect:/admin/enterprise/" + enterpriseId;
+    }
 
-	@RequestMapping(value = "/admin/enterprise/{id}", method = RequestMethod.GET)
-	public String view(@PathVariable final Integer id, final HttpServletRequest req, final HttpServletResponse resp, final ModelMap modelMap,
-			@RequestParam(value = "edit", required = false) final boolean edit) throws Exception {
-		Enterprise o = enterpriseService.get(id);
-		modelMap.addAttribute("o", o);
-		if (edit) {
-			modelMap.addAttribute("countries", eountryService.getAllCountries());
-			return "admin/enterprise/edit";
-		}
-		return "admin/enterprise/view";
-	}
+    @RequestMapping(value = "/admin/enterprise/{id}", method = RequestMethod.GET)
+    public String view(@PathVariable final Integer id, final HttpServletRequest req, final HttpServletResponse resp, final ModelMap modelMap,
+            @RequestParam(value = "edit", required = false) final boolean edit) throws Exception {
+        Enterprise o = enterpriseService.get(id);
+        modelMap.addAttribute("o", o);
+        if (edit) {
+            modelMap.addAttribute("countries", eountryService.getAllCountries());
+            return "admin/enterprise/edit";
+        }
+        return "admin/enterprise/view";
+    }
 
-	@RequestMapping(value = "/admin/enterprise/{id}", method = RequestMethod.POST)
-	public String addOrEdit(@ModelAttribute("o") final Enterprise enterprise, final BindingResult result, final HttpServletRequest req, @PathVariable final Integer id,
-			final HttpServletResponse resp, final ModelMap modelMap) throws Exception {
-		validator.validate(enterprise, result);
-		if (enterprise.getCountry() != null && StringUtils.isNotEmpty(enterprise.getCountry().getName())) {
-			validator.validate(enterprise.getCountry(), result);
-		}
-		if (result.hasErrors()) {
-			if (id == null) {
-				return "admin/enterprise/add";
-			}
-			return "admin/enterprise/edit";
-		}
-		if (id == null) {
-			Enterprise addedEnterprise;
-			try {
-				addedEnterprise = enterpriseService.checkAndModify(enterprise);
-			} catch (ServiceException e) {
-				appendError(req, e);
-				return "admin/enterprise/add";
-			}
-			appendInfo(req, "Enterprise.new.success", addedEnterprise.getId(), addedEnterprise.getName());
-			return preAdd(req, resp, modelMap);
-		} else {
-			try {
-				enterpriseService.modify(enterprise);
-			} catch (ServiceException e) {
-				appendError(req, e);
-				return view(id, req, resp, modelMap, true);
-			}
-			if (PARAM_USE_PREVIOUS_LIST_TRUE.equals(req.getParameter("returnToList"))) {
-				usePreviousList(req);
-				return "redirect:/admin/enterprise";
-			} else {
-				doNotUsePreviousList(req);
-				return "redirect:/admin/enterprise/" + id;
-			}
-		}
-	}
+    @RequestMapping(value = "/admin/enterprise/{id}", method = RequestMethod.POST)
+    public String addOrEdit(@ModelAttribute("o") final Enterprise enterprise, final BindingResult result, final HttpServletRequest req, @PathVariable final Integer id,
+            final HttpServletResponse resp, final ModelMap modelMap) throws Exception {
+        validator.validate(enterprise, result);
+        if (enterprise.getCountry() != null && StringUtils.isNotEmpty(enterprise.getCountry().getName())) {
+            validator.validate(enterprise.getCountry(), result);
+        }
+        if (result.hasErrors()) {
+            if (id == null) {
+                return "admin/enterprise/add";
+            }
+            return "admin/enterprise/edit";
+        }
+        if (id == null) {
+            Enterprise addedEnterprise;
+            try {
+                addedEnterprise = enterpriseService.checkAndModify(enterprise);
+            } catch (ServiceException e) {
+                appendError(req, e);
+                return "admin/enterprise/add";
+            }
+            appendInfo(req, "Enterprise.new.success", addedEnterprise.getId(), addedEnterprise.getName());
+            return preAdd(req, resp, modelMap);
+        } else {
+            try {
+                enterpriseService.modify(enterprise);
+            } catch (ServiceException e) {
+                appendError(req, e);
+                return view(id, req, resp, modelMap, true);
+            }
+            if (PARAM_USE_PREVIOUS_LIST_TRUE.equals(req.getParameter("returnToList"))) {
+                usePreviousList(req);
+                req.getSession().setAttribute(EMAIL_CONTIDION_ORDER, getOrder(req));
+                return "redirect:/admin/enterprise";
+            } else {
+                doNotUsePreviousList(req);
+                return "redirect:/admin/enterprise/" + id;
+            }
+        }
+    }
 
-	@RequestMapping(value = "/admin/enterprise/{id}", method = RequestMethod.DELETE)
-	public void delete(@PathVariable final Integer id, final HttpServletRequest req, final HttpServletResponse resp, final ModelMap modelMap) throws Exception {
-		enterpriseService.removeById(id);
-	}
+    @RequestMapping(value = "/admin/enterprise/{id}", method = RequestMethod.DELETE)
+    public void delete(@PathVariable final Integer id, final HttpServletRequest req, final HttpServletResponse resp, final ModelMap modelMap) throws Exception {
+        usePreviousList(req);
+        enterpriseService.removeById(id);
+    }
 
-	@RequestMapping(value = "/admin/enterprise/deleteMemo", method = RequestMethod.POST)
-	public String deleteMemo(@RequestParam(value = "eId") final Integer enterpriseId, @RequestParam(value = "memoId") final Integer memoId, final HttpServletRequest req,
-			final HttpServletResponse resp, final ModelMap modelMap) throws Exception {
-		enterpriseService.deleteMemo(memoId);
-		return "redirect:/admin/enterprise/" + enterpriseId;
-	}
+    @RequestMapping(value = "/admin/enterprise/deleteMemo", method = RequestMethod.POST)
+    public String deleteMemo(@RequestParam(value = "eId") final Integer enterpriseId, @RequestParam(value = "memoId") final Integer memoId, final HttpServletRequest req,
+            final HttpServletResponse resp, final ModelMap modelMap) throws Exception {
+        enterpriseService.deleteMemo(memoId);
+        return "redirect:/admin/enterprise/" + enterpriseId;
+    }
 
-	@RequestMapping(value = "/admin/enterprise/{id}/restore", method = RequestMethod.POST)
-	public String restore(@PathVariable final Integer id, final HttpServletRequest req, final HttpServletResponse resp, final ModelMap modelMap) throws Exception {
-		enterpriseService.restore(id);
-		return "redirect:/admin/enterprise?status=-1";
-	}
+    @RequestMapping(value = "/admin/enterprise/{id}/restore", method = RequestMethod.POST)
+    public String restore(@PathVariable final Integer id, final HttpServletRequest req, final HttpServletResponse resp, final ModelMap modelMap) throws Exception {
+        enterpriseService.restore(id);
+        return "redirect:/admin/enterprise?status=-1";
+    }
 
-	@Override
-	protected int getDefaultPageSize() {
-		return 50;
-	}
+    @Override
+    protected int getDefaultPageSize() {
+        return 50;
+    }
 
-	@Override
-	protected int getCountLimitation() {
-		return 500;
-	}
+    @Override
+    protected int getCountLimitation() {
+        return 500;
+    }
 
-	@Autowired
-	private EnterpriseService enterpriseService;
-	@Autowired
-	private CountryService eountryService;
-	@Autowired
-	private Validator validator;
-	public static final String EMAIL_CONTIDION_OBJ = "EMAIL_CONTIDION_OBJ";
-	public static final String EMAIL_CONTIDION_ORDER = "EMAIL_CONTIDION_ORDER";
-	@Autowired
-	private FreeMarkerConfigurer config;
-	public static final String PARAM_USE_PREVIOUS_LIST = "usePreviousList";
-	private static final String PARAM_USE_PREVIOUS_LIST_TRUE = "true";
-	private static final String PREVIOUS_LIST_PAGER = "PreviousListPager";
-	private static final String PREVIOUS_LIST_CONDITION = "PreviousListCondition";
+    @Autowired
+    private EnterpriseService enterpriseService;
+    @Autowired
+    private CountryService eountryService;
+    @Autowired
+    private Validator validator;
+    public static final String EMAIL_CONTIDION_OBJ = "EMAIL_CONTIDION_OBJ";
+    public static final String EMAIL_CONTIDION_ORDER = "EMAIL_CONTIDION_ORDER";
+    @Autowired
+    private FreeMarkerConfigurer config;
+    public static final String PARAM_USE_PREVIOUS_LIST = "usePreviousList";
+    private static final String PARAM_USE_PREVIOUS_LIST_TRUE = "true";
+    private static final String PREVIOUS_LIST_PAGER = "PreviousListPager";
+    private static final String PREVIOUS_LIST_CONDITION = "PreviousListCondition";
 }

@@ -7,6 +7,8 @@
   <form:hidden path="id"/>
   <form:hidden path="countMailSent"/>
   <input type="hidden" id="returnToList" name="returnToList"/>
+  <c:set var="order" value="<%= session.getAttribute(com.zhyfoundry.crm.web.controller.EnterpriseController.EMAIL_CONTIDION_ORDER) %>" />
+  <input type="hidden" id="order" name="order" value="<c:out value="${order}"  />" />
 
   <table>
     <thead>
@@ -34,8 +36,8 @@
   <script src="<c:url value="/javascripts/jquery.min.js"/>" type="text/javascript"></script>
   <script type="text/javascript">
   (function($) {
-	  $('.enterpriseId').click(function() {
-		  window.open('<c:url value="/admin/enterprise/"/>' + $(this).attr("title").replace(",", ""));
-	  });
+      $('.enterpriseId').click(function() {
+          window.open('<c:url value="/admin/enterprise/"/>' + $(this).attr("title").replace(",", ""));
+      });
   })(jQuery);
   </script>

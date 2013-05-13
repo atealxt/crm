@@ -26,7 +26,9 @@
   	<!-- TODO <input type="button" value="给选中的企业发送邮件" onclick="sendEmail('<c:url value="/admin/enterprise/sendEmail"/>')" /> -->
   </c:if>
 
-  <input type="hidden" id="order" name="order" value="<c:out value="${param.order}"/>" />
+  <c:set var="order" value="<%= session.getAttribute(com.zhyfoundry.crm.web.controller.EnterpriseController.EMAIL_CONTIDION_ORDER) %>" />
+  <input type="hidden" id="order" name="order" value="<c:out value="${order}"  />" />
+  <input type="hidden" name="<%= com.zhyfoundry.crm.web.controller.EnterpriseController.PARAM_USE_PREVIOUS_LIST %>" value="false" />
   <table class="paginated">
     <thead>
       <th></th><%-- TODO checkbox --%>

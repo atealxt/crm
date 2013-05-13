@@ -124,6 +124,11 @@ public class EnterpriseService extends PaginationServiceImpl<Enterprise, Integer
 
     @Transactional
     public void modify(Enterprise enterprise) {
+    	Enterprise e = enterpriseDao.findByName(enterprise.getName());
+        if (e != null && !e.getId().equals(enterprise.getId())) { // TODO use pojo annotation validator instead of maually.
+            logger.warn("该企业名已存在。id = " + e.getId() + ", name = " + e.getName());
+            throw new ServiceException("Enterprise.name.exist").addReason(e.getId()).addReason(e.getName());
+        }
         enterprise.setCountry(initCountry(enterprise));
         merge(enterprise);
     }

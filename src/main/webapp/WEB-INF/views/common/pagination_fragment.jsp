@@ -13,11 +13,13 @@
     <c:choose>
         <c:when test="${!noRecord}">
             第${pager.pageNo}页共${pager.pageCount}页
+       <input type="hidden" id="pagingURL" value='<c:url value="${pagingURL}"/>'/>
             转至第 <input type="text" id="pageNo" name="page" size="3" style="width:20px;" maxlength="5" /> 页
+       <input type="button" id="gotoPage" value="Go">&nbsp;
             <c:choose>
                 <c:when test="${pager.pageNo != 1}">
-                    <A HREF="###" onclick="goPage(this, '<c:url value="${pagingURL}"/>' + '&page=${1}')" >首页</A>&nbsp;
-                    <A HREF="###" onclick="goPage(this, '<c:url value="${pagingURL}"/>' + '&page=${pager.pageNo - 1}')" >上一页</A>&nbsp;
+                    <A HREF="###" onclick="goPage(this, '<c:url value="${pagingURL}"/>', ${1})" >首页</A>&nbsp;
+                    <A HREF="###" onclick="goPage(this, '<c:url value="${pagingURL}"/>', ${pager.pageNo - 1})" >上一页</A>&nbsp;
                 </c:when>
                 <c:otherwise>
                     <A>首页</A>&nbsp;
@@ -26,8 +28,8 @@
             </c:choose>
             <c:choose>
                 <c:when test="${pager.pageNo != pager.pageCount}">
-                    <A HREF="###" onclick="goPage(this, '<c:url value="${pagingURL}"/>' + '&page=${pager.pageNo + 1}')" >下一页</A>&nbsp;
-                    <A HREF="###" onclick="goPage(this, '<c:url value="${pagingURL}"/>' + '&page=${pager.pageCount}')" >末页</A>&nbsp;
+                    <A HREF="###" onclick="goPage(this, '<c:url value="${pagingURL}"/>', ${pager.pageNo + 1})" >下一页</A>&nbsp;
+                    <A HREF="###" onclick="goPage(this, '<c:url value="${pagingURL}"/>', ${pager.pageCount})" >末页</A>&nbsp;
                 </c:when>
                 <c:otherwise>
                     <A>下一页</A>&nbsp;

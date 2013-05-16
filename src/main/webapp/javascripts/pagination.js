@@ -96,8 +96,12 @@
 
 //////////////////////////
 
-var goPage = function(e, url) {
-    $(e).closest("form").attr("action", url).submit();
+var goPage = function(e, url, pageNo) {
+	var _url = url;
+	if (pageNo) {
+		_url = _url + '&page=' + pageNo;
+	}
+    $(e).closest("form").attr("action", _url).submit();
 };
 
 (function($) {
@@ -157,10 +161,15 @@ var goPage = function(e, url) {
     }).mouseout(function() {
         $(this).children().removeClass("elementFocus");
     });
-//	$tr.toggle(function() {
-//		$(this).children().addClass("elementSelect");
-//	}, function() {
-//		$(this).children().removeClass("elementSelect");
-//	});
+
+	$('#pageNo').keypress(function(e) {
+		if (e.keyCode == 13) { // Enter button
+			e.preventDefault();
+			goPage(this, $('#pagingURL').val(), $(this).val());
+		}
+	});
+	$('#gotoPage').click(function(e) {
+		goPage(this, $('#pagingURL').val(), $('#pageNo').val());
+	});
 
 })(jQuery);
